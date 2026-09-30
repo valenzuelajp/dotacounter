@@ -85,10 +85,11 @@ No actions, no secrets. Rename repo to `<user>.github.io` only if a root
 domain is wanted later; otherwise keep `dotacounter` subpath.
 
 ## 10. Wiki decision
-No separate GitHub wiki in v1. User-facing help (how to pick, how to add a
-hero) lives in `README.md` + a `docs/` page in the repo so beginners see it
-next to the code and it versions with the site. Revisit a wiki only if
-hero-guide content outgrows the repo docs.
+Project wiki lives in the Obsidian vault at
+`A:/vault/dotacounter/dotacoutner/` (home: `DotaCounter Wiki.md`):
+user guide, hero-adding walkthrough, asset/classname rules, meta refresh.
+In-repo beginner help stays minimal (`README.md` pointer to the vault wiki)
+so the code stays clean and docs version next to the site only where needed.
 
 ## 11. Multi-AI build (next step, after spec approval)
 Build via installed `oh-my-openagent` (`ultrawork`): parallel agents for
