@@ -1,0 +1,29 @@
+[
+  {
+    "id": "axe",
+    "name": "Axe",
+    "role": "initiator",
+    "image": "assets/heroes/axe.png",
+    "counters": [{ "hero": "lion", "reason": "Hex pierces Berserker's Call" }],
+    "counterItems": [{ "item": "blade-mail", "when": "Reflect burst vs squishy supports" }],
+    "skillTips": ["Blink in after the enemy support shows"]
+  },
+  {
+    "id": "lion",
+    "name": "Lion",
+    "role": "support",
+    "image": "assets/heroes/lion.png",
+    "counters": [{ "hero": "juggernaut", "reason": "Hex and Earth Spike pierce Blade Fury" }],
+    "counterItems": [{ "item": "blink-dagger", "when": "To initiate on Omnislash" }],
+    "skillTips": ["Save Hex for Blade Fury spin"]
+  },
+  {
+    "id": "juggernaut",
+    "name": "Juggernaut",
+    "role": "carry",
+    "image": "assets/heroes/juggernaut.png",
+    "counters": [{ "hero": "axe", "reason": "Berserker's Call locks him during Omnislash" }],
+    "counterItems": [{ "item": "black-king-bar", "when": "To ignore Lion's disables in fights" }],
+    "skillTips": ["Spin to dodge Berserker's Call timing"]
+  }
+]
