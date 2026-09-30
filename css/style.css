@@ -1,0 +1,15 @@
+/* Base layout — semantic class names, full words only. */
+.site-header { max-width: 960px; margin: 0 auto; padding: 16px; }
+.site-title { font-size: 28px; margin: 0; }
+.patch-label { color: #666; }
+.site-nav { display: flex; gap: 12px; margin-top: 8px; }
+.nav-link { text-decoration: none; }
+.picker-view { max-width: 960px; margin: 0 auto; padding: 16px; }
+.section-title { font-size: 20px; }
+.hero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.hero-card { border: 1px solid #ccc; border-radius: 8px; padding: 8px; text-align: center; cursor: pointer; }
+.hero-card-selected { outline: 2px solid #2f81f7; }
+.counter-list { display: flex; flex-direction: column; gap: 8px; }
+.counter-reason { color: #444; }
+.empty-prompt { color: #666; }
+.offline-note { max-width: 960px; margin: 0 auto; padding: 8px 16px; color: #8a5a00; }
