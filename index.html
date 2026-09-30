@@ -25,6 +25,23 @@
       <p class="empty-prompt">Pick at least one enemy hero to see counters.</p>
       <div class="counter-list"></div>
     </section>
+    <section class="synergy-view">
+      <h2 class="section-title">Team synergy — best next pick</h2>
+      <div class="synergy-teams">
+        <div class="synergy-allies">
+          <h3 class="synergy-subtitle">Your team (up to 4, then we suggest)</h3>
+          <div class="hero-grid synergy-grid-allies"></div>
+        </div>
+        <div class="synergy-enemies">
+          <h3 class="synergy-subtitle">Enemy team (up to 5)</h3>
+          <div class="hero-grid synergy-grid-enemies"></div>
+        </div>
+      </div>
+      <div class="synergy-result">
+        <p class="synergy-prompt">Pick allies and enemies to get a suggestion.</p>
+        <div class="synergy-badge" hidden></div>
+      </div>
+    </section>
   </main>
   <p class="offline-note" hidden>Showing offline data — live stats unavailable.</p>
   <script src="./js/data-loader.js"></script>

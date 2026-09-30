@@ -99,3 +99,57 @@
     renderGrid();
   });
 })();
+
+// synergy: second grid pair reusing the same hero data + suggestSynergy.
+(function synergy() {
+  const allies = [];
+  const enemies = [];
+  let heroes = [];
+
+  function paintGrid(selector, picked, onClick) {
+    const grid = document.querySelector(selector);
+    if (!grid) return;
+    grid.innerHTML = "";
+    for (const hero of heroes) {
+      const card = document.createElement("button");
+      card.className = "hero-card" + (picked.includes(hero.id) ? " hero-card-selected" : "");
+      card.textContent = hero.name;
+      card.addEventListener("click", () => onClick(hero.id));
+      grid.appendChild(card);
+    }
+  }
+
+  function refresh() {
+    paintGrid(".synergy-grid-allies", allies, (id) => {
+      const i = allies.indexOf(id);
+      if (i >= 0) allies.splice(i, 1);
+      else if (allies.length < 4) allies.push(id);
+      refresh();
+    });
+    paintGrid(".synergy-grid-enemies", enemies, (id) => {
+      const i = enemies.indexOf(id);
+      if (i >= 0) enemies.splice(i, 1);
+      else if (enemies.length < 5) enemies.push(id);
+      refresh();
+    });
+    const badge = document.querySelector(".synergy-badge");
+    const prompt = document.querySelector(".synergy-prompt");
+    if (!badge) return;
+    if (allies.length === 0 || enemies.length === 0) {
+      badge.hidden = true;
+      if (prompt) prompt.hidden = false;
+      return;
+    }
+    const pick = window.DotaCounter.suggestSynergy(allies, enemies, heroes);
+    if (prompt) prompt.hidden = true;
+    badge.hidden = false;
+    badge.textContent = pick
+      ? "Suggested next pick: " + pick.name + " (+" + pick.score + "). " + (pick.synergyNote || "") + " " + (pick.reasons || []).join("; ")
+      : "No suggestion — rosters cover every counter.";
+  }
+
+  window.DotaCounter.loadData().then((data) => {
+    heroes = data.heroes;
+    refresh();
+  });
+})();

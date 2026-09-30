@@ -13,3 +13,9 @@
 .counter-reason { color: #444; }
 .empty-prompt { color: #666; }
 .offline-note { max-width: 960px; margin: 0 auto; padding: 8px 16px; color: #8a5a00; }
+.synergy-view { margin-top: 24px; }
+.synergy-teams { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.synergy-subtitle { font-size: 16px; }
+.synergy-result { margin-top: 12px; }
+.synergy-badge { border: 1px solid #2f81f7; border-radius: 8px; padding: 8px; }
+.synergy-prompt { color: #666; }
