@@ -19,3 +19,9 @@
 .synergy-result { margin-top: 12px; }
 .synergy-badge { border: 1px solid #2f81f7; border-radius: 8px; padding: 8px; }
 .synergy-prompt { color: #666; }
+.meta-view { max-width: 960px; margin: 0 auto; padding: 16px; }
+.meta-updated { color: #666; }
+.tier-list { display: flex; flex-direction: column; gap: 8px; }
+.tier-row { border: 1px solid #ccc; border-radius: 8px; padding: 8px; display: flex; gap: 12px; }
+.tier-label { min-width: 64px; }
+.tier-members { color: #333; }
