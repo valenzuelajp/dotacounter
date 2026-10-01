@@ -47,7 +47,9 @@ try {
   current.matchups = matchups;
   current.updatedAt = new Date().toISOString().slice(0, 10);
   const temp = path + ".tmp";
-  writeFileSync(temp, JSON.stringify(current, null, 2) + "\n");
+  // Minified on purpose: the full pairwise table is ~1MB pretty and
+  // roughly half that minified; no human edits this file by hand.
+  writeFileSync(temp, JSON.stringify(current));
   renameSync(temp, path);
   console.log("Wrote matchups for " + Object.keys(matchups).length + " heroes.");
 } catch (error) {
