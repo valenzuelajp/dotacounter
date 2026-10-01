@@ -143,9 +143,14 @@
     const pick = window.DotaCounter.suggestSynergy(allies, enemies, heroes);
     if (prompt) prompt.hidden = true;
     badge.hidden = false;
-    badge.textContent = pick
-      ? "Suggested next pick: " + pick.name + " (+" + pick.score + "). " + (pick.synergyNote || "") + " " + (pick.reasons || []).join("; ")
-      : "No suggestion — rosters cover every counter.";
+    if (pick) {
+      const parts = ["Suggested next pick: " + pick.name + " (+" + pick.score + ")."];
+      if (pick.synergyNote) parts.push(pick.synergyNote);
+      if (pick.reasons && pick.reasons.length > 0) parts.push(pick.reasons.join("; "));
+      badge.textContent = parts.join(" ");
+    } else {
+      badge.textContent = "No suggestion — rosters cover every counter.";
+    }
   }
 
   window.DotaCounter.loadData().then((data) => {
