@@ -500,14 +500,38 @@ body {
   color: var(--ink);
   border-bottom-color: var(--ink);
 }
-/* Pub win-rate badge on each pool portrait. */
+/* Pub win-rate number: plain bottom-left text like the client, no pill. */
 .win-badge {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  background: rgba(0, 0, 0, 0.75);
-  color: var(--gold);
-  font-size: 11px;
-  border-radius: 0;
-  padding: 1px 5px;
+  left: 4px;
+  bottom: 2px;
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px #000, 0 0 4px #000;
+  pointer-events: none;
+}
+.win-high {
+  color: var(--green);
+}
+.win-mid {
+  color: var(--muted);
+}
+.win-low {
+  color: var(--red);
+}
+/* Pool caption row: data date left, win toggle right. */
+.pool-caption-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.rates-toggle {
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
 }

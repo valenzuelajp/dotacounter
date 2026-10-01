@@ -15,6 +15,7 @@
     matchups: { heroes: {} }, // baked pub win rates for the badges.
     query: "", // live pool search text; "" means no filter.
     tab: "all", // pool role tab; one of all|carry|mid|offlane|support.
+    showRates: false, // win numbers hidden until the toggle is switched on.
     dire: [], // the enemy lineup, max 5.
     profile: null, // carry | mid | offlane | support, asked once in the modal.
     enemySupports: [], // enemy heroes the player marked as supports.
@@ -95,11 +96,13 @@
       img.src = "./assets/heroes/placeholder.png";
     };
     card.append(img);
-    // Pub win-rate badge from baked stats; hidden when there is no data.
+    // Pub win-rate number from baked stats. Off unless the toggle is on;
+    // plain bottom-left text like the client, tinted by value.
     const rate = window.DotaCounter.heroWinRate(hero.id, state.matchups);
-    if (rate !== null) {
+    if (state.showRates && rate !== null) {
       const badge = document.createElement("div");
-      badge.className = "win-badge";
+      badge.className =
+        "win-badge " + (rate > 52 ? "win-high" : rate < 48 ? "win-low" : "win-mid");
       badge.textContent = rate + "%";
       badge.title = rate + "% pub win rate";
       card.appendChild(badge);
@@ -339,7 +342,14 @@
       stamp.textContent =
         "Hero win rates · pub · updated " + (data.matchups.updatedAt || "unknown");
     }
-    // Role tabs: one active at a time, re-render the pool on click.
+    // Win-numbers toggle: off by default, remembered nowhere.
+    const ratesBox = document.querySelector(".rates-checkbox");
+    if (ratesBox) {
+      ratesBox.addEventListener("change", () => {
+        state.showRates = ratesBox.checked;
+        renderPool();
+      });
+    }
     document.querySelectorAll(".role-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         state.tab = tab.dataset.tab;
