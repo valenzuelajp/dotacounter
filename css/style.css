@@ -21,7 +21,7 @@
 
 body {
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(70, 90, 110, 0.16), rgba(0, 0, 0, 0) 60%),
+    radial-gradient(120% 90% at 50% 0%, rgba(90, 115, 140, 0.28), rgba(0, 0, 0, 0) 60%),
     radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%),
     var(--bg);
   color: var(--ink);
