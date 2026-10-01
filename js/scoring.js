@@ -176,3 +176,20 @@ window.DotaCounter.highlightName = function highlightName(name, query) {
     escapeHtml(String(name).slice(index + q.length))
   );
 };
+
+// Win rate percent (one decimal) from baked heroStats, or null when the
+// hero has no baked data. Null means "hide the badge", never "show 0%".
+window.DotaCounter.heroWinRate = function heroWinRate(heroId, matchups) {
+  const entry = (matchups && matchups.heroes && matchups.heroes[heroId]) || null;
+  if (!entry || !(entry.games > 0)) return null;
+  return Math.round((entry.wins / entry.games) * 1000) / 10;
+};
+
+// True when a hero lane role belongs under the pool tab.
+// Tabs: all | carry | mid | offlane | support. Legacy "initiator" counts
+// as offlane (same lane, renamed over time).
+window.DotaCounter.roleMatches = function roleMatches(heroRole, tab) {
+  if (tab === "all") return true;
+  if (tab === "offlane") return heroRole === "offlane" || heroRole === "initiator";
+  return heroRole === tab;
+};

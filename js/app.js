@@ -32,15 +32,14 @@
   }
 
   // Render the pool as one vertical column per attribute, owner order:
-  // agility first. The live query hides non-matching heroes (and the
-  // whole column when nothing in it matches).
+  // agility first. A typed query never hides heroes: matches glow,
+  // the rest turn black-and-white until the query is cleared.
   function renderPool() {
     const pool = document.querySelector(".hero-pool");
     pool.innerHTML = "";
     const match = window.DotaCounter.matchHeroName;
-    const shown = state.heroes.filter((h) => match(h.name, state.query));
     for (const attribute of ATTRIBUTE_ORDER) {
-      const group = shown.filter((h) => (h.attribute || "strength") === attribute);
+      const group = state.heroes.filter((h) => (h.attribute || "strength") === attribute);
       if (group.length === 0) continue;
       const column = document.createElement("div");
       column.className = "pool-column pool-column-" + attribute;
@@ -56,12 +55,24 @@
       column.appendChild(grid);
       pool.appendChild(column);
     }
+    // Show the typed letters so there is feedback without a text field.
+    const hint = document.querySelector(".pool-query-hint");
+    if (hint) {
+      hint.textContent =
+        state.query === ""
+          ? "Type to filter heroes — Backspace deletes, Esc clears."
+          : 'Filtering: "' + state.query + '" — Backspace deletes, Esc clears.';
+    }
   }
 
-  // One draggable, clickable portrait card.
+  // One draggable, clickable portrait card. With a query active,
+  // non-matching heroes turn black-and-white; matches glow by name.
   function heroCard(hero) {
     const card = document.createElement("button");
     card.className = "hero-card";
+    if (state.query !== "" && !window.DotaCounter.matchHeroName(hero.name, state.query)) {
+      card.className = "hero-card hero-dimmed";
+    }
     card.dataset.heroId = hero.id;
     card.draggable = true;
     const img = document.createElement("img");
@@ -350,14 +361,21 @@
   }
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
-    // Live search: each keystroke re-renders the pool through the filter.
-    const search = document.querySelector(".hero-search");
-    if (search) {
-      search.addEventListener("input", (event) => {
-        state.query = event.target.value;
+    // Type-to-filter: printable keys append, Backspace deletes one
+    // letter, Esc clears. No text field; the hint line shows the query.
+    document.addEventListener("keydown", (event) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.key === "Backspace") {
+        state.query = state.query.slice(0, -1);
         renderPool();
-      });
-    }
+      } else if (event.key === "Escape") {
+        state.query = "";
+        renderPool();
+      } else if (event.key.length === 1) {
+        state.query = state.query + event.key;
+        renderPool();
+      }
+    });
     renderPool();
     renderBoard();
   });

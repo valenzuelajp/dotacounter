@@ -459,21 +459,19 @@ body {
   grid-template-columns: 1fr;
 }
 
-/* Pool search box above the attribute columns. */
-.hero-search {
-  width: 100%;
-  box-sizing: border-box;
-  background: var(--page);
-  color: var(--ink);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  font-size: 14px;
+/* Typed-query hint line (replaces the old search box). */
+.pool-query-hint {
+  color: var(--ink-dim);
+  font-size: 13px;
+  margin: 0 0 12px;
 }
-.hero-search:focus {
-  outline: none;
-  border-color: var(--gold);
+
+/* Non-matching heroes turn black-and-white while filtering. */
+.hero-dimmed .hero-portrait {
+  filter: grayscale(1) brightness(0.6);
+}
+.hero-dimmed .hero-name {
+  opacity: 0.45;
 }
 
 /* Glowing matched letters inside a hero name while searching. */

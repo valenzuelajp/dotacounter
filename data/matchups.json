@@ -1,5 +1,515 @@
 {
-  "patch": "7.41",
+  "patch": "unknown",
   "updatedAt": "2026-10-01",
-  "pairs": { "axe|lion": { "games": 0, "wins": 0, "source": "seed" } }
+  "pairs": {},
+  "heroes": {
+    "antimage": {
+      "games": 507577,
+      "wins": 257688
+    },
+    "axe": {
+      "games": 709981,
+      "wins": 359246
+    },
+    "bane": {
+      "games": 134846,
+      "wins": 65922
+    },
+    "bloodseeker": {
+      "games": 164666,
+      "wins": 84476
+    },
+    "crystal_maiden": {
+      "games": 573256,
+      "wins": 298499
+    },
+    "drow_ranger": {
+      "games": 405208,
+      "wins": 187103
+    },
+    "earthshaker": {
+      "games": 631359,
+      "wins": 319861
+    },
+    "juggernaut": {
+      "games": 772727,
+      "wins": 405375
+    },
+    "mirana": {
+      "games": 500495,
+      "wins": 258477
+    },
+    "morphling": {
+      "games": 160718,
+      "wins": 76858
+    },
+    "nevermore": {
+      "games": 513289,
+      "wins": 220166
+    },
+    "phantom_lancer": {
+      "games": 523354,
+      "wins": 278245
+    },
+    "puck": {
+      "games": 123904,
+      "wins": 58165
+    },
+    "pudge": {
+      "games": 1096706,
+      "wins": 564084
+    },
+    "razor": {
+      "games": 277606,
+      "wins": 139867
+    },
+    "sand_king": {
+      "games": 165341,
+      "wins": 81800
+    },
+    "storm_spirit": {
+      "games": 236156,
+      "wins": 111511
+    },
+    "sven": {
+      "games": 413552,
+      "wins": 212761
+    },
+    "tiny": {
+      "games": 175533,
+      "wins": 79281
+    },
+    "vengefulspirit": {
+      "games": 419795,
+      "wins": 220258
+    },
+    "windrunner": {
+      "games": 698955,
+      "wins": 339729
+    },
+    "zuus": {
+      "games": 522922,
+      "wins": 262273
+    },
+    "kunkka": {
+      "games": 182586,
+      "wins": 90361
+    },
+    "lina": {
+      "games": 706113,
+      "wins": 332943
+    },
+    "lion": {
+      "games": 983827,
+      "wins": 481797
+    },
+    "shadow_shaman": {
+      "games": 590054,
+      "wins": 305685
+    },
+    "slardar": {
+      "games": 296559,
+      "wins": 146815
+    },
+    "tidehunter": {
+      "games": 273078,
+      "wins": 135256
+    },
+    "witch_doctor": {
+      "games": 654532,
+      "wins": 341886
+    },
+    "lich": {
+      "games": 429182,
+      "wins": 225695
+    },
+    "riki": {
+      "games": 237393,
+      "wins": 125609
+    },
+    "enigma": {
+      "games": 168683,
+      "wins": 85452
+    },
+    "tinker": {
+      "games": 203615,
+      "wins": 95937
+    },
+    "sniper": {
+      "games": 823172,
+      "wins": 409006
+    },
+    "necrolyte": {
+      "games": 612728,
+      "wins": 313774
+    },
+    "warlock": {
+      "games": 237260,
+      "wins": 118621
+    },
+    "beastmaster": {
+      "games": 90948,
+      "wins": 41708
+    },
+    "queenofpain": {
+      "games": 369374,
+      "wins": 175977
+    },
+    "venomancer": {
+      "games": 276611,
+      "wins": 131535
+    },
+    "faceless_void": {
+      "games": 350321,
+      "wins": 170973
+    },
+    "skeleton_king": {
+      "games": 524802,
+      "wins": 288776
+    },
+    "death_prophet": {
+      "games": 162966,
+      "wins": 79431
+    },
+    "phantom_assassin": {
+      "games": 568169,
+      "wins": 290830
+    },
+    "pugna": {
+      "games": 175107,
+      "wins": 87695
+    },
+    "templar_assassin": {
+      "games": 202780,
+      "wins": 93460
+    },
+    "viper": {
+      "games": 334611,
+      "wins": 162840
+    },
+    "luna": {
+      "games": 459422,
+      "wins": 231145
+    },
+    "dragon_knight": {
+      "games": 460298,
+      "wins": 242153
+    },
+    "dazzle": {
+      "games": 197747,
+      "wins": 100776
+    },
+    "rattletrap": {
+      "games": 140265,
+      "wins": 66203
+    },
+    "leshrac": {
+      "games": 84638,
+      "wins": 42826
+    },
+    "furion": {
+      "games": 375548,
+      "wins": 163495
+    },
+    "life_stealer": {
+      "games": 631156,
+      "wins": 325705
+    },
+    "dark_seer": {
+      "games": 213113,
+      "wins": 105319
+    },
+    "clinkz": {
+      "games": 210301,
+      "wins": 104500
+    },
+    "omniknight": {
+      "games": 99556,
+      "wins": 50144
+    },
+    "enchantress": {
+      "games": 117483,
+      "wins": 55939
+    },
+    "huskar": {
+      "games": 186205,
+      "wins": 85095
+    },
+    "night_stalker": {
+      "games": 314657,
+      "wins": 162249
+    },
+    "broodmother": {
+      "games": 89231,
+      "wins": 45100
+    },
+    "bounty_hunter": {
+      "games": 337489,
+      "wins": 176319
+    },
+    "weaver": {
+      "games": 230356,
+      "wins": 109155
+    },
+    "jakiro": {
+      "games": 334346,
+      "wins": 162622
+    },
+    "batrider": {
+      "games": 44599,
+      "wins": 20054
+    },
+    "chen": {
+      "games": 20645,
+      "wins": 9326
+    },
+    "spectre": {
+      "games": 421616,
+      "wins": 223221
+    },
+    "ancient_apparition": {
+      "games": 271460,
+      "wins": 139689
+    },
+    "doom_bringer": {
+      "games": 236563,
+      "wins": 113003
+    },
+    "ursa": {
+      "games": 277590,
+      "wins": 135252
+    },
+    "spirit_breaker": {
+      "games": 685847,
+      "wins": 357860
+    },
+    "gyrocopter": {
+      "games": 125600,
+      "wins": 57875
+    },
+    "alchemist": {
+      "games": 131870,
+      "wins": 62486
+    },
+    "invoker": {
+      "games": 734088,
+      "wins": 369543
+    },
+    "silencer": {
+      "games": 405200,
+      "wins": 205456
+    },
+    "obsidian_destroyer": {
+      "games": 476213,
+      "wins": 254265
+    },
+    "lycan": {
+      "games": 58840,
+      "wins": 28558
+    },
+    "brewmaster": {
+      "games": 83672,
+      "wins": 42536
+    },
+    "shadow_demon": {
+      "games": 85938,
+      "wins": 38697
+    },
+    "lone_druid": {
+      "games": 136309,
+      "wins": 66510
+    },
+    "chaos_knight": {
+      "games": 204696,
+      "wins": 105742
+    },
+    "meepo": {
+      "games": 76486,
+      "wins": 40260
+    },
+    "treant": {
+      "games": 111179,
+      "wins": 50238
+    },
+    "ogre_magi": {
+      "games": 698513,
+      "wins": 352257
+    },
+    "undying": {
+      "games": 492267,
+      "wins": 244934
+    },
+    "rubick": {
+      "games": 788587,
+      "wins": 390983
+    },
+    "disruptor": {
+      "games": 325093,
+      "wins": 164267
+    },
+    "nyx_assassin": {
+      "games": 277804,
+      "wins": 146804
+    },
+    "naga_siren": {
+      "games": 70231,
+      "wins": 34907
+    },
+    "keeper_of_the_light": {
+      "games": 216010,
+      "wins": 105353
+    },
+    "wisp": {
+      "games": 162832,
+      "wins": 79477
+    },
+    "visage": {
+      "games": 71384,
+      "wins": 37100
+    },
+    "slark": {
+      "games": 475081,
+      "wins": 238806
+    },
+    "medusa": {
+      "games": 125398,
+      "wins": 61619
+    },
+    "troll_warlord": {
+      "games": 126557,
+      "wins": 65709
+    },
+    "centaur": {
+      "games": 274695,
+      "wins": 135704
+    },
+    "magnataur": {
+      "games": 432338,
+      "wins": 213226
+    },
+    "shredder": {
+      "games": 190238,
+      "wins": 87131
+    },
+    "bristleback": {
+      "games": 290579,
+      "wins": 143601
+    },
+    "tusk": {
+      "games": 219265,
+      "wins": 104983
+    },
+    "skywrath_mage": {
+      "games": 491581,
+      "wins": 245917
+    },
+    "abaddon": {
+      "games": 134291,
+      "wins": 68766
+    },
+    "elder_titan": {
+      "games": 47035,
+      "wins": 23492
+    },
+    "legion_commander": {
+      "games": 577676,
+      "wins": 304746
+    },
+    "techies": {
+      "games": 513188,
+      "wins": 261908
+    },
+    "ember_spirit": {
+      "games": 285005,
+      "wins": 140057
+    },
+    "earth_spirit": {
+      "games": 182943,
+      "wins": 90449
+    },
+    "abyssal_underlord": {
+      "games": 286446,
+      "wins": 138299
+    },
+    "terrorblade": {
+      "games": 191601,
+      "wins": 89916
+    },
+    "phoenix": {
+      "games": 200033,
+      "wins": 103288
+    },
+    "oracle": {
+      "games": 138140,
+      "wins": 68917
+    },
+    "winter_wyvern": {
+      "games": 258850,
+      "wins": 128285
+    },
+    "arc_warden": {
+      "games": 196507,
+      "wins": 101884
+    },
+    "monkey_king": {
+      "games": 210706,
+      "wins": 96571
+    },
+    "dark_willow": {
+      "games": 266108,
+      "wins": 130512
+    },
+    "pangolier": {
+      "games": 131008,
+      "wins": 61018
+    },
+    "grimstroke": {
+      "games": 268132,
+      "wins": 139399
+    },
+    "hoodwink": {
+      "games": 471378,
+      "wins": 222415
+    },
+    "void_spirit": {
+      "games": 183567,
+      "wins": 91126
+    },
+    "snapfire": {
+      "games": 411670,
+      "wins": 202456
+    },
+    "mars": {
+      "games": 171792,
+      "wins": 81871
+    },
+    "ringmaster": {
+      "games": 195624,
+      "wins": 94880
+    },
+    "dawnbreaker": {
+      "games": 363788,
+      "wins": 189788
+    },
+    "marci": {
+      "games": 166867,
+      "wins": 83172
+    },
+    "primal_beast": {
+      "games": 121616,
+      "wins": 59809
+    },
+    "muerta": {
+      "games": 115851,
+      "wins": 55578
+    },
+    "kez": {
+      "games": 172314,
+      "wins": 78465
+    },
+    "largo": {
+      "games": 71711,
+      "wins": 34602
+    }
+  }
 }

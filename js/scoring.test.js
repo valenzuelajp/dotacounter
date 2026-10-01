@@ -110,3 +110,18 @@ assertEqual(highlightName("Axe", "jug"), "Axe", "no match returns plain name");
 assertEqual(highlightName("Axe", ""), "Axe", "empty query returns plain name");
 assertEqual(highlightName("<Axe>", "axe"), "&lt;<span class=\"hero-name-hit\">Axe</span>&gt;", "output is HTML-escaped");
 assertEqual(highlightName("Anti-Mage", "<"), "Anti-Mage", "query symbols cannot break markup");
+
+// heroWinRate: real baked numbers, one decimal, null when absent.
+const { heroWinRate, roleMatches } = context.window.DotaCounter;
+const baked = JSON.parse(fs.readFileSync(__dirname + "/../data/matchups.json", "utf8"));
+assertEqual(heroWinRate("axe", baked), 50.6, "axe badge shows baked pub win rate");
+assertEqual(heroWinRate("no_such_hero", baked), null, "unknown hero hides the badge");
+assertEqual(heroWinRate("axe", { heroes: {} }), null, "empty stats hide the badge");
+assertEqual(heroWinRate("axe", { heroes: { axe: { games: 0, wins: 0 } } }), null, "zero games hide the badge");
+
+// roleMatches: tabs filter lane roles; legacy initiator is offlane-side.
+assertEqual(roleMatches("carry", "carry"), true, "carry sits under Carry");
+assertEqual(roleMatches("carry", "mid"), false, "carry is not Mid");
+assertEqual(roleMatches("initiator", "offlane"), true, "legacy initiator counts as offlane");
+assertEqual(roleMatches("support", "all"), true, "All tab shows everything");
+assertEqual(roleMatches("mid", "support"), false, "mid is not Support");
