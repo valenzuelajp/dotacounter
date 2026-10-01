@@ -17,15 +17,34 @@
   </header>
   <main class="meta-view">
     <p class="meta-updated">Updated: loading…</p>
+    <h2 class="section-title">Best picks by role</h2>
+    <div class="role-list"></div>
+    <h2 class="section-title">Tier list</h2>
     <div class="tier-list"></div>
   </main>
   <p class="offline-note" hidden>Showing offline data — live stats unavailable.</p>
   <script src="./js/data-loader.js"></script>
   <script>
-    // meta page: one job — render tiers from meta.json + hero names.
+    // meta page: two jobs — render role picks, then tiers.
     window.DotaCounter.loadData().then((data) => {
-      const names = Object.fromEntries(data.heroes.map((h) => [h.id, h.name]));
       document.querySelector(".meta-updated").textContent = "Updated: " + data.meta.updatedAt;
+      const roles = document.querySelector(".role-list");
+      for (const role of data.meta.roles || []) {
+        const card = document.createElement("div");
+        card.className = "role-card";
+        const title = document.createElement("strong");
+        title.className = "role-name";
+        title.textContent = role.name;
+        const picks = document.createElement("span");
+        picks.className = "role-picks";
+        picks.textContent = (role.top || []).map((h) => h.name || h.id).join(", ") || "—";
+        const note = document.createElement("p");
+        note.className = "role-note";
+        note.textContent = role.note || "";
+        card.append(title, picks, note);
+        roles.appendChild(card);
+      }
+      const names = Object.fromEntries(data.heroes.map((h) => [h.id, h.name]));
       const list = document.querySelector(".tier-list");
       for (const tier of ["S", "A", "B", "C"]) {
         const row = document.createElement("div");

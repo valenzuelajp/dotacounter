@@ -1,10 +1,65 @@
 {
-  "patch": "7.41",
+  "patch": "7.41e",
   "tiers": {
     "S": ["axe", "juggernaut"],
     "A": ["lion", "phantom_assassin", "tidehunter"],
     "B": ["sven", "earthshaker", "sniper", "drow_ranger", "enigma", "pudge", "crystal_maiden"],
     "C": []
   },
+  "roles": [
+    {
+      "id": "carry",
+      "name": "Carry (P1)",
+      "top": [
+        { "id": "faceless_void", "name": "Faceless Void" },
+        { "id": "spectre", "name": "Spectre" },
+        { "id": "ursa", "name": "Ursa" },
+        { "id": "juggernaut", "name": "Juggernaut" }
+      ],
+      "note": "Durable teamfight carries win games. Void is the most picked and pairs with meta Invoker."
+    },
+    {
+      "id": "mid",
+      "name": "Mid (P2)",
+      "top": [
+        { "id": "invoker", "name": "Invoker" },
+        { "id": "storm_spirit", "name": "Storm Spirit" },
+        { "id": "huskar", "name": "Huskar" },
+        { "id": "ember_spirit", "name": "Ember Spirit" }
+      ],
+      "note": "Tempo setters. Invoker is the meta king at 53.6% win rate and sets up Void Chronosphere."
+    },
+    {
+      "id": "offlane",
+      "name": "Offlane (P3)",
+      "top": [
+        { "id": "axe", "name": "Axe" },
+        { "id": "legion_commander", "name": "Legion Commander" },
+        { "id": "timbersaw", "name": "Timbersaw" },
+        { "id": "night_stalker", "name": "Night Stalker" }
+      ],
+      "note": "Tanky frontliners who control teamfights. Timbersaw preys on the strength heroes around him."
+    },
+    {
+      "id": "soft_support",
+      "name": "Soft Support (P4)",
+      "top": [
+        { "id": "bounty_hunter", "name": "Bounty Hunter" },
+        { "id": "spirit_breaker", "name": "Spirit Breaker" },
+        { "id": "lion", "name": "Lion" }
+      ],
+      "note": "Roamers who create gold leads. Bounty Hunter leads the role at 59.2% win rate."
+    },
+    {
+      "id": "hard_support",
+      "name": "Hard Support (P5)",
+      "top": [
+        { "id": "elder_titan", "name": "Elder Titan" },
+        { "id": "jakiro", "name": "Jakiro" },
+        { "id": "shadow_shaman", "name": "Shadow Shaman" }
+      ],
+      "note": "Elder Titan is the patch breakout at +5.5% win rate and punishes the tanky offlane meta."
+    }
+  ],
   "updatedAt": "2026-10-01"
 }
