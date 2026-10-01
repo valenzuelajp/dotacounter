@@ -2,20 +2,28 @@
 // enemy. Scores stay decimal for ranking (rounded only for display);
 // ties break by total games, then name. Deterministic and explainable.
 // The edge is percentage points above 50%, pulled toward 0 when the
-// sample is small (K=50 games of imaginary 50/50 prior). Matchup tables
-// come from data/matchups.json "matchups" (OpenDota pairwise stats).
+// sample is small (MATCHUP_SHRINK_K games of imaginary 50/50 prior).
+// Matchup tables come from data/matchups.json "matchups" (OpenDota
+// pairwise stats).
 window.DotaCounter = window.DotaCounter || {};
 
-// One matchup cell: { edge, games, wins, rate } or null when no data.
+// Shrinkage strength: higher K pulls small-sample edges harder to 0.
+window.DotaCounter.MATCHUP_SHRINK_K = 100;
+
+// Pairs with fewer games than this get a "low sample" tag on the reason;
+// scoring still uses them (shrunk), but the display says they are thin.
+window.DotaCounter.LOW_SAMPLE_GAMES = 30;
+
+// One matchup cell: { edge, games, wins, rate, lowSample } or null.
 // "wins" are the candidate's wins vs the enemy. Edge is a decimal.
 window.DotaCounter.matchupEdge = function matchupEdge(candidateId, enemyId, matchups, prior) {
-  const K = prior === undefined ? 50 : prior;
+  const K = prior === undefined ? window.DotaCounter.MATCHUP_SHRINK_K : prior;
   const table = (matchups && matchups.matchups && matchups.matchups[candidateId]) || null;
   const cell = (table && table[enemyId]) || null;
   if (!cell || !(cell.games > 0)) return null;
   const edge = (100 * (cell.wins - cell.games / 2)) / (cell.games + K);
   const rate = Math.round((cell.wins / cell.games) * 1000) / 10;
-  return { edge, games: cell.games, wins: cell.wins, rate };
+  return { edge, games: cell.games, wins: cell.wins, rate, lowSample: cell.games < window.DotaCounter.LOW_SAMPLE_GAMES };
 };
 
 // Rank every hero against the enemy picks (array of hero ids).
@@ -42,7 +50,9 @@ window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matc
       if (m && m.edge !== 0) {
         score += m.edge;
         games += m.games;
-        reasons.push(m.rate + "% over " + m.games + " games vs " + (names[enemy] || enemy));
+        reasons.push(
+          m.rate + "% over " + m.games + " games vs " + (names[enemy] || enemy) + (m.lowSample ? " (low sample)" : "")
+        );
       }
     }
     if (score > 0) {

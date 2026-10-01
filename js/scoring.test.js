@@ -36,14 +36,17 @@ const tied = scoreCounters(["axe"], heroes).filter((r) => r.score > 0).map((r) =
 assertEqual(tied, [...tied].sort(), "ties broken alphabetically");
 
 // matchupEdge: shrunk advantage from real baked tables.
-// Axe vs Juggernaut is 60/117: 100 * 1.5 / 167 = 0.898... (decimal, K=50).
+// Axe vs Juggernaut is 60/117: 100 * 1.5 / 217 = 150/217 (decimal, K=100).
 const { matchupEdge } = context.window.DotaCounter;
 const bakedTables = JSON.parse(fs.readFileSync(__dirname + "/../data/matchups.json", "utf8"));
 assertEqual(
   matchupEdge("axe", "juggernaut", bakedTables),
-  { edge: 150 / 167, games: 117, wins: 60, rate: 51.3 },
+  { edge: 150 / 217, games: 117, wins: 60, rate: 51.3, lowSample: false },
   "axe holds a small shrunk edge vs juggernaut"
 );
+const thin = matchupEdge("antimage", "hoodwink", bakedTables);
+assertEqual(thin.lowSample, true, "29-game pair is flagged low sample");
+assertEqual(thin.edge !== 0, true, "thin pair still scores (shrunk, not dropped)");
 assertEqual(matchupEdge("axe", "no_such_hero", bakedTables), null, "unknown enemy is null");
 assertEqual(matchupEdge("axe", "juggernaut", {}), null, "missing tables are null");
 
