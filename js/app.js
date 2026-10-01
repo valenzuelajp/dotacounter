@@ -11,7 +11,9 @@
 
   const state = {
     heroes: [],
+    matchups: { heroes: {} }, // baked pub win rates for the badges.
     query: "", // live pool search text; "" means no filter.
+    tab: "all", // pool role tab; one of all|carry|mid|offlane|support.
     dire: [], // the enemy lineup, max 5.
     profile: null, // carry | mid | offlane | support, asked once in the modal.
     enemySupports: [], // enemy heroes the player marked as supports.
@@ -37,7 +39,11 @@
     pool.innerHTML = "";
     const match = window.DotaCounter.matchHeroName;
     for (const attribute of ATTRIBUTE_ORDER) {
-      const group = state.heroes.filter((h) => (h.attribute || "strength") === attribute);
+      const group = state.heroes.filter(
+        (h) =>
+          (h.attribute || "strength") === attribute &&
+          window.DotaCounter.roleMatches(h.role, state.tab)
+      );
       if (group.length === 0) continue;
       const column = document.createElement("div");
       column.className = "pool-column pool-column-" + attribute;
@@ -87,6 +93,15 @@
     // Glowing match letters; plain escaped text when there is no query.
     name.innerHTML = window.DotaCounter.highlightName(hero.name, state.query);
     card.append(img, name);
+    // Pub win-rate badge from baked stats; hidden when there is no data.
+    const rate = window.DotaCounter.heroWinRate(hero.id, state.matchups);
+    if (rate !== null) {
+      const badge = document.createElement("div");
+      badge.className = "win-badge";
+      badge.textContent = rate + "%";
+      badge.title = rate + "% pub win rate";
+      card.appendChild(badge);
+    }
     // Tap = add to the enemy lineup. Drag = drop onto the enemy slots.
     card.addEventListener("click", () => placeHero(hero.id));
     card.addEventListener("dragstart", (event) => {
@@ -315,6 +330,17 @@
   }
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
+    state.matchups = data.matchups || { heroes: {} };
+    // Role tabs: one active at a time, re-render the pool on click.
+    document.querySelectorAll(".role-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        state.tab = tab.dataset.tab;
+        document.querySelectorAll(".role-tab").forEach((t) => {
+          t.classList.toggle("role-tab-active", t === tab);
+        });
+        renderPool();
+      });
+    });
     // Type-to-filter: printable keys append, Backspace deletes one
     // letter, Esc clears. No text field; the hint line shows the query.
     document.addEventListener("keydown", (event) => {
