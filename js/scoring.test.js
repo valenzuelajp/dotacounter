@@ -77,3 +77,18 @@ assertEqual(asCore.scorePool.length, heroes.length, "core pool stays full");
 // applyRoleProfile: unknown ids are never treated as supports.
 const asUnknown = applyRoleProfile("mid", ["axe", "not_a_hero"], heroes);
 assertEqual(asUnknown.calcRadiant, ["axe", "not_a_hero"], "unknown ids stay in core calc");
+
+const { roleAnswers } = context.window.DotaCounter;
+
+// roleAnswers: empty entered supports falls back to the general ranking.
+const raFallback = roleAnswers("carry", [], ["juggernaut"], heroes);
+assertEqual(raFallback, scoreCounters(["juggernaut"], heroes), "no entered supports means general ranking");
+
+// roleAnswers: offlane profile vs entered support lion tags same-role answers.
+const raFocused = roleAnswers("offlane", ["lion"], ["lion", "juggernaut"], heroes);
+const tagged = raFocused.filter((r) => r.reasons.some((x) => x.endsWith("(vs enemy support)")));
+assertEqual(tagged.length > 0, true, "same-role answers are tagged");
+assertEqual(tagged.every((r) => ["offlane", "initiator"].includes(heroes.find((h) => h.id === r.id).role)), true, "tagged answers share the player's lane");
+
+// roleAnswers: unknown profile is the general ranking, never an error.
+assertEqual(roleAnswers("coach", ["lion"], ["juggernaut"], heroes), scoreCounters(["juggernaut"], heroes), "unknown profile falls back");

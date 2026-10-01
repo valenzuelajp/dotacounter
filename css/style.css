@@ -383,3 +383,30 @@ body {
   border-color: var(--gold);
   color: var(--gold);
 }
+
+/* Enemy-support chips: mark drafted Dire heroes that are supports. */
+.enemy-support-pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.enemy-support-pick[hidden] {
+  display: none;
+}
+.enemy-support-label {
+  color: var(--ink-dim);
+}
+.enemy-support-chip {
+  background: var(--page);
+  color: var(--ink-dim);
+  border: 1px solid var(--panel-edge);
+  border-radius: 12px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.enemy-support-chip-on {
+  border-color: var(--gold);
+  color: var(--gold);
+}

@@ -72,6 +72,35 @@ window.DotaCounter.applyRoleProfile = function applyRoleProfile(profile, radiant
   };
 };
 
+// Role-targeted answers for core profiles: same-lane-role counters vs the
+// entered enemy supports, merged with full-pool counters vs the whole Dire
+// draft. Focused reasons are tagged. Empty supports or unknown profile fall
+// back to the general ranking. Returns ranked best-first.
+window.DotaCounter.roleAnswers = function roleAnswers(profile, enemySupportIds, direIds, heroes) {
+  const lanes = { carry: ["carry"], mid: ["mid"], offlane: ["offlane", "initiator"] };
+  const general = window.DotaCounter.scoreCounters(direIds, heroes);
+  const lanesFor = lanes[profile];
+  if (!lanesFor || enemySupportIds.length === 0) return general;
+
+  const pool = heroes.filter((h) => lanesFor.includes(h.role));
+  const focused = window.DotaCounter.scoreCounters(enemySupportIds, pool);
+  const merged = new Map();
+  for (const entry of general) {
+    merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, reasons: entry.reasons.slice() });
+  }
+  for (const entry of focused) {
+    const tagged = entry.reasons.map((r) => r + " (vs enemy support)");
+    if (merged.has(entry.id)) {
+      const keep = merged.get(entry.id);
+      keep.score += entry.score;
+      keep.reasons = tagged.concat(keep.reasons);
+    } else {
+      merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, reasons: tagged });
+    }
+  }
+  return [...merged.values()].sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : 1));
+};
+
 // Estimate win chance from the full draft (both teams as arrays of ids).
 // Base 50/50; each direct counter hit shifts 4% toward the counter's team;
 // each pick filling its own team's missing role shifts 2% that way.

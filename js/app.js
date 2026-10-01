@@ -15,6 +15,7 @@
     radiant: [],
     dire: [],
     profile: null, // carry | mid | offlane | support, asked once in the modal.
+    enemySupports: [], // drafted Dire heroes the player marked as supports.
   };
 
   const PROFILE_LABELS = {
@@ -189,7 +190,10 @@
       return;
     }
     if (prompt) prompt.hidden = true;
-    const ranked = window.DotaCounter.scoreCounters(state.dire, view.scorePool);
+    const ranked = view.supportMode
+      ? window.DotaCounter.scoreCounters(state.dire, view.scorePool)
+      : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool);
+    renderSupportChips(view);
     for (const entry of ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
@@ -250,6 +254,38 @@
     }
   }
 
+  // Enemy-support chips (core profiles): tap drafted Dire heroes that are
+  // supports to aim same-role answers at them. Hidden for support profiles.
+  function renderSupportChips(view) {
+    const box = document.querySelector(".enemy-support-pick");
+    if (!box) return;
+    box.innerHTML = "";
+    if (view.supportMode || state.dire.length === 0) {
+      box.hidden = true;
+      return;
+    }
+    box.hidden = false;
+    state.enemySupports = state.enemySupports.filter((id) => state.dire.includes(id));
+    const label = document.createElement("span");
+    label.className = "enemy-support-label";
+    label.textContent = "Enemy supports? tap them:";
+    box.appendChild(label);
+    for (const id of state.dire) {
+      const hero = heroById(id);
+      if (!hero) continue;
+      const chip = document.createElement("button");
+      chip.className = "enemy-support-chip" + (state.enemySupports.includes(id) ? " enemy-support-chip-on" : "");
+      chip.textContent = hero.name;
+      chip.addEventListener("click", () => {
+        const at = state.enemySupports.indexOf(id);
+        if (at >= 0) state.enemySupports.splice(at, 1);
+        else state.enemySupports.push(id);
+        renderBoard();
+      });
+      box.appendChild(chip);
+    }
+  }
+
   // Role modal: ask once, remember, allow change from the top bar.
   function wireRoleModal() {
     const modal = document.querySelector(".role-modal");
@@ -267,8 +303,14 @@
   }
 
   // Record the profile, close the modal, refresh the numbers.
+  // Remembered in localStorage so repeat visits skip the question.
   function chooseProfile(profile) {
     state.profile = profile;
+    try {
+      localStorage.setItem("dotacounter-profile", profile);
+    } catch (error) {
+      // Private mode or file:// without storage: asking each visit is fine.
+    }
     const modal = document.querySelector(".role-modal");
     const change = document.querySelector(".role-change");
     if (modal) modal.hidden = true;
@@ -279,9 +321,24 @@
     renderBoard();
   }
 
-  // Boot: load data, then paint pool and board.
+  // Boot: restore a remembered profile, then load data and paint.
   wireSideToggle();
   wireRoleModal();
+  try {
+    const saved = localStorage.getItem("dotacounter-profile");
+    if (saved === "carry" || saved === "mid" || saved === "offlane" || saved === "support") {
+      state.profile = saved;
+      const modal = document.querySelector(".role-modal");
+      if (modal) modal.hidden = true;
+      const change = document.querySelector(".role-change");
+      if (change) {
+        change.hidden = false;
+        change.textContent = "Role: " + PROFILE_LABELS[saved] + " (change)";
+      }
+    }
+  } catch (error) {
+    // No storage: the modal asks every visit.
+  }
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
     renderPool();
