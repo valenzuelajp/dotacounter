@@ -127,8 +127,9 @@ body {
 }
 .hero-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  grid-template-columns: repeat(5, 60px);
   gap: 4px;
+  justify-content: start;
 }
 .hero-card {
   position: relative;

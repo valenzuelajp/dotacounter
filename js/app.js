@@ -88,7 +88,8 @@
     card.draggable = true;
     const img = document.createElement("img");
     img.className = "hero-portrait";
-    img.src = hero.image;
+    // Tall client-style art: same CDN file, _vert.jpg instead of .png.
+    img.src = hero.image.replace(/\.png$/, "_vert.jpg");
     img.alt = hero.name;
     img.draggable = false;
     img.onerror = () => {
