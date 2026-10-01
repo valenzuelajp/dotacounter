@@ -1,28 +1,114 @@
-/* Base layout — semantic class names, full words only. */
-.site-header { max-width: 960px; margin: 0 auto; padding: 16px; }
-.site-title { font-size: 28px; margin: 0; }
-.patch-label { color: #666; }
+/* Dire tavern board theme — dark Dota 2 feel, beginner-friendly.
+   All colors live in :root below: tweak them in one place.
+   Class names are unchanged from the base layout (semantic, full words). */
+
+:root {
+  --ink: #161d2e;        /* page background: deep slate-navy, Dire side */
+  --panel: #1f2942;      /* card and row background */
+  --stone: #e8e0cf;      /* body text: parchment */
+  --muted: #9aa3b5;      /* secondary text */
+  --gold: #c9a227;       /* titles, selected states, patch label */
+  --dire: #b0503f;       /* enemy-side accents only */
+  --radiant: #6da86d;    /* ally-side accents only */
+  --amber-note: #e0a83c; /* offline warning, readable on dark */
+}
+
+body {
+  background: var(--ink);
+  color: var(--stone);
+  font-family: -apple-system, "Segoe UI", Verdana, sans-serif;
+  margin: 0;
+}
+
+/* Serif display type for the epic feel (system fonts only: free, offline-safe). */
+.site-title,
+.section-title,
+.tier-label {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.site-header { max-width: 1024px; margin: 0 auto; padding: 16px; }
+.site-title { font-size: 32px; margin: 0; color: var(--gold); }
+.patch-label { color: var(--gold); }
 .site-nav { display: flex; gap: 12px; margin-top: 8px; }
-.nav-link { text-decoration: none; }
-.picker-view { max-width: 960px; margin: 0 auto; padding: 16px; }
-.section-title { font-size: 20px; }
+.nav-link { text-decoration: none; color: var(--stone); }
+.nav-link:hover { color: var(--gold); }
+.picker-view { max-width: 1024px; margin: 0 auto; padding: 16px; }
+.section-title { font-size: 22px; color: var(--stone); }
 .hero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
-.hero-card { border: 1px solid #ccc; border-radius: 8px; padding: 8px; text-align: center; cursor: pointer; }
-.hero-card-selected { outline: 2px solid #2f81f7; }
+.hero-card {
+  background: var(--panel);
+  border: 1px solid #3a4666;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--stone);
+}
+.hero-name { font-size: 14px; }
+.hero-card-selected { outline: 2px solid var(--gold); }
 .counter-list { display: flex; flex-direction: column; gap: 8px; }
-.counter-reason { color: #444; }
-.empty-prompt { color: #666; }
-.offline-note { max-width: 960px; margin: 0 auto; padding: 8px 16px; color: #8a5a00; }
+.counter-entry {
+  background: var(--panel);
+  border: 1px solid #3a4666;
+  border-radius: 8px;
+  padding: 8px;
+}
+.counter-name { color: var(--gold); }
+.counter-reason { color: var(--stone); }
+.counter-detail-link {
+  background: none;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.hero-detail {
+  background: var(--panel);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 8px;
+}
+.hero-detail-title { color: var(--gold); }
+.empty-prompt { color: var(--muted); }
+.offline-note { max-width: 1024px; margin: 0 auto; padding: 8px 16px; color: var(--amber-note); }
 .synergy-view { margin-top: 24px; }
 .synergy-teams { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .synergy-subtitle { font-size: 16px; }
+.synergy-allies { background: rgba(109, 168, 109, 0.08); border-radius: 8px; padding: 8px; }
+.synergy-enemies { background: rgba(176, 80, 63, 0.08); border-radius: 8px; padding: 8px; }
 .synergy-result { margin-top: 12px; }
-.synergy-badge { border: 1px solid #2f81f7; border-radius: 8px; padding: 8px; }
-.synergy-prompt { color: #666; }
-.meta-view { max-width: 960px; margin: 0 auto; padding: 16px; }
-.meta-updated { color: #666; }
+.synergy-badge {
+  background: var(--panel);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 8px;
+}
+.synergy-prompt { color: var(--muted); }
+.meta-view { max-width: 1024px; margin: 0 auto; padding: 16px; }
+.meta-updated { color: var(--muted); }
 .tier-list { display: flex; flex-direction: column; gap: 8px; }
-.tier-row { border: 1px solid #ccc; border-radius: 8px; padding: 8px; display: flex; gap: 12px; }
-.tier-label { min-width: 64px; }
-.tier-members { color: #333; }
-.hero-name { font-size: 14px; }
+/* Tier letters render as gold/silver/bronze/gray medallions. */
+.tier-row {
+  background: var(--panel);
+  border: 1px solid #3a4666;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.tier-label {
+  min-width: 64px;
+  text-align: center;
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 4px 0;
+  background: var(--muted);
+}
+.tier-row:nth-child(1) .tier-label { background: var(--gold); }
+.tier-row:nth-child(2) .tier-label { background: #c0c0c0; }
+.tier-row:nth-child(3) .tier-label { background: #cd7f32; }
+.tier-members { color: var(--stone); }
