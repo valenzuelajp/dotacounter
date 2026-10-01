@@ -322,3 +322,64 @@ body {
   padding: 8px 16px;
   color: var(--gold);
 }
+
+/* Role question modal: full-screen overlay, centered dialog. */
+.role-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.role-modal[hidden] {
+  display: none;
+}
+.role-dialog {
+  background: var(--panel);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 420px;
+}
+.role-dialog-title {
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+.role-dialog-sub {
+  color: var(--ink-dim);
+  margin: 0 0 16px;
+}
+.role-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.role-option {
+  background: var(--page);
+  color: var(--ink);
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+.role-option:hover {
+  border-color: var(--gold);
+}
+
+/* Role change button in the top bar. */
+.role-change {
+  background: none;
+  border: 1px solid var(--panel-edge);
+  color: var(--ink-dim);
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.role-change:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}

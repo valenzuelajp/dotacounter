@@ -14,6 +14,7 @@
       <a class="nav-link nav-link-active" href="./index.html">Draft</a>
       <a class="nav-link" href="./meta.html">Meta today</a>
     </nav>
+    <button class="role-change" hidden>Role: (change)</button>
   </header>
 
   <main class="draft-view">
@@ -59,6 +60,20 @@
   </main>
 
   <p class="offline-note" hidden>Showing offline data — live stats unavailable.</p>
+
+  <div class="role-modal">
+    <div class="role-dialog">
+      <h2 class="role-dialog-title">What is your role?</h2>
+      <p class="role-dialog-sub">Pick the position you play. Supports get best-support picks; cores get answers without their own supports' noise.</p>
+      <div class="role-options">
+        <button class="role-option" data-profile="carry">P1 — Safe lane carry</button>
+        <button class="role-option" data-profile="mid">P2 — Mid laner</button>
+        <button class="role-option" data-profile="offlane">P3 — Offlane</button>
+        <button class="role-option" data-profile="support">P4 / P5 — Support</button>
+      </div>
+    </div>
+  </div>
+
   <script src="./js/data-loader.js"></script>
   <script src="./js/scoring.js"></script>
   <script src="./js/app.js"></script>

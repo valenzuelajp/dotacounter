@@ -14,6 +14,14 @@
     side: "radiant", // which team the next tap adds to.
     radiant: [],
     dire: [],
+    profile: null, // carry | mid | offlane | support, asked once in the modal.
+  };
+
+  const PROFILE_LABELS = {
+    carry: "Carry",
+    mid: "Mid",
+    offlane: "Offlane",
+    support: "Support",
   };
 
   // Find a hero by id.
@@ -135,13 +143,19 @@
     }
   }
 
+  // Role profile: supports score supports only; cores score without own supports.
+  function roleView() {
+    return window.DotaCounter.applyRoleProfile(state.profile, state.radiant, state.heroes);
+  }
+
   // Render the win bar + one reason line per calculation shift.
   function renderWin() {
     const bar = document.querySelector(".win-bar-fill-radiant");
     const label = document.querySelector(".win-bar-label");
     const list = document.querySelector(".win-reasons");
     if (!bar || !label || !list) return;
-    const result = window.DotaCounter.winEstimate(state.radiant, state.dire, state.heroes);
+    const view = roleView();
+    const result = window.DotaCounter.winEstimate(view.calcRadiant, state.dire, view.scorePool);
     bar.style.width = result.radiant + "%";
     label.textContent =
       state.radiant.length === 0 && state.dire.length === 0
@@ -157,11 +171,17 @@
   }
 
   // Ranked counters against the drafted enemy (Dire) team, with detail links.
+  // Support mode lists support-lane heroes under a support heading.
   function renderCounters() {
     const list = document.querySelector(".counter-list");
     const prompt = document.querySelector(".empty-prompt");
+    const heading = document.querySelector(".counter-results .section-title");
     if (!list) return;
     list.innerHTML = "";
+    const view = roleView();
+    if (heading) {
+      heading.textContent = view.supportMode ? "Best support picks vs Dire" : "Best counters vs Dire";
+    }
     if (state.dire.length === 0) {
       if (prompt) prompt.hidden = false;
       const panel = document.querySelector(".hero-detail");
@@ -169,7 +189,7 @@
       return;
     }
     if (prompt) prompt.hidden = true;
-    const ranked = window.DotaCounter.scoreCounters(state.dire, state.heroes);
+    const ranked = window.DotaCounter.scoreCounters(state.dire, view.scorePool);
     for (const entry of ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
@@ -230,8 +250,38 @@
     }
   }
 
+  // Role modal: ask once, remember, allow change from the top bar.
+  function wireRoleModal() {
+    const modal = document.querySelector(".role-modal");
+    const change = document.querySelector(".role-change");
+    if (!modal) return;
+    const options = modal.querySelectorAll(".role-option");
+    for (const option of options) {
+      option.addEventListener("click", () => chooseProfile(option.dataset.profile));
+    }
+    if (change) {
+      change.addEventListener("click", () => {
+        modal.hidden = false;
+      });
+    }
+  }
+
+  // Record the profile, close the modal, refresh the numbers.
+  function chooseProfile(profile) {
+    state.profile = profile;
+    const modal = document.querySelector(".role-modal");
+    const change = document.querySelector(".role-change");
+    if (modal) modal.hidden = true;
+    if (change) {
+      change.hidden = false;
+      change.textContent = "Role: " + PROFILE_LABELS[profile] + " (change)";
+    }
+    renderBoard();
+  }
+
   // Boot: load data, then paint pool and board.
   wireSideToggle();
+  wireRoleModal();
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
     renderPool();

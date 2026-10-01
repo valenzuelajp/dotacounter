@@ -50,6 +50,28 @@ window.DotaCounter.suggestSynergy = function suggestSynergy(allyIds, enemyIds, h
   return candidates[0];
 };
 
+// Split the draft by the player's role before scoring.
+// Support profile: own picks stay, but scoring runs on support-lane heroes.
+// Core profile (carry/mid/offlane): pool stays full, own support picks leave
+// the calc. Unknown ids are never treated as supports.
+// Returns { scorePool, calcRadiant, supportMode }.
+window.DotaCounter.applyRoleProfile = function applyRoleProfile(profile, radiantIds, heroes) {
+  const byId = Object.fromEntries(heroes.map((h) => [h.id, h]));
+  const isSupport = (id) => byId[id] && byId[id].role === "support";
+  if (profile === "support") {
+    return {
+      scorePool: heroes.filter((h) => h.role === "support"),
+      calcRadiant: radiantIds.slice(),
+      supportMode: true,
+    };
+  }
+  return {
+    scorePool: heroes,
+    calcRadiant: radiantIds.filter((id) => !isSupport(id)),
+    supportMode: false,
+  };
+};
+
 // Estimate win chance from the full draft (both teams as arrays of ids).
 // Base 50/50; each direct counter hit shifts 4% toward the counter's team;
 // each pick filling its own team's missing role shifts 2% that way.

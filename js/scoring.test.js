@@ -41,7 +41,7 @@ const pickHero = heroes.find((h) => h.id === pick.id);
 assertEqual(pickHero.counters.some((c) => c.hero === "juggernaut"), true, "synergy suggests a juggernaut counter");
 
 // winEstimate: empty draft is 50/50 with no reasons.
-const { winEstimate } = context.window.DotaCounter;
+const { winEstimate, applyRoleProfile } = context.window.DotaCounter;
 assertEqual(winEstimate([], [], heroes), { radiant: 50, dire: 50, reasons: [] }, "empty draft is 50/50");
 
 // Axe (radiant) counters Juggernaut (dire): +4% radiant, one reason.
@@ -60,3 +60,20 @@ assertEqual(w2.reasons.length >= 4, true, "every hit explained");
 // +4 (axe>jugg) +4 (lion>jugg) +2 (radiant role coverage) = 60.
 const w3 = winEstimate(["axe", "lion"], ["juggernaut"], heroes);
 assertEqual(w3.radiant, 60, "counter hits plus role coverage");
+
+// applyRoleProfile: support profile keeps the draft but scores supports only.
+const asSupport = applyRoleProfile("support", ["axe", "lion"], heroes);
+assertEqual(asSupport.supportMode, true, "support profile sets support mode");
+assertEqual(asSupport.calcRadiant, ["axe", "lion"], "support calc keeps own picks");
+assertEqual(asSupport.scorePool.every((h) => h.role === "support"), true, "support pool is supports only");
+assertEqual(asSupport.scorePool.length > 0, true, "support pool is not empty");
+
+// applyRoleProfile: core profile drops own supports from the calc, pool stays full.
+const asCore = applyRoleProfile("carry", ["axe", "lion", "juggernaut"], heroes);
+assertEqual(asCore.supportMode, false, "core profile is not support mode");
+assertEqual(asCore.calcRadiant, ["axe", "juggernaut"], "core calc drops own supports");
+assertEqual(asCore.scorePool.length, heroes.length, "core pool stays full");
+
+// applyRoleProfile: unknown ids are never treated as supports.
+const asUnknown = applyRoleProfile("mid", ["axe", "not_a_hero"], heroes);
+assertEqual(asUnknown.calcRadiant, ["axe", "not_a_hero"], "unknown ids stay in core calc");
