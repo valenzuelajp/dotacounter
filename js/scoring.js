@@ -1,25 +1,27 @@
 // scoring: +2 per curated counter hit plus a shrunk pub-data edge per
-// enemy, alphabetical tiebreak. Deterministic and explainable.
+// enemy. Scores stay decimal for ranking (rounded only for display);
+// ties break by total games, then name. Deterministic and explainable.
 // The edge is percentage points above 50%, pulled toward 0 when the
 // sample is small (K=50 games of imaginary 50/50 prior). Matchup tables
 // come from data/matchups.json "matchups" (OpenDota pairwise stats).
 window.DotaCounter = window.DotaCounter || {};
 
 // One matchup cell: { edge, games, wins, rate } or null when no data.
-// "wins" are the candidate's wins vs the enemy.
+// "wins" are the candidate's wins vs the enemy. Edge is a decimal.
 window.DotaCounter.matchupEdge = function matchupEdge(candidateId, enemyId, matchups, prior) {
   const K = prior === undefined ? 50 : prior;
   const table = (matchups && matchups.matchups && matchups.matchups[candidateId]) || null;
   const cell = (table && table[enemyId]) || null;
   if (!cell || !(cell.games > 0)) return null;
-  const edge = Math.round((100 * (cell.wins - cell.games / 2)) / (cell.games + K));
+  const edge = (100 * (cell.wins - cell.games / 2)) / (cell.games + K);
   const rate = Math.round((cell.wins / cell.games) * 1000) / 10;
   return { edge, games: cell.games, wins: cell.wins, rate };
 };
 
 // Rank every hero against the enemy picks (array of hero ids).
 // matchups is optional: without it only curated hits score.
-// Returns [{ id, name, score, reasons[] }] sorted best-first, zeroes dropped.
+// Returns [{ id, name, score, games, reasons[] }] sorted best-first,
+// zeroes dropped. Games = total matchup games behind the score.
 window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matchups) {
   const enemies = new Set(enemyIds);
   const names = Object.fromEntries(heroes.map((h) => [h.id, h.name]));
@@ -27,6 +29,7 @@ window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matc
 
   for (const hero of heroes) {
     let score = 0;
+    let games = 0;
     const reasons = [];
     for (const counter of hero.counters || []) {
       if (enemies.has(counter.hero)) {
@@ -38,15 +41,16 @@ window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matc
       const m = window.DotaCounter.matchupEdge(hero.id, enemy, matchups);
       if (m && m.edge !== 0) {
         score += m.edge;
+        games += m.games;
         reasons.push(m.rate + "% over " + m.games + " games vs " + (names[enemy] || enemy));
       }
     }
     if (score > 0) {
-      ranked.push({ id: hero.id, name: hero.name, score, reasons });
+      ranked.push({ id: hero.id, name: hero.name, score, games, reasons });
     }
   }
 
-  ranked.sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : 1));
+  ranked.sort((a, b) => b.score - a.score || b.games - a.games || (a.id < b.id ? -1 : 1));
   return ranked;
 };
 
@@ -110,19 +114,20 @@ window.DotaCounter.roleAnswers = function roleAnswers(profile, enemySupportIds, 
   const focused = window.DotaCounter.scoreCounters(enemySupportIds, pool, matchups);
   const merged = new Map();
   for (const entry of general) {
-    merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, reasons: entry.reasons.slice() });
+    merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, games: entry.games || 0, reasons: entry.reasons.slice() });
   }
   for (const entry of focused) {
     const tagged = entry.reasons.map((r) => r + " (vs enemy support)");
     if (merged.has(entry.id)) {
       const keep = merged.get(entry.id);
       keep.score += entry.score;
+      keep.games += entry.games || 0;
       keep.reasons = tagged.concat(keep.reasons);
     } else {
-      merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, reasons: tagged });
+      merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, games: entry.games || 0, reasons: tagged });
     }
   }
-  return [...merged.values()].sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : 1));
+  return [...merged.values()].sort((a, b) => b.score - a.score || b.games - a.games || (a.id < b.id ? -1 : 1));
 };
 
 // Escape raw text for safe innerHTML use (search input is user-typed).

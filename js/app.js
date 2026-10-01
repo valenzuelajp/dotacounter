@@ -227,7 +227,7 @@
       }
       const title = document.createElement("strong");
       title.className = "counter-name";
-      title.textContent = entry.name + " (+" + entry.score + ")";
+      title.textContent = entry.name + " (+" + (Math.round(entry.score * 10) / 10) + ")";
       const reason = document.createElement("p");
       reason.className = "counter-reason";
       // Top 2 reasons only; the detail panel has the full story.

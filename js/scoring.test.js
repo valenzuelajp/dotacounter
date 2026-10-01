@@ -36,25 +36,29 @@ const tied = scoreCounters(["axe"], heroes).filter((r) => r.score > 0).map((r) =
 assertEqual(tied, [...tied].sort(), "ties broken alphabetically");
 
 // matchupEdge: shrunk advantage from real baked tables.
-// Axe vs Juggernaut is 60/117: (100 * 1.5) / 167 rounds to +1.
+// Axe vs Juggernaut is 60/117: 100 * 1.5 / 167 = 0.898... (decimal, K=50).
 const { matchupEdge } = context.window.DotaCounter;
 const bakedTables = JSON.parse(fs.readFileSync(__dirname + "/../data/matchups.json", "utf8"));
 assertEqual(
   matchupEdge("axe", "juggernaut", bakedTables),
-  { edge: 1, games: 117, wins: 60, rate: 51.3 },
+  { edge: 150 / 167, games: 117, wins: 60, rate: 51.3 },
   "axe holds a small shrunk edge vs juggernaut"
 );
 assertEqual(matchupEdge("axe", "no_such_hero", bakedTables), null, "unknown enemy is null");
 assertEqual(matchupEdge("axe", "juggernaut", {}), null, "missing tables are null");
 
-// With baked tables the ranking is data-driven: sorted by score desc with
-// alpha tiebreak, lion carries a juggernaut matchup reason, and the order
-// differs from the curated-only ranking above.
+// With baked tables the ranking is data-driven: sorted by score desc,
+// then games desc, then name. Lion carries a juggernaut matchup reason,
+// and the order differs from the curated-only ranking above.
 const withData = scoreCounters(["juggernaut"], heroes, bakedTables);
 const ordered = withData.every(
-  (r, i, arr) => i === 0 || arr[i - 1].score > r.score || (arr[i - 1].score === r.score && arr[i - 1].id < r.id)
+  (r, i, arr) =>
+    i === 0 ||
+    arr[i - 1].score > r.score ||
+    (arr[i - 1].score === r.score &&
+      (arr[i - 1].games > r.games || (arr[i - 1].games === r.games && arr[i - 1].id < r.id)))
 );
-assertEqual(ordered, true, "data ranking is score-desc, alpha on ties");
+assertEqual(ordered, true, "data ranking is score-desc, games then name on ties");
 const lionEntry = withData.find((r) => r.id === "lion");
 assertEqual(lionEntry !== undefined, true, "lion ranks vs juggernaut with data");
 assertEqual(lionEntry.reasons.some((x) => x.includes("games vs Juggernaut")), true, "reasons cite win rate and sample");
