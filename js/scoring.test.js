@@ -40,28 +40,8 @@ const pick = suggestSynergy(["axe"], ["juggernaut"], heroes);
 const pickHero = heroes.find((h) => h.id === pick.id);
 assertEqual(pickHero.counters.some((c) => c.hero === "juggernaut"), true, "synergy suggests a juggernaut counter");
 
-// winEstimate: empty draft is 50/50 with no reasons.
-const { winEstimate, applyRoleProfile } = context.window.DotaCounter;
-assertEqual(winEstimate([], [], heroes), { radiant: 50, dire: 50, reasons: [] }, "empty draft is 50/50");
-
-// Axe (radiant) counters Juggernaut (dire): +4% radiant, one reason.
-const w1 = winEstimate(["axe"], ["juggernaut"], heroes);
-assertEqual(w1.radiant, 54, "axe vs juggernaut favors radiant by 4");
-assertEqual(w1.dire, 46, "dire is the mirror of radiant");
-assertEqual(w1.reasons.length, 1, "one reason per counter hit");
-
-// Radiant Lion+Axe vs Dire Juggernaut+Phantom Assassin: 4 hits (+16) capped at +15.
-const w2 = winEstimate(["lion", "axe"], ["juggernaut", "phantom_assassin"], heroes);
-assertEqual(w2.radiant, 65, "shift capped at +15");
-assertEqual(w2.dire, 35, "dire mirrors the cap");
-assertEqual(w2.reasons.length >= 4, true, "every hit explained");
-
-// Balanced roles add 2%: radiant Axe+Lion (initiator+support) vs lone Juggernaut.
-// +4 (axe>jugg) +4 (lion>jugg) +2 (radiant role coverage) = 60.
-const w3 = winEstimate(["axe", "lion"], ["juggernaut"], heroes);
-assertEqual(w3.radiant, 60, "counter hits plus role coverage");
-
 // applyRoleProfile: support profile keeps the draft but scores supports only.
+const { applyRoleProfile } = context.window.DotaCounter;
 const asSupport = applyRoleProfile("support", ["axe", "lion"], heroes);
 assertEqual(asSupport.supportMode, true, "support profile sets support mode");
 assertEqual(asSupport.calcRadiant, ["axe", "lion"], "support calc keeps own picks");

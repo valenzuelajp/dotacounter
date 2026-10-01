@@ -1,4 +1,4 @@
-// app: draft board UI — hero pool, drag+tap drafting, win estimate.
+// app: enemy-picker UI — hero pool, tap-to-add enemy drafting, counters.
 // Small functions, beginner-readable. State lives in one object.
 (function app() {
   const ATTRIBUTE_ORDER = ["agility", "strength", "intelligence", "universal"];
@@ -12,11 +12,9 @@
   const state = {
     heroes: [],
     query: "", // live pool search text; "" means no filter.
-    side: "radiant", // which team the next tap adds to.
-    radiant: [],
-    dire: [],
+    dire: [], // the enemy lineup, max 5.
     profile: null, // carry | mid | offlane | support, asked once in the modal.
-    enemySupports: [], // drafted Dire heroes the player marked as supports.
+    enemySupports: [], // enemy heroes the player marked as supports.
   };
 
   const PROFILE_LABELS = {
@@ -89,50 +87,41 @@
     // Glowing match letters; plain escaped text when there is no query.
     name.innerHTML = window.DotaCounter.highlightName(hero.name, state.query);
     card.append(img, name);
-    // Tap = add to active side. Drag = drop onto a team slot.
-    card.addEventListener("click", () => placeHero(hero.id, state.side));
+    // Tap = add to the enemy lineup. Drag = drop onto the enemy slots.
+    card.addEventListener("click", () => placeHero(hero.id));
     card.addEventListener("dragstart", (event) => {
       event.dataTransfer.setData("text/plain", hero.id);
     });
     return card;
   }
 
-  // Add a hero to a team (max 5, no duplicates across teams).
-  function placeHero(id, side) {
-    const team = side === "radiant" ? state.radiant : state.dire;
-    if (team.includes(id) || otherTeam(side).includes(id)) return;
-    if (team.length >= 5) return;
-    team.push(id);
+  // Add a hero to the enemy lineup (max 5, no duplicates).
+  function placeHero(id) {
+    if (state.dire.includes(id)) return;
+    if (state.dire.length >= 5) return;
+    state.dire.push(id);
     renderBoard();
   }
 
-  function otherTeam(side) {
-    return side === "radiant" ? state.dire : state.radiant;
-  }
-
-  // Remove a hero from a team slot.
-  function removeHero(id, side) {
-    const team = side === "radiant" ? state.radiant : state.dire;
-    const index = team.indexOf(id);
-    if (index >= 0) team.splice(index, 1);
+  // Remove a hero from the enemy lineup.
+  function removeHero(id) {
+    const index = state.dire.indexOf(id);
+    if (index >= 0) state.dire.splice(index, 1);
     renderBoard();
   }
 
-  // Render both teams as 5 slots each (empty slots accept drops).
+  // Render the enemy lineup as 5 slots (empty slots accept drops).
   function renderBoard() {
-    renderTeam(".draft-slots-radiant", "radiant");
-    renderTeam(".draft-slots-dire", "dire");
-    renderWin();
+    renderTeam();
     renderCounters();
   }
 
-  function renderTeam(selector, side) {
-    const row = document.querySelector(selector);
+  function renderTeam() {
+    const row = document.querySelector(".draft-slots-dire");
     if (!row) return;
     row.innerHTML = "";
-    const team = side === "radiant" ? state.radiant : state.dire;
     for (let slot = 0; slot < 5; slot++) {
-      const id = team[slot];
+      const id = state.dire[slot];
       const cell = document.createElement("div");
       cell.className = "draft-slot" + (id ? "" : " draft-slot-empty");
       if (id) {
@@ -150,48 +139,27 @@
         name.textContent = hero.name;
         cell.append(img, name);
         cell.title = "Remove " + hero.name;
-        cell.addEventListener("click", () => removeHero(id, side));
+        cell.addEventListener("click", () => removeHero(id));
       } else {
         cell.textContent = "Empty";
       }
-      // Drops from the pool land in the first free slot of this team.
+      // Drops from the pool land in the first free enemy slot.
       cell.addEventListener("dragover", (event) => event.preventDefault());
       cell.addEventListener("drop", (event) => {
         event.preventDefault();
-        placeHero(event.dataTransfer.getData("text/plain"), side);
+        placeHero(event.dataTransfer.getData("text/plain"));
       });
       row.appendChild(cell);
     }
   }
 
-  // Role profile: supports score supports only; cores score without own supports.
+  // Role profile: supports score supports only; cores score the full
+  // pool. There is no own team anymore, so the own-picks list is empty.
   function roleView() {
-    return window.DotaCounter.applyRoleProfile(state.profile, state.radiant, state.heroes);
+    return window.DotaCounter.applyRoleProfile(state.profile, [], state.heroes);
   }
 
-  // Render the win bar + one reason line per calculation shift.
-  function renderWin() {
-    const bar = document.querySelector(".win-bar-fill-radiant");
-    const label = document.querySelector(".win-bar-label");
-    const list = document.querySelector(".win-reasons");
-    if (!bar || !label || !list) return;
-    const view = roleView();
-    const result = window.DotaCounter.winEstimate(view.calcRadiant, state.dire, view.scorePool);
-    bar.style.width = result.radiant + "%";
-    label.textContent =
-      state.radiant.length === 0 && state.dire.length === 0
-        ? "Draft heroes to estimate the winner (estimated)"
-        : "Radiant " + result.radiant + "% — Dire " + result.dire + "% (estimated)";
-    list.innerHTML = "";
-    for (const reason of result.reasons) {
-      const line = document.createElement("li");
-      line.className = "win-reason";
-      line.textContent = reason;
-      list.appendChild(line);
-    }
-  }
-
-  // Ranked counters against the drafted enemy (Dire) team, with detail links.
+  // Ranked counters against the enemy lineup, with detail links.
   // Support mode lists support-lane heroes under a support heading.
   function renderCounters() {
     const list = document.querySelector(".counter-list");
@@ -201,7 +169,7 @@
     list.innerHTML = "";
     const view = roleView();
     if (heading) {
-      heading.textContent = view.supportMode ? "Best support picks vs Dire" : "Best counters vs Dire";
+      heading.textContent = view.supportMode ? "Best support picks" : "Best counters";
     }
     if (state.dire.length === 0) {
       if (prompt) prompt.hidden = false;
@@ -261,20 +229,7 @@
     }
   }
 
-  // Side toggle: taps add to the active team.
-  function wireSideToggle() {
-    const buttons = document.querySelectorAll(".side-toggle");
-    for (const button of buttons) {
-      button.addEventListener("click", () => {
-        state.side = button.dataset.side;
-        for (const other of buttons) {
-          other.classList.toggle("side-toggle-active", other === button);
-        }
-      });
-    }
-  }
-
-  // Enemy-support chips (core profiles): tap drafted Dire heroes that are
+  // Enemy-support chips (core profiles): tap enemy heroes that are
   // supports to aim same-role answers at them. Hidden for support profiles.
   function renderSupportChips(view) {
     const box = document.querySelector(".enemy-support-pick");
@@ -342,7 +297,6 @@
   }
 
   // Boot: restore a remembered profile, then load data and paint.
-  wireSideToggle();
   wireRoleModal();
   try {
     const saved = localStorage.getItem("dotacounter-profile");

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DotaCounter — draft, counters, win estimate</title>
+  <title>DotaCounter — pick the enemy, get counters</title>
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -17,46 +17,28 @@
     <button class="role-change" hidden>Role: (change)</button>
   </header>
 
-  <section class="win-section win-section-top">
-    <h2 class="section-title">Win estimate</h2>
-    <div class="win-bar">
-      <div class="win-bar-fill-radiant"></div>
-    </div>
-    <p class="win-bar-label">Draft heroes to estimate the winner (estimated)</p>
-    <ul class="win-reasons"></ul>
-  </section>
-
   <main class="draft-view">
     <section class="pool-section">
-      <h2 class="section-title">Hero pool — tap to add, or drag onto a team</h2>
-      <div class="side-switch">
-        <span class="side-switch-label">Tap adds to:</span>
-        <button class="side-toggle side-toggle-radiant side-toggle-active" data-side="radiant">Radiant</button>
-        <button class="side-toggle side-toggle-dire" data-side="dire">Dire</button>
-      </div>
+      <h2 class="section-title">Hero pool — tap an enemy to add them</h2>
       <p class="pool-query-hint">Type to filter heroes — Backspace deletes, Esc clears.</p>
       <div class="hero-pool"></div>
     </section>
 
     <div class="draft-main">
     <section class="draft-board">
-      <h2 class="section-title">Draft</h2>
+      <h2 class="section-title">Enemy lineup</h2>
       <div class="draft-teams">
-        <div class="draft-team draft-team-radiant">
-          <h3 class="draft-team-name">Radiant (your team)</h3>
-          <div class="draft-slots draft-slots-radiant"></div>
-        </div>
         <div class="draft-team draft-team-dire">
-          <h3 class="draft-team-name">Dire (enemy team)</h3>
+          <h3 class="draft-team-name">Enemy lineup</h3>
           <div class="draft-slots draft-slots-dire"></div>
         </div>
       </div>
-      <p class="draft-hint">Click a drafted hero to remove them.</p>
+      <p class="draft-hint">Tap a drafted hero to remove them.</p>
     </section>
 
     <section class="counter-results">
-      <h2 class="section-title">Best counters vs Dire</h2>
-      <p class="empty-prompt">Draft Dire heroes to see who beats them and how.</p>
+      <h2 class="section-title">Best counters</h2>
+      <p class="empty-prompt">Add enemy heroes to see who beats them and how.</p>
       <div class="enemy-support-pick" hidden></div>
       <div class="counter-list"></div>
     </section>

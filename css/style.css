@@ -8,7 +8,6 @@
   --gold: #c8a45c;
   --ink: #e8ddc9;
   --ink-dim: #a99e86;
-  --radiant: #6fae5a;
   --dire: #c05a4a;
   --str: #c0564d;
   --agi: #7bb661;
@@ -70,40 +69,12 @@ body {
 }
 .pool-section,
 .draft-board,
-.win-section,
 .counter-results {
   background: var(--panel);
   border: 1px solid var(--panel-edge);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
-}
-
-/* Side switch: which team taps add to. */
-.side-switch {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.side-switch-label {
-  color: var(--ink-dim);
-}
-.side-toggle {
-  background: var(--page);
-  color: var(--ink-dim);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  padding: 6px 14px;
-  cursor: pointer;
-}
-.side-toggle-radiant.side-toggle-active {
-  border-color: var(--radiant);
-  color: var(--radiant);
-}
-.side-toggle-dire.side-toggle-active {
-  border-color: var(--dire);
-  color: var(--dire);
 }
 
 /* Hero pool: attribute titles in client colors, portrait grid. */
@@ -160,9 +131,6 @@ body {
   font-size: 16px;
   margin: 0 0 8px;
 }
-.draft-team-radiant .draft-team-name {
-  color: var(--radiant);
-}
 .draft-team-dire .draft-team-name {
   color: var(--dire);
 }
@@ -189,32 +157,6 @@ body {
 .draft-hint {
   color: var(--ink-dim);
   margin: 12px 0 0;
-}
-
-/* Win estimate bar: green fills from the left, red shows through. */
-.win-bar {
-  background: var(--dire);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  height: 24px;
-  overflow: hidden;
-}
-.win-bar-fill-radiant {
-  background: var(--radiant);
-  height: 100%;
-  width: 50%;
-}
-.win-bar-label {
-  font-size: 18px;
-  margin: 8px 0;
-}
-.win-reasons {
-  margin: 0;
-  padding-left: 20px;
-}
-.win-reason {
-  color: var(--ink);
-  margin-bottom: 4px;
 }
 
 /* Counter list and hero detail. */
@@ -384,7 +326,7 @@ body {
   color: var(--gold);
 }
 
-/* Enemy-support chips: mark drafted Dire heroes that are supports. */
+/* Enemy-support chips: mark enemy heroes that are supports. */
 .enemy-support-pick {
   display: flex;
   flex-wrap: wrap;
@@ -411,31 +353,6 @@ body {
   color: var(--gold);
 }
 
-/* Win estimate: small sticky strip pinned under the top bar. */
-.win-section-top {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  max-width: 1400px;
-  width: calc(100% - 32px);
-  margin: 12px auto 0;
-  padding: 8px 12px;
-}
-.win-section-top .section-title {
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-.win-section-top .win-bar {
-  height: 14px;
-}
-.win-section-top .win-bar-label {
-  font-size: 13px;
-  margin: 6px 0;
-}
-.win-section-top .win-reasons {
-  font-size: 13px;
-}
-
 /* Draft page: hero pool covers the full width, draft stacks below it. */
 .draft-view {
   max-width: 1400px;
@@ -454,7 +371,7 @@ body {
   }
 }
 
-/* Draft teams stacked vertically: Radiant row, Dire row below. */
+/* Enemy lineup: single vertical stack under the pool. */
 .draft-teams {
   grid-template-columns: 1fr;
 }
