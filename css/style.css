@@ -112,6 +112,8 @@ body {
   .draft-main {
     position: sticky;
     top: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
   }
 }
 .section-title {
@@ -278,21 +280,36 @@ body {
   flex-direction: column;
 }
 .counter-entry {
-  padding: 10px 4px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 4px;
   border-bottom: 1px solid var(--divider);
 }
 .counter-entry:hover {
   background: var(--row-hover);
+}
+.counter-portrait {
+  width: 56px;
+  height: 64px;
+  flex: none;
+  object-fit: cover;
+  object-position: center top;
+}
+.counter-body {
+  min-width: 0;
 }
 .counter-name {
   color: var(--ink);
   font-family: Rajdhani, "Arial Narrow", sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  font-size: 15px;
 }
 .counter-reason {
-  color: var(--ink);
-  margin: 4px 0;
+  color: var(--muted);
+  margin: 2px 0 4px;
+  font-size: 13px;
 }
 .counter-detail-link {
   background: none;
@@ -309,21 +326,17 @@ body {
 .counter-detail-link:hover {
   background: var(--row-hover);
 }
-.hero-detail {
-  margin-top: 12px;
-  border-top: 1px solid var(--divider);
-  padding-top: 12px;
-}
-.hero-detail-title {
+.counter-more {
+  background: none;
+  border: none;
+  color: var(--teal);
+  cursor: pointer;
   font-family: Rajdhani, "Arial Narrow", sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ink);
-  margin: 0 0 8px;
-}
-.hero-detail-item,
-.hero-detail-tip {
-  margin: 4px 0;
+  font-size: 13px;
+  padding: 8px 4px;
+  text-align: left;
 }
 
 /* Meta today page. */

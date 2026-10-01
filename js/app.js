@@ -17,6 +17,8 @@
     tab: "all", // pool role tab; one of all|carry|mid|offlane|support.
     showRates: false, // win numbers hidden until the toggle is switched on.
     dire: [], // the enemy lineup, max 5.
+    expanded: false, // show-more toggle for the best-picks list.
+    lastDire: "", // draft key; a new draft collapses the list again.
     profile: null, // carry | mid | offlane | support, asked once in the modal.
     enemySupports: [], // enemy heroes the player marked as supports.
   };
@@ -197,8 +199,6 @@
     }
     if (state.dire.length === 0) {
       if (prompt) prompt.hidden = false;
-      const panel = document.querySelector(".hero-detail");
-      if (panel) panel.innerHTML = "";
       return;
     }
     if (prompt) prompt.hidden = true;
@@ -213,7 +213,13 @@
       list.appendChild(empty);
       return;
     }
-    for (const entry of ranked.slice(0, 5)) {
+    // A new draft collapses the list back to the top 5.
+    const draftKey = state.dire.join(",");
+    if (draftKey !== state.lastDire) {
+      state.lastDire = draftKey;
+      state.expanded = false;
+    }
+    for (const entry of state.expanded ? ranked.slice(0, 10) : ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
       const hero = view.scorePool.find((h) => h.id === entry.id);
@@ -225,48 +231,32 @@
         img.onerror = () => { img.onerror = null; img.src = "./assets/heroes/placeholder.png"; };
         item.appendChild(img);
       }
+      const body = document.createElement("div");
+      body.className = "counter-body";
       const title = document.createElement("strong");
       title.className = "counter-name";
       title.textContent = entry.name + " (+" + (Math.round(entry.score * 10) / 10) + ")";
       const reason = document.createElement("p");
       reason.className = "counter-reason";
-      // Top 2 reasons only; the detail panel has the full story.
+      // Top 2 reasons only; the hero page has the full story.
       reason.textContent = entry.reasons.slice(0, 2).join("; ");
-      const detail = document.createElement("button");
+      const detail = document.createElement("a");
       detail.className = "counter-detail-link";
-      detail.textContent = "How to beat them: items + skill tips";
-      detail.addEventListener("click", () => renderHeroDetail(entry.id));
-      item.append(title, reason, detail);
+      detail.href = "./heroes.html#" + entry.id;
+      detail.textContent = "Items + skill tips";
+      body.append(title, reason, detail);
+      item.appendChild(body);
       list.appendChild(item);
     }
-  }
-
-  // One hero's items + skill tips: how to beat the enemy.
-  function renderHeroDetail(id) {
-    const hero = heroById(id);
-    if (!hero) return;
-    let panel = document.querySelector(".hero-detail");
-    if (!panel) {
-      panel = document.createElement("section");
-      panel.className = "hero-detail";
-      document.querySelector(".counter-results").appendChild(panel);
-    }
-    panel.innerHTML = "";
-    const title = document.createElement("h3");
-    title.className = "hero-detail-title";
-    title.textContent = hero.name + " — how to beat them";
-    panel.appendChild(title);
-    for (const entry of hero.counterItems || []) {
-      const line = document.createElement("p");
-      line.className = "hero-detail-item";
-      line.textContent = entry.item + " — " + entry.when;
-      panel.appendChild(line);
-    }
-    for (const tip of hero.skillTips || []) {
-      const line = document.createElement("p");
-      line.className = "hero-detail-tip";
-      line.textContent = tip;
-      panel.appendChild(line);
+    if (ranked.length > 5) {
+      const more = document.createElement("button");
+      more.className = "counter-more";
+      more.textContent = state.expanded ? "Show less" : "Show more";
+      more.addEventListener("click", () => {
+        state.expanded = !state.expanded;
+        renderCounters();
+      });
+      list.appendChild(more);
     }
   }
 
@@ -284,7 +274,7 @@
     state.enemySupports = state.enemySupports.filter((id) => state.dire.includes(id));
     const label = document.createElement("span");
     label.className = "enemy-support-label";
-    label.textContent = "Enemy supports? tap them:";
+    label.textContent = "Which enemies are supports?";
     box.appendChild(label);
     for (const id of state.dire) {
       const hero = heroById(id);

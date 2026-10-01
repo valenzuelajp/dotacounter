@@ -49,8 +49,8 @@ assertEqual(
 );
 assertEqual(Math.round(axeEdge.edge * 1000) / 1000, 1.695, "axe edge value matches the formula");
 const thin = matchupEdge("antimage", "hoodwink", bakedTables);
-assertEqual(thin.lowSample, true, "29-game pair is flagged low sample");
-assertEqual(thin.edge !== 0, true, "thin pair still scores (shrunk, not dropped)");
+assertEqual(thin, null, "29-game pair is unscored");
+assertEqual(matchupEdge("axe", "no_such_hero", bakedTables), null, "unknown enemy is null");
 
 // Matchup-specific scoring on synthetic tables: a 60% overall hero going
 // 50/50 (100/200) vs a 40% hero is BELOW expectation (0.6 + 0.1 = 0.7),
@@ -68,15 +68,33 @@ const strongEdge = matchupEdge("strong", "weak", synth);
 assertEqual(strongEdge.edge < 0, true, "strong hero gets no bonus for general strength");
 const weakEdge = matchupEdge("weak", "strong", synth);
 assertEqual(weakEdge.edge > 0, true, "underdog beating expectation scores positive");
+// Same 50% observed gap, fewer games: 40-game edge is smaller and tagged,
+// 20-game is unscored.
+const midSynth = {
+  heroes: synth.heroes,
+  matchups: { strong: { weak: { games: 40, wins: 20 } } },
+};
+const midEdge = matchupEdge("strong", "weak", midSynth);
+assertEqual(
+  Math.abs(midEdge.edge) < Math.abs(strongEdge.edge),
+  true,
+  "same gap with fewer games shrinks the edge"
+);
+assertEqual(midEdge.lowSample, true, "30-to-60 game pair is tagged low sample");
 const thinSynth = {
   heroes: synth.heroes,
   matchups: { strong: { weak: { games: 20, wins: 10 } } },
 };
-assertEqual(
-  Math.abs(matchupEdge("strong", "weak", thinSynth).edge) < Math.abs(strongEdge.edge),
-  true,
-  "same gap with fewer games shrinks the edge"
-);
+assertEqual(matchupEdge("strong", "weak", thinSynth), null, "20-game pair is unscored");
+// Per-pair edge cap: 2000/2000 at 50% expected would be +47.6, capped to +10.
+const capSynth = {
+  heroes: {
+    capped: { games: 1000, wins: 500 },
+    foe: { games: 1000, wins: 500 },
+  },
+  matchups: { capped: { foe: { games: 2000, wins: 2000 } } },
+};
+assertEqual(matchupEdge("capped", "foe", capSynth).edge, 10, "edge caps at plus 10");
 assertEqual(matchupEdge("axe", "no_such_hero", bakedTables), null, "unknown enemy is null");
 assertEqual(matchupEdge("axe", "juggernaut", {}), null, "missing tables are null");
 

@@ -10,9 +10,15 @@ window.DotaCounter = window.DotaCounter || {};
 // Shrinkage strength: higher K pulls small-sample edges harder to 0.
 window.DotaCounter.MATCHUP_SHRINK_K = 100;
 
-// Pairs with fewer games than this get a "low sample" tag on the reason;
-// scoring still uses them (shrunk), but the display says they are thin.
-window.DotaCounter.LOW_SAMPLE_GAMES = 30;
+// Pairs with fewer games than this are not scored at all — a 14/16 fluke
+// must never outrank real data. Pairs from here up to LOW_SAMPLE_TAG_END
+// games keep a "low sample" display tag.
+window.DotaCounter.MIN_SCORING_GAMES = 30;
+window.DotaCounter.LOW_SAMPLE_TAG_END = 60;
+
+// One matchup cell can move a score by at most this many points, so a
+// single lopsided table cannot dominate the ranking on its own.
+window.DotaCounter.MATCHUP_EDGE_CAP = 10;
 
 // Overall pub win rate of one hero (0..1), 0.5 when the hero has no data.
 window.DotaCounter.overallRate = function overallRate(heroId, matchups) {
@@ -30,14 +36,16 @@ window.DotaCounter.matchupEdge = function matchupEdge(candidateId, enemyId, matc
   const K = prior === undefined ? window.DotaCounter.MATCHUP_SHRINK_K : prior;
   const table = (matchups && matchups.matchups && matchups.matchups[candidateId]) || null;
   const cell = (table && table[enemyId]) || null;
-  if (!cell || !(cell.games > 0)) return null;
+  if (!cell || !(cell.games >= window.DotaCounter.MIN_SCORING_GAMES)) return null;
   const observed = cell.wins / cell.games;
   const expected =
     window.DotaCounter.overallRate(candidateId, matchups) +
     (0.5 - window.DotaCounter.overallRate(enemyId, matchups));
-  const edge = (100 * (observed - expected) * cell.games) / (cell.games + K);
+  const raw = (100 * (observed - expected) * cell.games) / (cell.games + K);
+  const cap = window.DotaCounter.MATCHUP_EDGE_CAP;
+  const edge = Math.max(-cap, Math.min(cap, raw));
   const rate = Math.round(observed * 1000) / 10;
-  return { edge, games: cell.games, wins: cell.wins, rate, lowSample: cell.games < window.DotaCounter.LOW_SAMPLE_GAMES };
+  return { edge, games: cell.games, wins: cell.wins, rate, lowSample: cell.games < window.DotaCounter.LOW_SAMPLE_TAG_END };
 };
 
 // Rank every hero against the enemy picks (array of hero ids).
