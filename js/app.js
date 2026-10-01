@@ -1,51 +1,175 @@
-// app: wires the picker grid to the scoring module and renders results.
-// Function-per-job, each small enough for a beginner to read top to bottom.
+// app: draft board UI — hero pool, drag+tap drafting, win estimate.
+// Small functions, beginner-readable. State lives in one object.
 (function app() {
-  const state = { heroes: [], selected: [] };
+  const ATTRIBUTE_ORDER = ["strength", "agility", "intelligence", "universal"];
+  const ATTRIBUTE_LABELS = {
+    strength: "Strength",
+    agility: "Agility",
+    intelligence: "Intelligence",
+    universal: "Universal",
+  };
 
-  // Render clickable hero cards into .hero-grid (max 5 selected).
-  function renderGrid() {
-    const grid = document.querySelector(".hero-grid");
-    grid.innerHTML = "";
-    for (const hero of state.heroes) {
-      const card = document.createElement("button");
-      card.className = "hero-card" + (state.selected.includes(hero.id) ? " hero-card-selected" : "");
-      card.dataset.heroId = hero.id;
-      const img = document.createElement("img");
-      img.src = "./" + hero.image;
-      img.alt = hero.name;
-      img.onerror = () => { img.onerror = null; img.src = "./assets/heroes/placeholder.png"; };
-      const name = document.createElement("div");
-      name.className = "hero-name";
-      name.textContent = hero.name;
-      card.append(img, name);
-      card.addEventListener("click", () => toggleHero(hero.id));
-      grid.appendChild(card);
+  const state = {
+    heroes: [],
+    side: "radiant", // which team the next tap adds to.
+    radiant: [],
+    dire: [],
+  };
+
+  // Find a hero by id.
+  function heroById(id) {
+    return state.heroes.find((h) => h.id === id);
+  }
+
+  // Render the pool grouped by attribute, in Dota client order.
+  function renderPool() {
+    const pool = document.querySelector(".hero-pool");
+    pool.innerHTML = "";
+    for (const attribute of ATTRIBUTE_ORDER) {
+      const group = state.heroes.filter((h) => (h.attribute || "strength") === attribute);
+      if (group.length === 0) continue;
+      const title = document.createElement("h3");
+      title.className = "pool-group-title pool-group-" + attribute;
+      title.textContent = ATTRIBUTE_LABELS[attribute];
+      pool.appendChild(title);
+      const grid = document.createElement("div");
+      grid.className = "hero-grid";
+      for (const hero of group) {
+        grid.appendChild(heroCard(hero));
+      }
+      pool.appendChild(grid);
     }
   }
 
-  // Toggle one hero (cap at 5), then re-render grid + results.
-  function toggleHero(id) {
-    if (state.selected.includes(id)) {
-      state.selected = state.selected.filter((h) => h !== id);
-    } else if (state.selected.length < 5) {
-      state.selected.push(id);
-    }
-    renderGrid();
-    renderResults();
+  // One draggable, clickable portrait card.
+  function heroCard(hero) {
+    const card = document.createElement("button");
+    card.className = "hero-card";
+    card.dataset.heroId = hero.id;
+    card.draggable = true;
+    const img = document.createElement("img");
+    img.className = "hero-portrait";
+    img.src = hero.image;
+    img.alt = hero.name;
+    img.draggable = false;
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = "./assets/heroes/placeholder.png";
+    };
+    const name = document.createElement("div");
+    name.className = "hero-name";
+    name.textContent = hero.name;
+    card.append(img, name);
+    // Tap = add to active side. Drag = drop onto a team slot.
+    card.addEventListener("click", () => placeHero(hero.id, state.side));
+    card.addEventListener("dragstart", (event) => {
+      event.dataTransfer.setData("text/plain", hero.id);
+    });
+    return card;
   }
 
-  // Render ranked counters into .counter-list with reasons.
-  function renderResults() {
+  // Add a hero to a team (max 5, no duplicates across teams).
+  function placeHero(id, side) {
+    const team = side === "radiant" ? state.radiant : state.dire;
+    if (team.includes(id) || otherTeam(side).includes(id)) return;
+    if (team.length >= 5) return;
+    team.push(id);
+    renderBoard();
+  }
+
+  function otherTeam(side) {
+    return side === "radiant" ? state.dire : state.radiant;
+  }
+
+  // Remove a hero from a team slot.
+  function removeHero(id, side) {
+    const team = side === "radiant" ? state.radiant : state.dire;
+    const index = team.indexOf(id);
+    if (index >= 0) team.splice(index, 1);
+    renderBoard();
+  }
+
+  // Render both teams as 5 slots each (empty slots accept drops).
+  function renderBoard() {
+    renderTeam(".draft-slots-radiant", "radiant");
+    renderTeam(".draft-slots-dire", "dire");
+    renderWin();
+    renderCounters();
+  }
+
+  function renderTeam(selector, side) {
+    const row = document.querySelector(selector);
+    if (!row) return;
+    row.innerHTML = "";
+    const team = side === "radiant" ? state.radiant : state.dire;
+    for (let slot = 0; slot < 5; slot++) {
+      const id = team[slot];
+      const cell = document.createElement("div");
+      cell.className = "draft-slot" + (id ? "" : " draft-slot-empty");
+      if (id) {
+        const hero = heroById(id);
+        const img = document.createElement("img");
+        img.className = "hero-portrait";
+        img.src = hero.image;
+        img.alt = hero.name;
+        img.onerror = () => {
+          img.onerror = null;
+          img.src = "./assets/heroes/placeholder.png";
+        };
+        const name = document.createElement("div");
+        name.className = "hero-name";
+        name.textContent = hero.name;
+        cell.append(img, name);
+        cell.title = "Remove " + hero.name;
+        cell.addEventListener("click", () => removeHero(id, side));
+      } else {
+        cell.textContent = "Empty";
+      }
+      // Drops from the pool land in the first free slot of this team.
+      cell.addEventListener("dragover", (event) => event.preventDefault());
+      cell.addEventListener("drop", (event) => {
+        event.preventDefault();
+        placeHero(event.dataTransfer.getData("text/plain"), side);
+      });
+      row.appendChild(cell);
+    }
+  }
+
+  // Render the win bar + one reason line per calculation shift.
+  function renderWin() {
+    const bar = document.querySelector(".win-bar-fill-radiant");
+    const label = document.querySelector(".win-bar-label");
+    const list = document.querySelector(".win-reasons");
+    if (!bar || !label || !list) return;
+    const result = window.DotaCounter.winEstimate(state.radiant, state.dire, state.heroes);
+    bar.style.width = result.radiant + "%";
+    label.textContent =
+      state.radiant.length === 0 && state.dire.length === 0
+        ? "Draft heroes to estimate the winner (estimated)"
+        : "Radiant " + result.radiant + "% — Dire " + result.dire + "% (estimated)";
+    list.innerHTML = "";
+    for (const reason of result.reasons) {
+      const line = document.createElement("li");
+      line.className = "win-reason";
+      line.textContent = reason;
+      list.appendChild(line);
+    }
+  }
+
+  // Ranked counters against the drafted enemy (Dire) team, with detail links.
+  function renderCounters() {
     const list = document.querySelector(".counter-list");
     const prompt = document.querySelector(".empty-prompt");
+    if (!list) return;
     list.innerHTML = "";
-    if (state.selected.length === 0) {
+    if (state.dire.length === 0) {
       if (prompt) prompt.hidden = false;
+      const panel = document.querySelector(".hero-detail");
+      if (panel) panel.innerHTML = "";
       return;
     }
     if (prompt) prompt.hidden = true;
-    const ranked = window.DotaCounter.scoreCounters(state.selected, state.heroes);
+    const ranked = window.DotaCounter.scoreCounters(state.dire, state.heroes);
     for (const entry of ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
@@ -57,16 +181,16 @@
       reason.textContent = entry.reasons.join("; ");
       const detail = document.createElement("button");
       detail.className = "counter-detail-link";
-      detail.textContent = "Items + skill tips";
+      detail.textContent = "How to beat them: items + skill tips";
       detail.addEventListener("click", () => renderHeroDetail(entry.id));
       item.append(title, reason, detail);
       list.appendChild(item);
     }
   }
 
-  // Render one hero's items + skill tips under the results.
+  // One hero's items + skill tips: how to beat the enemy.
   function renderHeroDetail(id) {
-    const hero = state.heroes.find((h) => h.id === id);
+    const hero = heroById(id);
     if (!hero) return;
     let panel = document.querySelector(".hero-detail");
     if (!panel) {
@@ -77,7 +201,7 @@
     panel.innerHTML = "";
     const title = document.createElement("h3");
     title.className = "hero-detail-title";
-    title.textContent = hero.name + " — items & skill tips";
+    title.textContent = hero.name + " — how to beat them";
     panel.appendChild(title);
     for (const entry of hero.counterItems || []) {
       const line = document.createElement("p");
@@ -93,68 +217,24 @@
     }
   }
 
-  // Boot: load data, then paint the grid.
+  // Side toggle: taps add to the active team.
+  function wireSideToggle() {
+    const buttons = document.querySelectorAll(".side-toggle");
+    for (const button of buttons) {
+      button.addEventListener("click", () => {
+        state.side = button.dataset.side;
+        for (const other of buttons) {
+          other.classList.toggle("side-toggle-active", other === button);
+        }
+      });
+    }
+  }
+
+  // Boot: load data, then paint pool and board.
+  wireSideToggle();
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
-    renderGrid();
-  });
-})();
-
-// synergy: second grid pair reusing the same hero data + suggestSynergy.
-(function synergy() {
-  const allies = [];
-  const enemies = [];
-  let heroes = [];
-
-  function paintGrid(selector, picked, onClick) {
-    const grid = document.querySelector(selector);
-    if (!grid) return;
-    grid.innerHTML = "";
-    for (const hero of heroes) {
-      const card = document.createElement("button");
-      card.className = "hero-card" + (picked.includes(hero.id) ? " hero-card-selected" : "");
-      card.textContent = hero.name;
-      card.addEventListener("click", () => onClick(hero.id));
-      grid.appendChild(card);
-    }
-  }
-
-  function refresh() {
-    paintGrid(".synergy-grid-allies", allies, (id) => {
-      const i = allies.indexOf(id);
-      if (i >= 0) allies.splice(i, 1);
-      else if (allies.length < 4) allies.push(id);
-      refresh();
-    });
-    paintGrid(".synergy-grid-enemies", enemies, (id) => {
-      const i = enemies.indexOf(id);
-      if (i >= 0) enemies.splice(i, 1);
-      else if (enemies.length < 5) enemies.push(id);
-      refresh();
-    });
-    const badge = document.querySelector(".synergy-badge");
-    const prompt = document.querySelector(".synergy-prompt");
-    if (!badge) return;
-    if (allies.length === 0 || enemies.length === 0) {
-      badge.hidden = true;
-      if (prompt) prompt.hidden = false;
-      return;
-    }
-    const pick = window.DotaCounter.suggestSynergy(allies, enemies, heroes);
-    if (prompt) prompt.hidden = true;
-    badge.hidden = false;
-    if (pick) {
-      const parts = ["Suggested next pick: " + pick.name + " (+" + pick.score + ")."];
-      if (pick.synergyNote) parts.push(pick.synergyNote);
-      if (pick.reasons && pick.reasons.length > 0) parts.push(pick.reasons.join("; "));
-      badge.textContent = parts.join(" ");
-    } else {
-      badge.textContent = "No suggestion — rosters cover every counter.";
-    }
-  }
-
-  window.DotaCounter.loadData().then((data) => {
-    heroes = data.heroes;
-    refresh();
+    renderPool();
+    renderBoard();
   });
 })();

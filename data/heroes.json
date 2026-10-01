@@ -2,28 +2,203 @@
   {
     "id": "axe",
     "name": "Axe",
+    "attribute": "strength",
     "role": "initiator",
-    "image": "assets/heroes/axe.png",
-    "counters": [{ "hero": "lion", "reason": "Hex pierces Berserker's Call" }],
-    "counterItems": [{ "item": "blade-mail", "when": "Reflect burst vs squishy supports" }],
-    "skillTips": ["Blink in after the enemy support shows"]
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/axe.png",
+    "counters": [
+      { "hero": "juggernaut", "reason": "Berserker's Call pierces Blade Fury and locks him during Omnislash" },
+      { "hero": "phantom_assassin", "reason": "Call plus Counter Helix shreds her low base health" },
+      { "hero": "sniper", "reason": "Blink Call jumps his backline before the team peels" }
+    ],
+    "counterItems": [
+      { "item": "blade-mail", "when": "Reflect burst when Called targets focus you" },
+      { "item": "blink-dagger", "when": "Call initiations before enemies scatter" }
+    ],
+    "skillTips": ["Save Call for the enemy carry's big spell or escape", "Spin with Counter Helix by drawing auto-attacks in lane"]
   },
   {
     "id": "lion",
     "name": "Lion",
+    "attribute": "intelligence",
     "role": "support",
-    "image": "assets/heroes/lion.png",
-    "counters": [{ "hero": "juggernaut", "reason": "Hex and Earth Spike pierce Blade Fury" }],
-    "counterItems": [{ "item": "blink-dagger", "when": "To initiate on Omnislash" }],
-    "skillTips": ["Save Hex for Blade Fury spin"]
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lion.png",
+    "counters": [
+      { "hero": "juggernaut", "reason": "Hex and Earth Spike pierce Blade Fury spin" },
+      { "hero": "enigma", "reason": "Instant Hex cancels Black Hole channel" },
+      { "hero": "phantom_assassin", "reason": "Double disables plus Finger burst delete her before crits land" }
+    ],
+    "counterItems": [
+      { "item": "blink-dagger", "when": "Hex the Black Hole or Omnislash from fog" },
+      { "item": "force-staff", "when": "Reposition allies out of Call and Ravage" }
+    ],
+    "skillTips": ["Hold Hex for the channel or escape, never open with it", "Stack Earth Spike after Hex for the full disable chain"]
   },
   {
     "id": "juggernaut",
     "name": "Juggernaut",
+    "attribute": "agility",
     "role": "carry",
-    "image": "assets/heroes/juggernaut.png",
-    "counters": [{ "hero": "axe", "reason": "Berserker's Call locks him during Omnislash" }],
-    "counterItems": [{ "item": "black-king-bar", "when": "To ignore Lion's disables in fights" }],
-    "skillTips": ["Spin to dodge Berserker's Call timing"]
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/juggernaut.png",
+    "counters": [
+      { "hero": "crystal_maiden", "reason": "Spin plus Omnislash run down her slow, squishy support" },
+      { "hero": "sniper", "reason": "Blade Fury closes the range gap and Healing Ward out-sustains Shrapnel" },
+      { "hero": "drow_ranger", "reason": "Magic-immune spin ignores Gust silence and runs her down" }
+    ],
+    "counterItems": [
+      { "item": "black-king-bar", "when": "Ignore Lion Hex and Ravage during Omnislash" },
+      { "item": "manta-style", "when": "Dispel slows and split-push against Tidehunter lineups" }
+    ],
+    "skillTips": ["Spin offensively to dodge Call timing, not just to escape", "Ward before Omnislash so the target cannot hide in fog"]
+  },
+  {
+    "id": "phantom_assassin",
+    "name": "Phantom Assassin",
+    "attribute": "agility",
+    "role": "carry",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/phantom_assassin.png",
+    "counters": [
+      { "hero": "sniper", "reason": "Phantom Strike jumps his range advantage and crits burst him" },
+      { "hero": "drow_ranger", "reason": "Gap close plus Blur dodge beats her stand-and-shoot" },
+      { "hero": "crystal_maiden", "reason": "Jump, silence the Frostbite, delete the support first" }
+    ],
+    "counterItems": [
+      { "item": "black-king-bar", "when": "Stop Lion Hex and Earthshaker Echo mid-jump" },
+      { "item": "satanic", "when": "Out-lifesteal Axe Call focus and Tidehunter Anchor Smash" }
+    ],
+    "skillTips": ["Enter after Call and Ravage are spent, never first", "Blur up before jumping Sniper so the first shots miss"]
+  },
+  {
+    "id": "crystal_maiden",
+    "name": "Crystal Maiden",
+    "attribute": "intelligence",
+    "role": "support",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/crystal_maiden.png",
+    "counters": [
+      { "hero": "sven", "reason": "Frostbite roots the melee carry so the team kites him" },
+      { "hero": "enigma", "reason": "Instant Frostbite cancels Black Hole from safety" }
+    ],
+    "counterItems": [
+      { "item": "glimmer-cape", "when": "Hide allies from Pudge hooks and PA jumps" },
+      { "item": "force-staff", "when": "Break Sven Storm Hammer range and push allies out" }
+    ],
+    "skillTips": ["Hold Frostbite for Black Hole and Storm Hammer, not lane harass", "Freezing Field only after enemy jumps are down"]
+  },
+  {
+    "id": "sven",
+    "name": "Sven",
+    "attribute": "strength",
+    "role": "carry",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sven.png",
+    "counters": [
+      { "hero": "drow_ranger", "reason": "Storm Hammer plus God's Strength bursts her before Gust matters" },
+      { "hero": "crystal_maiden", "reason": "Stun and cleave delete the squishy support in one combo" },
+      { "hero": "sniper", "reason": "Blink stun closes range and cleave ignores Take Aim distance" }
+    ],
+    "counterItems": [
+      { "item": "black-king-bar", "when": "God's Strength through Lion and Tidehunter disables" },
+      { "item": "blink-dagger", "when": "Storm Hammer the backline before Glimmer saves them" }
+    ],
+    "skillTips": ["Pop God's Strength after the enemy support shows, not before", "Warcry before jumping so slows do not strand you"]
+  },
+  {
+    "id": "drow_ranger",
+    "name": "Drow Ranger",
+    "attribute": "agility",
+    "role": "carry",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/drow_ranger.png",
+    "counters": [
+      { "hero": "enigma", "reason": "Long-range silence cancels Black Hole before it starts" },
+      { "hero": "tidehunter", "reason": "Gust plus range kites the melee initiator off Ravage angles" },
+      { "hero": "crystal_maiden", "reason": "Range and silence bully the slow support out of lane" }
+    ],
+    "counterItems": [
+      { "item": "manta-style", "when": "Dispel Lion Hex setup and dodge Pudge hooks with illusions" },
+      { "item": "black-king-bar", "when": "Stand through Ravage and Echo to keep shooting" }
+    ],
+    "skillTips": ["Save Gust for the Black Hole and Blink initiations", "Never stand still against Axe: keep Call range in mind"]
+  },
+  {
+    "id": "pudge",
+    "name": "Pudge",
+    "attribute": "strength",
+    "role": "initiator",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pudge.png",
+    "counters": [
+      { "hero": "sniper", "reason": "Hook drags the immobile shooter into Rot and Dismember" },
+      { "hero": "crystal_maiden", "reason": "Hook through fog punishes her slow, ward-dependent positioning" },
+      { "hero": "drow_ranger", "reason": "Hook breaks her range comfort and Rot slows the escape" }
+    ],
+    "counterItems": [
+      { "item": "blink-dagger", "when": "Blink Dismember the Lion before Hex lands" },
+      { "item": "blade-mail", "when": "Punish Phantom Assassin and Sven for focusing you" }
+    ],
+    "skillTips": ["Hook the Sniper the moment Take Aim channels, not earlier", "Rot toggle discipline: never die to your own Rot under Ravage"]
+  },
+  {
+    "id": "earthshaker",
+    "name": "Earthshaker",
+    "attribute": "strength",
+    "role": "initiator",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/earthshaker.png",
+    "counters": [
+      { "hero": "phantom_assassin", "reason": "Echo Slam scales on her grouped team and deletes her" },
+      { "hero": "sven", "reason": "Fissure kites God's Strength duration out, Echo punishes cleave clumps" },
+      { "hero": "drow_ranger", "reason": "Blink Echo reaches the backline she hides in" }
+    ],
+    "counterItems": [
+      { "item": "blink-dagger", "when": "Core item: Echo without Blink almost never lands" },
+      { "item": "aghanims-blessing", "when": "Second Echo wave against Tidehunter and Enigma clusters" }
+    ],
+    "skillTips": ["Hold Echo for the clump, never solo-Echo the Axe", "Fissure the Sven charge path, not the Sven himself"]
+  },
+  {
+    "id": "sniper",
+    "name": "Sniper",
+    "attribute": "agility",
+    "role": "carry",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sniper.png",
+    "counters": [
+      { "hero": "enigma", "reason": "Extreme range harasses the jungler and Shrapnel spots Midnight setups" },
+      { "hero": "tidehunter", "reason": "Keeps distance on the melee initiator and headshots the Blink approach" },
+      { "hero": "lion", "reason": "Range advantage keeps the short-range disabler out of Hex range" }
+    ],
+    "counterItems": [
+      { "item": "hurricane-pike", "when": "Push away Axe Call and Pudge Rot follow-ups" },
+      { "item": "black-king-bar", "when": "Assassinate through Lion and Tidehunter combo chains" }
+    ],
+    "skillTips": ["Position behind the Tidehunter, never beside him", "Assassinate the Enigma first if Black Hole is up"]
+  },
+  {
+    "id": "tidehunter",
+    "name": "Tidehunter",
+    "attribute": "strength",
+    "role": "initiator",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tidehunter.png",
+    "counters": [
+      { "hero": "sven", "reason": "Anchor Smash drains his damage and Ravage stops God's Strength" },
+      { "hero": "juggernaut", "reason": "Ravage plus Kraken Shell control the spin fight" },
+      { "hero": "axe", "reason": "Thick targets plus Ravage punish Call initiations" }
+    ],
+    "counterItems": [
+      { "item": "blink-dagger", "when": "Blink Ravage before Lion and Sniper spread out" },
+      { "item": "pipe-of-insight", "when": "Shield the team against Lion Finger and Enigma Pulse" }
+    ],
+    "skillTips": ["Blink Ravage the Sniper pocket first, the rest follows", "Anchor Smash the Sven the moment God's Strength pops"]
+  },
+  {
+    "id": "enigma",
+    "name": "Enigma",
+    "attribute": "universal",
+    "role": "initiator",
+    "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/enigma.png",
+    "counters": [
+      { "hero": "sven", "reason": "Black Hole holds God's Strength down for the full duration" },
+      { "hero": "pudge", "reason": "Eidolons pressure and Midnight Pulse melts his huge health pool" }
+    ],
+    "counterItems": [
+      { "item": "blink-dagger", "when": "Blink Black Hole before Lion and Sniper react" },
+      { "item": "black-king-bar", "when": "Channel through Lion Hex and Sniper headshot flinch" }
+    ],
+    "skillTips": ["Black Hole the Sven, not the Tidehunter: Shell wastes half of it", "Show on lane to bait, then Blink Hole the counter-gank"]
   }
 ]

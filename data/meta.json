@@ -1,5 +1,10 @@
 {
-  "patch": "7.39",
-  "tiers": { "S": ["axe"], "A": ["lion"], "B": ["juggernaut"], "C": [] },
-  "updatedAt": "2026-09-30"
+  "patch": "7.41",
+  "tiers": {
+    "S": ["axe", "juggernaut"],
+    "A": ["lion", "phantom_assassin", "tidehunter"],
+    "B": ["sven", "earthshaker", "sniper", "drow_ranger", "enigma", "pudge", "crystal_maiden"],
+    "C": []
+  },
+  "updatedAt": "2026-10-01"
 }

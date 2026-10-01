@@ -1,28 +1,299 @@
-/* Base layout — semantic class names, full words only. */
-.site-header { max-width: 960px; margin: 0 auto; padding: 16px; }
-.site-title { font-size: 28px; margin: 0; }
-.patch-label { color: #666; }
-.site-nav { display: flex; gap: 12px; margin-top: 8px; }
-.nav-link { text-decoration: none; }
-.picker-view { max-width: 960px; margin: 0 auto; padding: 16px; }
-.section-title { font-size: 20px; }
-.hero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
-.hero-card { border: 1px solid #ccc; border-radius: 8px; padding: 8px; text-align: center; cursor: pointer; }
-.hero-card-selected { outline: 2px solid #2f81f7; }
-.counter-list { display: flex; flex-direction: column; gap: 8px; }
-.counter-reason { color: #444; }
-.empty-prompt { color: #666; }
-.offline-note { max-width: 960px; margin: 0 auto; padding: 8px 16px; color: #8a5a00; }
-.synergy-view { margin-top: 24px; }
-.synergy-teams { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.synergy-subtitle { font-size: 16px; }
-.synergy-result { margin-top: 12px; }
-.synergy-badge { border: 1px solid #2f81f7; border-radius: 8px; padding: 8px; }
-.synergy-prompt { color: #666; }
-.meta-view { max-width: 960px; margin: 0 auto; padding: 16px; }
-.meta-updated { color: #666; }
-.tier-list { display: flex; flex-direction: column; gap: 8px; }
-.tier-row { border: 1px solid #ccc; border-radius: 8px; padding: 8px; display: flex; gap: 12px; }
-.tier-label { min-width: 64px; }
-.tier-members { color: #333; }
-.hero-name { font-size: 14px; }
+/* DotaCounter theme: Dota client-inspired dark board.
+   Semantic class names, full words only. One component, one block. */
+
+:root {
+  --page: #14100b;
+  --panel: #1e1812;
+  --panel-edge: #3a2f22;
+  --gold: #c8a45c;
+  --ink: #e8ddc9;
+  --ink-dim: #a99e86;
+  --radiant: #6fae5a;
+  --dire: #c05a4a;
+  --str: #c0564d;
+  --agi: #7bb661;
+  --int: #6a9fd8;
+  --uni: #c8a45c;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  margin: 0;
+}
+
+/* Top bar: title, patch, tabs. */
+.top-bar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+  border-bottom: 1px solid var(--panel-edge);
+}
+.site-title {
+  font-size: 30px;
+  margin: 0;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.patch-label {
+  color: var(--ink-dim);
+  margin: 4px 0 0;
+}
+.site-nav {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.nav-link {
+  color: var(--ink-dim);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+}
+.nav-link-active {
+  color: var(--ink);
+  border-color: var(--gold);
+}
+
+/* Draft page frame. */
+.draft-view {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.section-title {
+  font-size: 20px;
+  color: var(--gold);
+  margin: 0 0 12px;
+}
+.pool-section,
+.draft-board,
+.win-section,
+.counter-results {
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+/* Side switch: which team taps add to. */
+.side-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.side-switch-label {
+  color: var(--ink-dim);
+}
+.side-toggle {
+  background: var(--page);
+  color: var(--ink-dim);
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+.side-toggle-radiant.side-toggle-active {
+  border-color: var(--radiant);
+  color: var(--radiant);
+}
+.side-toggle-dire.side-toggle-active {
+  border-color: var(--dire);
+  color: var(--dire);
+}
+
+/* Hero pool: attribute titles in client colors, portrait grid. */
+.pool-group-title {
+  font-size: 16px;
+  margin: 16px 0 8px;
+}
+.pool-group-strength {
+  color: var(--str);
+}
+.pool-group-agility {
+  color: var(--agi);
+}
+.pool-group-intelligence {
+  color: var(--int);
+}
+.pool-group-universal {
+  color: var(--uni);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 8px;
+}
+.hero-card {
+  background: var(--page);
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+  padding: 4px;
+  cursor: grab;
+  color: var(--ink);
+}
+.hero-card:hover {
+  border-color: var(--gold);
+}
+.hero-portrait {
+  width: 100%;
+  display: block;
+  border-radius: 2px;
+}
+.hero-name {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Draft board: two teams of five slots. */
+.draft-teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.draft-team-name {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+.draft-team-radiant .draft-team-name {
+  color: var(--radiant);
+}
+.draft-team-dire .draft-team-name {
+  color: var(--dire);
+}
+.draft-slots {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.draft-slot {
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+  padding: 4px;
+  min-height: 64px;
+  cursor: pointer;
+}
+.draft-slot-empty {
+  border-style: dashed;
+  color: var(--ink-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+.draft-hint {
+  color: var(--ink-dim);
+  margin: 12px 0 0;
+}
+
+/* Win estimate bar: green fills from the left, red shows through. */
+.win-bar {
+  background: var(--dire);
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+  height: 24px;
+  overflow: hidden;
+}
+.win-bar-fill-radiant {
+  background: var(--radiant);
+  height: 100%;
+  width: 50%;
+}
+.win-bar-label {
+  font-size: 18px;
+  margin: 8px 0;
+}
+.win-reasons {
+  margin: 0;
+  padding-left: 20px;
+}
+.win-reason {
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* Counter list and hero detail. */
+.empty-prompt {
+  color: var(--ink-dim);
+}
+.counter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.counter-entry {
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+  padding: 8px;
+}
+.counter-name {
+  color: var(--gold);
+}
+.counter-reason {
+  color: var(--ink);
+  margin: 4px 0;
+}
+.counter-detail-link {
+  background: none;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.hero-detail {
+  margin-top: 12px;
+  border-top: 1px solid var(--panel-edge);
+  padding-top: 12px;
+}
+.hero-detail-title {
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+.hero-detail-item,
+.hero-detail-tip {
+  margin: 4px 0;
+}
+
+/* Meta today page. */
+.meta-view {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.meta-updated {
+  color: var(--ink-dim);
+}
+.tier-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tier-row {
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  gap: 12px;
+}
+.tier-label {
+  min-width: 64px;
+  color: var(--gold);
+}
+.tier-members {
+  color: var(--ink);
+}
+
+/* Offline note. */
+.offline-note {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  color: var(--gold);
+}

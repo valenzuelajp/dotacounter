@@ -20,9 +20,12 @@ function assertEqual(actual, expected, name) {
 
 const heroes = JSON.parse(fs.readFileSync(__dirname + "/../data/heroes.json", "utf8"));
 
-// Lion counters juggernaut directly (+2) => lion must rank first.
+// Axe and Lion both counter juggernaut (+2 each) => alphabetical tiebreak.
+// (With the old 3-hero seed this was lion alone; the 12-hero pool ties.)
 const ranked = scoreCounters(["juggernaut"], heroes);
-assertEqual(ranked[0].id, "lion", "direct counter ranks first");
+assertEqual(ranked[0].id, "axe", "tied counters break alphabetically");
+assertEqual(ranked[1].id, "lion", "second tied counter follows");
+assertEqual(ranked[0].score, 2, "tie is at +2");
 assertEqual(ranked[0].score >= 2, true, "direct counter scores +2");
 
 // Empty picks => empty ranking, never an error.
@@ -35,3 +38,24 @@ assertEqual(tied, [...tied].sort(), "ties broken alphabetically");
 // Synergy: ally axe + enemy juggernaut => lion suggested (counters juggernaut).
 const pick = suggestSynergy(["axe"], ["juggernaut"], heroes);
 assertEqual(pick.id, "lion", "synergy suggests the counter the team needs");
+
+// winEstimate: empty draft is 50/50 with no reasons.
+const { winEstimate } = context.window.DotaCounter;
+assertEqual(winEstimate([], [], heroes), { radiant: 50, dire: 50, reasons: [] }, "empty draft is 50/50");
+
+// Axe (radiant) counters Juggernaut (dire): +4% radiant, one reason.
+const w1 = winEstimate(["axe"], ["juggernaut"], heroes);
+assertEqual(w1.radiant, 54, "axe vs juggernaut favors radiant by 4");
+assertEqual(w1.dire, 46, "dire is the mirror of radiant");
+assertEqual(w1.reasons.length, 1, "one reason per counter hit");
+
+// Radiant Lion+Axe vs Dire Juggernaut+Phantom Assassin: 4 hits (+16) capped at +15.
+const w2 = winEstimate(["lion", "axe"], ["juggernaut", "phantom_assassin"], heroes);
+assertEqual(w2.radiant, 65, "shift capped at +15");
+assertEqual(w2.dire, 35, "dire mirrors the cap");
+assertEqual(w2.reasons.length >= 4, true, "every hit explained");
+
+// Balanced roles add 2%: radiant Axe+Lion (initiator+support) vs lone Juggernaut.
+// +4 (axe>jugg) +4 (lion>jugg) +2 (radiant role coverage) = 60.
+const w3 = winEstimate(["axe", "lion"], ["juggernaut"], heroes);
+assertEqual(w3.radiant, 60, "counter hits plus role coverage");

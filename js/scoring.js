@@ -49,3 +49,45 @@ window.DotaCounter.suggestSynergy = function suggestSynergy(allyIds, enemyIds, h
   candidates.sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : 1));
   return candidates[0];
 };
+
+// Estimate win chance from the full draft (both teams as arrays of ids).
+// Base 50/50; each direct counter hit shifts 4% toward the counter's team;
+// each pick filling its own team's missing role shifts 2% that way.
+// Total shift capped at 15%, so output stays within 15-85 ("estimated").
+// Returns { radiant, dire, reasons[] } with one plain sentence per shift.
+window.DotaCounter.winEstimate = function winEstimate(radiantIds, direIds, heroes) {
+  const byId = Object.fromEntries(heroes.map((h) => [h.id, h]));
+  const inTeam = (list, id) => list.includes(id);
+  let shift = 0; // positive favors Radiant, negative favors Dire.
+  const reasons = [];
+
+  // Counter hits: every hero's counter list checked against both teams.
+  for (const hero of heroes) {
+    for (const counter of hero.counters || []) {
+      if (inTeam(radiantIds, hero.id) && inTeam(direIds, counter.hero)) {
+        shift += 4;
+        reasons.push(hero.name + " counters " + (byId[counter.hero] ? byId[counter.hero].name : counter.hero) + " (+4% Radiant): " + counter.reason);
+      } else if (inTeam(direIds, hero.id) && inTeam(radiantIds, counter.hero)) {
+        shift -= 4;
+        reasons.push(hero.name + " counters " + (byId[counter.hero] ? byId[counter.hero].name : counter.hero) + " (+4% Dire): " + counter.reason);
+      }
+    }
+  }
+
+  // Role coverage: a side covering 2+ distinct roles is a balanced draft.
+  const rolesOf = (ids) => new Set(ids.map((id) => byId[id] && byId[id].role).filter(Boolean));
+  const radiantRoles = rolesOf(radiantIds);
+  const direRoles = rolesOf(direIds);
+  if (radiantRoles.size >= 2) {
+    shift += 2;
+    reasons.push("Radiant covers roles (" + [...radiantRoles].join(", ") + ") (+2% Radiant)");
+  }
+  if (direRoles.size >= 2) {
+    shift -= 2;
+    reasons.push("Dire covers roles (" + [...direRoles].join(", ") + ") (+2% Dire)");
+  }
+
+  if (shift > 15) shift = 15;
+  if (shift < -15) shift = -15;
+  return { radiant: 50 + shift, dire: 50 - shift, reasons };
+};
