@@ -203,8 +203,8 @@
     }
     if (prompt) prompt.hidden = true;
     const ranked = view.supportMode
-      ? window.DotaCounter.scoreCounters(state.dire, view.scorePool)
-      : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool);
+      ? window.DotaCounter.scoreCounters(state.dire, view.scorePool, state.matchups)
+      : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool, state.matchups);
     renderSupportChips(view);
     if (ranked.length === 0) {
       const empty = document.createElement("p");
@@ -216,12 +216,22 @@
     for (const entry of ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
+      const hero = view.scorePool.find((h) => h.id === entry.id);
+      if (hero) {
+        const img = document.createElement("img");
+        img.className = "hero-portrait counter-portrait";
+        img.src = hero.image;
+        img.alt = entry.name;
+        img.onerror = () => { img.onerror = null; img.src = "./assets/heroes/placeholder.png"; };
+        item.appendChild(img);
+      }
       const title = document.createElement("strong");
       title.className = "counter-name";
       title.textContent = entry.name + " (+" + entry.score + ")";
       const reason = document.createElement("p");
       reason.className = "counter-reason";
-      reason.textContent = entry.reasons.join("; ");
+      // Top 2 reasons only; the detail panel has the full story.
+      reason.textContent = entry.reasons.slice(0, 2).join("; ");
       const detail = document.createElement("button");
       detail.className = "counter-detail-link";
       detail.textContent = "How to beat them: items + skill tips";

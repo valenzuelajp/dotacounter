@@ -1,11 +1,28 @@
-// scoring: +2 per direct counter hit, +1 per role-synergy hit,
-// alphabetical tiebreak. Deterministic and explainable.
+// scoring: +2 per curated counter hit plus a shrunk pub-data edge per
+// enemy, alphabetical tiebreak. Deterministic and explainable.
+// The edge is percentage points above 50%, pulled toward 0 when the
+// sample is small (K=50 games of imaginary 50/50 prior). Matchup tables
+// come from data/matchups.json "matchups" (OpenDota pairwise stats).
 window.DotaCounter = window.DotaCounter || {};
 
+// One matchup cell: { edge, games, wins, rate } or null when no data.
+// "wins" are the candidate's wins vs the enemy.
+window.DotaCounter.matchupEdge = function matchupEdge(candidateId, enemyId, matchups, prior) {
+  const K = prior === undefined ? 50 : prior;
+  const table = (matchups && matchups.matchups && matchups.matchups[candidateId]) || null;
+  const cell = (table && table[enemyId]) || null;
+  if (!cell || !(cell.games > 0)) return null;
+  const edge = Math.round((100 * (cell.wins - cell.games / 2)) / (cell.games + K));
+  const rate = Math.round((cell.wins / cell.games) * 1000) / 10;
+  return { edge, games: cell.games, wins: cell.wins, rate };
+};
+
 // Rank every hero against the enemy picks (array of hero ids).
+// matchups is optional: without it only curated hits score.
 // Returns [{ id, name, score, reasons[] }] sorted best-first, zeroes dropped.
-window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes) {
+window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matchups) {
   const enemies = new Set(enemyIds);
+  const names = Object.fromEntries(heroes.map((h) => [h.id, h.name]));
   const ranked = [];
 
   for (const hero of heroes) {
@@ -15,6 +32,13 @@ window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes) {
       if (enemies.has(counter.hero)) {
         score += 2;
         reasons.push(counter.reason);
+      }
+    }
+    for (const enemy of enemies) {
+      const m = window.DotaCounter.matchupEdge(hero.id, enemy, matchups);
+      if (m && m.edge !== 0) {
+        score += m.edge;
+        reasons.push(m.rate + "% over " + m.games + " games vs " + (names[enemy] || enemy));
       }
     }
     if (score > 0) {
@@ -76,14 +100,14 @@ window.DotaCounter.applyRoleProfile = function applyRoleProfile(profile, radiant
 // entered enemy supports, merged with full-pool counters vs the whole Dire
 // draft. Focused reasons are tagged. Empty supports or unknown profile fall
 // back to the general ranking. Returns ranked best-first.
-window.DotaCounter.roleAnswers = function roleAnswers(profile, enemySupportIds, direIds, heroes) {
+window.DotaCounter.roleAnswers = function roleAnswers(profile, enemySupportIds, direIds, heroes, matchups) {
   const lanes = { carry: ["carry"], mid: ["mid"], offlane: ["offlane", "initiator"] };
-  const general = window.DotaCounter.scoreCounters(direIds, heroes);
+  const general = window.DotaCounter.scoreCounters(direIds, heroes, matchups);
   const lanesFor = lanes[profile];
   if (!lanesFor || enemySupportIds.length === 0) return general;
 
   const pool = heroes.filter((h) => lanesFor.includes(h.role));
-  const focused = window.DotaCounter.scoreCounters(enemySupportIds, pool);
+  const focused = window.DotaCounter.scoreCounters(enemySupportIds, pool, matchups);
   const merged = new Map();
   for (const entry of general) {
     merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, reasons: entry.reasons.slice() });
