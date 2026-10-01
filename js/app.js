@@ -64,13 +64,14 @@
       column.appendChild(grid);
       pool.appendChild(column);
     }
-    // Show the typed letters so there is feedback without a text field.
+    // Show the typed letters so there is feedback; the search box
+    // carries the full instructions in its placeholder.
     const hint = document.querySelector(".pool-query-hint");
     if (hint) {
       hint.textContent =
         state.query === ""
-          ? "Type to filter heroes — Backspace deletes, Esc clears."
-          : 'Filtering: "' + state.query + '" — Backspace deletes, Esc clears.';
+          ? "Tap an enemy to add them."
+          : 'Filtering: "' + state.query + '".';
     }
   }
 
