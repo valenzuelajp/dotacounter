@@ -39,14 +39,44 @@ assertEqual(tied, [...tied].sort(), "ties broken alphabetically");
 // Axe vs Juggernaut is 60/117: 100 * 1.5 / 217 = 150/217 (decimal, K=100).
 const { matchupEdge } = context.window.DotaCounter;
 const bakedTables = JSON.parse(fs.readFileSync(__dirname + "/../data/matchups.json", "utf8"));
+// Axe vs Juggernaut is 60/117 at 51.3% observed; axe rates 50.6% overall
+// vs juggernaut's 52.5%, so expected is ~48.1% and the edge is positive.
+const axeEdge = matchupEdge("axe", "juggernaut", bakedTables);
 assertEqual(
-  matchupEdge("axe", "juggernaut", bakedTables),
-  { edge: 150 / 217, games: 117, wins: 60, rate: 51.3, lowSample: false },
+  { games: axeEdge.games, wins: axeEdge.wins, rate: axeEdge.rate, lowSample: axeEdge.lowSample },
+  { games: 117, wins: 60, rate: 51.3, lowSample: false },
   "axe holds a small shrunk edge vs juggernaut"
 );
+assertEqual(Math.round(axeEdge.edge * 1000) / 1000, 1.695, "axe edge value matches the formula");
 const thin = matchupEdge("antimage", "hoodwink", bakedTables);
 assertEqual(thin.lowSample, true, "29-game pair is flagged low sample");
 assertEqual(thin.edge !== 0, true, "thin pair still scores (shrunk, not dropped)");
+
+// Matchup-specific scoring on synthetic tables: a 60% overall hero going
+// 50/50 (100/200) vs a 40% hero is BELOW expectation (0.6 + 0.1 = 0.7),
+// so the edge is negative — general strength earns no bonus.
+const { overallRate } = context.window.DotaCounter;
+const synth = {
+  heroes: { strong: { games: 1000, wins: 600 }, weak: { games: 1000, wins: 400 } },
+  matchups: {
+    strong: { weak: { games: 200, wins: 100 } },
+    weak: { strong: { games: 200, wins: 100 } },
+  },
+};
+assertEqual(overallRate("nobody", synth), 0.5, "unknown hero rates 0.5");
+const strongEdge = matchupEdge("strong", "weak", synth);
+assertEqual(strongEdge.edge < 0, true, "strong hero gets no bonus for general strength");
+const weakEdge = matchupEdge("weak", "strong", synth);
+assertEqual(weakEdge.edge > 0, true, "underdog beating expectation scores positive");
+const thinSynth = {
+  heroes: synth.heroes,
+  matchups: { strong: { weak: { games: 20, wins: 10 } } },
+};
+assertEqual(
+  Math.abs(matchupEdge("strong", "weak", thinSynth).edge) < Math.abs(strongEdge.edge),
+  true,
+  "same gap with fewer games shrinks the edge"
+);
 assertEqual(matchupEdge("axe", "no_such_hero", bakedTables), null, "unknown enemy is null");
 assertEqual(matchupEdge("axe", "juggernaut", {}), null, "missing tables are null");
 

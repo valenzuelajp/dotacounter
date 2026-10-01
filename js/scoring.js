@@ -2,9 +2,9 @@
 // enemy. Scores stay decimal for ranking (rounded only for display);
 // ties break by total games, then name. Deterministic and explainable.
 // The edge is percentage points above 50%, pulled toward 0 when the
-// sample is small (MATCHUP_SHRINK_K games of imaginary 50/50 prior).
-// Matchup tables come from data/matchups.json "matchups" (OpenDota
-// pairwise stats).
+// sample is small (MATCHUP_SHRINK_K games of imaginary prior at the
+// expected rate). Matchup tables come from data/matchups.json "matchups"
+// (OpenDota pairwise stats); overall rates from "heroes" (same source).
 window.DotaCounter = window.DotaCounter || {};
 
 // Shrinkage strength: higher K pulls small-sample edges harder to 0.
@@ -14,15 +14,29 @@ window.DotaCounter.MATCHUP_SHRINK_K = 100;
 // scoring still uses them (shrunk), but the display says they are thin.
 window.DotaCounter.LOW_SAMPLE_GAMES = 30;
 
+// Overall pub win rate of one hero (0..1), 0.5 when the hero has no data.
+window.DotaCounter.overallRate = function overallRate(heroId, matchups) {
+  const entry = (matchups && matchups.heroes && matchups.heroes[heroId]) || null;
+  if (!entry || !(entry.games > 0)) return 0.5;
+  return entry.wins / entry.games;
+};
+
 // One matchup cell: { edge, games, wins, rate, lowSample } or null.
-// "wins" are the candidate's wins vs the enemy. Edge is a decimal.
+// "wins" are the candidate's wins vs the enemy. Edge is a decimal:
+// observed rate minus the expected rate (candidate's overall strength
+// adjusted for the enemy's), shrunk toward 0. A strong hero gets no
+// bonus just for being strong; the score measures the matchup itself.
 window.DotaCounter.matchupEdge = function matchupEdge(candidateId, enemyId, matchups, prior) {
   const K = prior === undefined ? window.DotaCounter.MATCHUP_SHRINK_K : prior;
   const table = (matchups && matchups.matchups && matchups.matchups[candidateId]) || null;
   const cell = (table && table[enemyId]) || null;
   if (!cell || !(cell.games > 0)) return null;
-  const edge = (100 * (cell.wins - cell.games / 2)) / (cell.games + K);
-  const rate = Math.round((cell.wins / cell.games) * 1000) / 10;
+  const observed = cell.wins / cell.games;
+  const expected =
+    window.DotaCounter.overallRate(candidateId, matchups) +
+    (0.5 - window.DotaCounter.overallRate(enemyId, matchups));
+  const edge = (100 * (observed - expected) * cell.games) / (cell.games + K);
+  const rate = Math.round(observed * 1000) / 10;
   return { edge, games: cell.games, wins: cell.wins, rate, lowSample: cell.games < window.DotaCounter.LOW_SAMPLE_GAMES };
 };
 
