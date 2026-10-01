@@ -1,6 +1,6 @@
 # DotaCounter
 
-Free static Dota 2 counter-pick helper. Live at `https://<user>.github.io/dotacounter/` after Pages setup.
+Free static Dota 2 counter-pick helper. Live at `https://valenzuelajp.github.io/dotacounter/` after Pages setup.
 
 Beginner docs live in the Obsidian vault: `A:/vault/dotacounter/dotacoutner/DotaCounter Wiki.md`
 (start there: how to add a hero, asset/classname rules, updating the meta).
