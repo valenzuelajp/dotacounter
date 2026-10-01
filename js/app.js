@@ -1,7 +1,8 @@
 // app: enemy-picker UI — hero pool, tap-to-add enemy drafting, counters.
 // Small functions, beginner-readable. State lives in one object.
 (function app() {
-  const ATTRIBUTE_ORDER = ["agility", "strength", "intelligence", "universal"];
+  // Client column order: Strength, Agility, Intelligence, Universal.
+  const ATTRIBUTE_ORDER = ["strength", "agility", "intelligence", "universal"];
   const ATTRIBUTE_LABELS = {
     strength: "Strength",
     agility: "Agility",
@@ -31,19 +32,22 @@
     return state.heroes.find((h) => h.id === id);
   }
 
-  // Render the pool as one vertical column per attribute, owner order:
-  // agility first. A typed query never hides heroes: matches glow,
-  // the rest turn black-and-white until the query is cleared.
+  // Render the pool as one vertical column per attribute, client order:
+  // Strength, Agility, Intelligence, Universal; alphabetical in column.
+  // A typed query never hides heroes: matches stay lit, the rest turn
+  // black-and-white until the query is cleared.
   function renderPool() {
     const pool = document.querySelector(".hero-pool");
     pool.innerHTML = "";
     const match = window.DotaCounter.matchHeroName;
     for (const attribute of ATTRIBUTE_ORDER) {
-      const group = state.heroes.filter(
-        (h) =>
-          (h.attribute || "strength") === attribute &&
-          window.DotaCounter.roleMatches(h.role, state.tab)
-      );
+      const group = state.heroes
+        .filter(
+          (h) =>
+            (h.attribute || "strength") === attribute &&
+            window.DotaCounter.roleMatches(h.role, state.tab)
+        )
+        .sort((a, b) => (a.name < b.name ? -1 : 1));
       if (group.length === 0) continue;
       const column = document.createElement("div");
       column.className = "pool-column pool-column-" + attribute;
@@ -69,8 +73,9 @@
     }
   }
 
-  // One draggable, clickable portrait card. With a query active,
-  // non-matching heroes turn black-and-white; matches glow by name.
+  // One draggable, clickable portrait card: portrait only, hero name in
+  // the hover tooltip (client style). Query matches still dim the rest;
+  // the hint line shows the typed text. Badge = baked pub hero win rate.
   function heroCard(hero) {
     const card = document.createElement("button");
     card.className = "hero-card";
@@ -78,6 +83,7 @@
       card.className = "hero-card hero-dimmed";
     }
     card.dataset.heroId = hero.id;
+    card.title = hero.name;
     card.draggable = true;
     const img = document.createElement("img");
     img.className = "hero-portrait";
@@ -88,11 +94,7 @@
       img.onerror = null;
       img.src = "./assets/heroes/placeholder.png";
     };
-    const name = document.createElement("div");
-    name.className = "hero-name";
-    // Glowing match letters; plain escaped text when there is no query.
-    name.innerHTML = window.DotaCounter.highlightName(hero.name, state.query);
-    card.append(img, name);
+    card.append(img);
     // Pub win-rate badge from baked stats; hidden when there is no data.
     const rate = window.DotaCounter.heroWinRate(hero.id, state.matchups);
     if (rate !== null) {
@@ -331,6 +333,12 @@
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
     state.matchups = data.matchups || { heroes: {} };
+    // Badge caption: baked pub rates with their date, not draft advice.
+    const stamp = document.querySelector(".pool-data-date");
+    if (stamp) {
+      stamp.textContent =
+        "Hero win rates · pub · updated " + (data.matchups.updatedAt || "unknown");
+    }
     // Role tabs: one active at a time, re-render the pool on click.
     document.querySelectorAll(".role-tab").forEach((tab) => {
       tab.addEventListener("click", () => {

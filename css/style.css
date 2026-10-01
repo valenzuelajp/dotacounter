@@ -468,7 +468,13 @@ body {
 }
 
 /* Pool role tabs: one active filter at a time. */
-.role-tabs {
+.pool-data-date {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0 0 12px;
+}.role-tabs {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
