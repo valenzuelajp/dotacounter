@@ -1,7 +1,7 @@
 // app: draft board UI — hero pool, drag+tap drafting, win estimate.
 // Small functions, beginner-readable. State lives in one object.
 (function app() {
-  const ATTRIBUTE_ORDER = ["strength", "agility", "intelligence", "universal"];
+  const ATTRIBUTE_ORDER = ["agility", "strength", "intelligence", "universal"];
   const ATTRIBUTE_LABELS = {
     strength: "Strength",
     agility: "Agility",
@@ -11,6 +11,7 @@
 
   const state = {
     heroes: [],
+    query: "", // live pool search text; "" means no filter.
     side: "radiant", // which team the next tap adds to.
     radiant: [],
     dire: [],
@@ -30,23 +31,30 @@
     return state.heroes.find((h) => h.id === id);
   }
 
-  // Render the pool grouped by attribute, in Dota client order.
+  // Render the pool as one vertical column per attribute, owner order:
+  // agility first. The live query hides non-matching heroes (and the
+  // whole column when nothing in it matches).
   function renderPool() {
     const pool = document.querySelector(".hero-pool");
     pool.innerHTML = "";
+    const match = window.DotaCounter.matchHeroName;
+    const shown = state.heroes.filter((h) => match(h.name, state.query));
     for (const attribute of ATTRIBUTE_ORDER) {
-      const group = state.heroes.filter((h) => (h.attribute || "strength") === attribute);
+      const group = shown.filter((h) => (h.attribute || "strength") === attribute);
       if (group.length === 0) continue;
+      const column = document.createElement("div");
+      column.className = "pool-column pool-column-" + attribute;
       const title = document.createElement("h3");
       title.className = "pool-group-title pool-group-" + attribute;
       title.textContent = ATTRIBUTE_LABELS[attribute];
-      pool.appendChild(title);
+      column.appendChild(title);
       const grid = document.createElement("div");
       grid.className = "hero-grid";
       for (const hero of group) {
         grid.appendChild(heroCard(hero));
       }
-      pool.appendChild(grid);
+      column.appendChild(grid);
+      pool.appendChild(column);
     }
   }
 
@@ -67,7 +75,8 @@
     };
     const name = document.createElement("div");
     name.className = "hero-name";
-    name.textContent = hero.name;
+    // Glowing match letters; plain escaped text when there is no query.
+    name.innerHTML = window.DotaCounter.highlightName(hero.name, state.query);
     card.append(img, name);
     // Tap = add to active side. Drag = drop onto a team slot.
     card.addEventListener("click", () => placeHero(hero.id, state.side));
@@ -341,6 +350,14 @@
   }
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
+    // Live search: each keystroke re-renders the pool through the filter.
+    const search = document.querySelector(".hero-search");
+    if (search) {
+      search.addEventListener("input", (event) => {
+        state.query = event.target.value;
+        renderPool();
+      });
+    }
     renderPool();
     renderBoard();
   });

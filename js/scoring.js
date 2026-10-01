@@ -142,3 +142,37 @@ window.DotaCounter.winEstimate = function winEstimate(radiantIds, direIds, heroe
   if (shift < -15) shift = -15;
   return { radiant: 50 + shift, dire: 50 - shift, reasons };
 };
+
+// Escape raw text for safe innerHTML use (search input is user-typed).
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+// True when the hero name contains the query (case-insensitive).
+// Empty query matches everything, so clearing the box restores the pool.
+window.DotaCounter.matchHeroName = function matchHeroName(name, query) {
+  const q = String(query || "").trim().toLowerCase();
+  if (q === "") return true;
+  return String(name).toLowerCase().includes(q);
+};
+
+// Name HTML with the first query match wrapped in a glowing span.
+// No match (or empty query) returns the plain escaped name.
+window.DotaCounter.highlightName = function highlightName(name, query) {
+  const safe = escapeHtml(name);
+  const q = String(query || "").trim().toLowerCase();
+  if (q === "") return safe;
+  const index = String(name).toLowerCase().indexOf(q);
+  if (index < 0) return safe;
+  return (
+    escapeHtml(String(name).slice(0, index)) +
+    '<span class="hero-name-hit">' +
+    escapeHtml(String(name).slice(index, index + q.length)) +
+    "</span>" +
+    escapeHtml(String(name).slice(index + q.length))
+  );
+};

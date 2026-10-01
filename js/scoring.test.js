@@ -92,3 +92,21 @@ assertEqual(tagged.every((r) => ["offlane", "initiator"].includes(heroes.find((h
 
 // roleAnswers: unknown profile is the general ranking, never an error.
 assertEqual(roleAnswers("coach", ["lion"], ["juggernaut"], heroes), scoreCounters(["juggernaut"], heroes), "unknown profile falls back");
+
+// matchHeroName: case-insensitive substring; empty query matches all.
+const { matchHeroName, highlightName } = context.window.DotaCounter;
+assertEqual(matchHeroName("Juggernaut", "jug"), true, "search matches start");
+assertEqual(matchHeroName("Juggernaut", "GER"), true, "search ignores case");
+assertEqual(matchHeroName("Axe", "jug"), false, "search rejects non-match");
+assertEqual(matchHeroName("Axe", "  "), true, "blank query matches all");
+
+// highlightName: wraps the first match, keeps original case, escapes HTML.
+assertEqual(
+  highlightName("Juggernaut", "ger"),
+  'Jug<span class="hero-name-hit">ger</span>naut',
+  "match glows inside the name"
+);
+assertEqual(highlightName("Axe", "jug"), "Axe", "no match returns plain name");
+assertEqual(highlightName("Axe", ""), "Axe", "empty query returns plain name");
+assertEqual(highlightName("<Axe>", "axe"), "&lt;<span class=\"hero-name-hit\">Axe</span>&gt;", "output is HTML-escaped");
+assertEqual(highlightName("Anti-Mage", "<"), "Anti-Mage", "query symbols cannot break markup");
