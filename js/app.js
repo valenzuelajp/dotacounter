@@ -357,11 +357,11 @@
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
     state.matchups = data.matchups || { heroes: {} };
-    // Badge caption: baked pub rates with their date, not draft advice.
+    // Draft caption: where the numbers come from and how fresh they are.
     const stamp = document.querySelector(".pool-data-date");
     if (stamp) {
       stamp.textContent =
-        "Hero win rates · pub · updated " + (data.matchups.updatedAt || "unknown");
+        "Source: OpenDota public matches · updated " + (data.matchups.updatedAt || "unknown");
     }
     // Win-numbers toggle: off by default, remembered nowhere.
     const ratesBox = document.querySelector(".rates-checkbox");
