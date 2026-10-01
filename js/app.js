@@ -88,8 +88,9 @@
     card.draggable = true;
     const img = document.createElement("img");
     img.className = "hero-portrait";
-    // Tall client-style art: same CDN file, _vert.jpg instead of .png.
-    img.src = hero.image.replace(/\.png$/, "_vert.jpg");
+    // Tall client-style crop via CSS (the CDN has no vertical files);
+    // the landscape art is center-cropped to portrait shape.
+    img.src = hero.image;
     img.alt = hero.name;
     img.draggable = false;
     img.onerror = () => {
@@ -144,7 +145,11 @@
     for (let slot = 0; slot < 5; slot++) {
       const id = state.dire[slot];
       const cell = document.createElement("div");
-      cell.className = "draft-slot" + (id ? "" : " draft-slot-empty");
+      cell.className = "draft-slot" + (id ? " draft-slot-filled" : "");
+      const number = document.createElement("span");
+      number.className = "draft-slot-number";
+      number.textContent = slot + 1;
+      cell.appendChild(number);
       if (id) {
         const hero = heroById(id);
         const img = document.createElement("img");
@@ -155,14 +160,9 @@
           img.onerror = null;
           img.src = "./assets/heroes/placeholder.png";
         };
-        const name = document.createElement("div");
-        name.className = "hero-name";
-        name.textContent = hero.name;
-        cell.append(img, name);
+        cell.append(img);
         cell.title = "Remove " + hero.name;
         cell.addEventListener("click", () => removeHero(id));
-      } else {
-        cell.textContent = "Empty";
       }
       // Drops from the pool land in the first free enemy slot.
       cell.addEventListener("dragover", (event) => event.preventDefault());
@@ -360,20 +360,31 @@
         renderPool();
       });
     });
+    // Visible search box and type-anywhere share one query string.
+    const searchBox = document.querySelector(".pool-search");
+    if (searchBox) {
+      searchBox.addEventListener("input", () => {
+        state.query = searchBox.value;
+        renderPool();
+      });
+    }
     // Type-to-filter: printable keys append, Backspace deletes one
-    // letter, Esc clears. No text field; the hint line shows the query.
+    // letter, Esc clears. Typing inside the box is left to the box.
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.target && event.target.classList &&
+          event.target.classList.contains("pool-search")) return;
       if (event.key === "Backspace") {
         state.query = state.query.slice(0, -1);
-        renderPool();
       } else if (event.key === "Escape") {
         state.query = "";
-        renderPool();
       } else if (event.key.length === 1) {
         state.query = state.query + event.key;
-        renderPool();
+      } else {
+        return;
       }
+      if (searchBox) searchBox.value = state.query;
+      renderPool();
     });
     renderPool();
     renderBoard();

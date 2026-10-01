@@ -81,11 +81,28 @@ body {
   border-bottom-color: var(--ink);
 }
 
-/* Draft page frame. */
+/* Draft page frame: pool left, sticky draft panel right >= 1000px. */
 .draft-view {
   max-width: 1400px;
   margin: 0 auto;
   padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+@media (min-width: 1000px) {
+  .draft-view {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+  .pool-section {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  .draft-main {
+    position: sticky;
+    top: 16px;
+  }
 }
 .section-title {
   font-family: Rajdhani, "Arial Narrow", sans-serif;
@@ -145,6 +162,9 @@ body {
 .hero-portrait {
   width: 100%;
   display: block;
+  aspect-ratio: 60 / 70;
+  object-fit: cover;
+  object-position: center top;
 }
 .hero-name {
   font-size: 12px;
@@ -153,41 +173,52 @@ body {
   color: var(--muted);
 }
 
-/* Draft board: enemy lineup as one vertical stack. */
-.draft-teams {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+/* Visible pool search box: same console styling as the tabs. */
+.pool-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: #000;
+  color: var(--ink);
+  border: 1px solid var(--divider);
+  border-radius: 0;
+  padding: 8px 10px;
+  font-family: Barlow, "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  margin: 0 0 12px;
 }
-.draft-team-name {
-  font-family: Rajdhani, "Arial Narrow", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 15px;
-  margin: 0 0 8px;
+.pool-search::placeholder {
+  color: var(--muted);
 }
-.draft-team-dire .draft-team-name {
-  color: var(--red);
-}
+/* Draft board: single enemy lineup inside the sticky panel. */
+/* Draft board: portrait-shaped slots with a faint slot number. */
 .draft-slots {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 4px;
 }
 .draft-slot {
+  position: relative;
   background: #000;
   padding: 0;
-  min-height: 64px;
+  aspect-ratio: 60 / 70;
   cursor: pointer;
 }
-.draft-slot-empty {
-  border: 1px dashed var(--divider);
-  color: var(--muted);
+.draft-slot-number {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
-  font-size: 12px;
+  color: rgba(255, 255, 255, 0.22);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+.draft-slot-filled {
+  cursor: pointer;
+}
+.draft-slot .hero-portrait {
+  position: relative;
 }
 .draft-hint {
   color: var(--muted);
@@ -317,14 +348,6 @@ body {
   color: var(--muted);
   margin: 4px 0 0 0;
   font-size: 13px;
-}
-
-/* Offline note. */
-.offline-note {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 8px 16px;
-  color: var(--gold);
 }
 
 /* Role question modal: full-screen overlay, centered dialog. */
