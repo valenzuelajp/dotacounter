@@ -19,11 +19,18 @@
   --uni: #c8a45c;
 }
 
-body {
+html {
+  min-height: 100%;
   background:
     radial-gradient(120% 90% at 50% 0%, rgba(90, 115, 140, 0.28), rgba(0, 0, 0, 0) 60%),
     radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%),
     var(--bg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+body {
+  min-height: 100vh;
   color: var(--ink);
   font-family: Barlow, "Segoe UI", Arial, sans-serif;
   margin: 0;
@@ -143,7 +150,7 @@ body {
 }
 .hero-grid {
   display: grid;
-  grid-template-columns: repeat(5, 60px);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 4px;
   justify-content: start;
 }
@@ -173,7 +180,32 @@ body {
   color: var(--muted);
 }
 
+/* Pool controls: role tabs left, search input right, one row. */
+.pool-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 0 12px;
+  flex-wrap: wrap;
+}
+.pool-controls-row .role-tabs {
+  margin: 0;
+  flex: 1 1 auto;
+}
 /* Visible pool search box: same console styling as the tabs. */
+.pool-search-wrap {
+  position: relative;
+  flex: 0 1 320px;
+  margin-left: auto;
+}
+.pool-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
 .pool-search {
   width: 100%;
   box-sizing: border-box;
@@ -181,13 +213,18 @@ body {
   color: var(--ink);
   border: 1px solid var(--divider);
   border-radius: 0;
-  padding: 8px 10px;
+  padding: 8px 10px 8px 32px;
   font-family: Barlow, "Segoe UI", Arial, sans-serif;
   font-size: 14px;
-  margin: 0 0 12px;
+  margin: 0;
 }
 .pool-search::placeholder {
   color: var(--muted);
+}
+.pool-search:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal);
 }
 /* Draft board: single enemy lineup inside the sticky panel. */
 /* Draft board: portrait-shaped slots with a faint slot number. */
@@ -462,7 +499,7 @@ body {
   .hero-pool {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    gap: 24px;
     align-items: start;
   }
   .pool-column {
@@ -545,6 +582,12 @@ body {
 .win-low {
   color: var(--red);
 }
+/* Empty best-picks state: thin data, not a render bug. */
+.counter-empty {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
 /* Pool caption row: data date left, win toggle right. */
 .pool-caption-row {
   display: flex;
@@ -553,10 +596,43 @@ body {
   gap: 12px;
 }
 .rates-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--muted);
   font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
+}
+/* Dark client-style switch: track plus knob, teal when on. */
+.rates-checkbox {
+  appearance: none;
+  width: 34px;
+  height: 18px;
+  margin: 0;
+  border-radius: 9px;
+  background: #1a2027;
+  border: 1px solid var(--divider);
+  position: relative;
+  cursor: pointer;
+  flex: none;
+}
+.rates-checkbox::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.rates-checkbox:checked {
+  border-color: var(--teal);
+}
+.rates-checkbox:checked::after {
+  left: 18px;
+  background: var(--teal);
 }

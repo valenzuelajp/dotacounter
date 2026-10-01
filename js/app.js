@@ -182,6 +182,8 @@
 
   // Ranked counters against the enemy lineup, with detail links.
   // Support mode lists support-lane heroes under a support heading.
+  // An empty ranking is thin data (few curated counters hit), not a
+  // render bug, so the panel says so instead of going blank.
   function renderCounters() {
     const list = document.querySelector(".counter-list");
     const prompt = document.querySelector(".empty-prompt");
@@ -203,6 +205,13 @@
       ? window.DotaCounter.scoreCounters(state.dire, view.scorePool)
       : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool);
     renderSupportChips(view);
+    if (ranked.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "counter-empty";
+      empty.textContent = "No strong counters for this draft yet.";
+      list.appendChild(empty);
+      return;
+    }
     for (const entry of ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
