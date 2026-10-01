@@ -78,30 +78,6 @@ window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matc
   return ranked;
 };
 
-// Suggest one next pick for the ally team given both teams (arrays of ids).
-// Reuses scoreCounters, then prefers picks whose role the allies lack.
-window.DotaCounter.suggestSynergy = function suggestSynergy(allyIds, enemyIds, heroes) {
-  const allies = new Set(allyIds);
-  const allyRoles = new Set(
-    heroes.filter((h) => allies.has(h.id)).map((h) => h.role)
-  );
-  const ranked = window.DotaCounter.scoreCounters(enemyIds, heroes);
-  const candidates = ranked.filter((r) => !allies.has(r.id));
-  if (candidates.length === 0) return null;
-
-  // +1 synergy point when the candidate's role is missing from the allies.
-  for (const candidate of candidates) {
-    const hero = heroes.find((h) => h.id === candidate.id);
-    candidate.synergyNote = "";
-    if (hero && !allyRoles.has(hero.role)) {
-      candidate.score += 1;
-      candidate.synergyNote = "Fills missing role: " + hero.role;
-    }
-  }
-  candidates.sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : 1));
-  return candidates[0];
-};
-
 // Split the draft by the player's role before scoring.
 // Support profile: own picks stay, but scoring runs on support-lane heroes.
 // Core profile (carry/mid/offlane): pool stays full, own support picks leave

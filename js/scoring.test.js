@@ -5,7 +5,7 @@ const vm = require("vm");
 const context = { window: { DotaCounter: {} } };
 vm.createContext(context);
 vm.runInContext(fs.readFileSync(__dirname + "/scoring.js", "utf8"), context);
-const { scoreCounters, suggestSynergy } = context.window.DotaCounter;
+const { scoreCounters } = context.window.DotaCounter;
 
 function assertEqual(actual, expected, name) {
   const a = JSON.stringify(actual);
@@ -100,11 +100,6 @@ assertEqual(
   false,
   "pub data moves the ranking"
 );
-
-// Synergy: ally axe + enemy juggernaut => suggested pick counters juggernaut.
-const pick = suggestSynergy(["axe"], ["juggernaut"], heroes);
-const pickHero = heroes.find((h) => h.id === pick.id);
-assertEqual(pickHero.counters.some((c) => c.hero === "juggernaut"), true, "synergy suggests a juggernaut counter");
 
 // applyRoleProfile: support profile keeps the draft but scores supports only.
 const { applyRoleProfile } = context.window.DotaCounter;
