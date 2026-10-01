@@ -29,11 +29,10 @@ body {
   margin: 0;
 }
 
-/* Top bar: full-width console strip with wordmark tile and tabs. */
+/* Top bar: full-width console strip; content edges match the panels. */
 .top-bar {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 16px;
+  margin: 0;
+  padding: 0 max(16px, calc((100vw - 1400px) / 2));
   display: flex;
   align-items: center;
   gap: 20px;
@@ -381,8 +380,9 @@ body {
   filter: brightness(1.12);
 }
 
-/* Role change button in the top bar. */
+/* Role change: small button pinned to the right edge of the top bar. */
 .role-change {
+  margin-left: auto;
   background: none;
   border: 1px solid var(--divider);
   color: var(--muted);
@@ -393,6 +393,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 13px;
+  white-space: nowrap;
 }
 .role-change:hover {
   color: var(--ink);
