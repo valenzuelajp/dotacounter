@@ -335,11 +335,22 @@
       });
     }
     // Type-anywhere: printable keys append, Backspace deletes one
-    // letter, Esc clears. Skipped while typing in the search box.
+    // letter, Esc clears. Skipped while typing in the search box, while
+    // the modal is open, or when focus sits on a button or link — typing
+    // and Space must never leak into the hidden query or get swallowed.
+    const modalOpen = () => {
+      const backdrop = document.querySelector(".hero-modal-backdrop");
+      return backdrop && !backdrop.hidden;
+    };
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
-      if (event.target && event.target.classList &&
-          event.target.classList.contains("pool-search")) return;
+      if (modalOpen()) return;
+      const target = event.target;
+      if (target && target.classList &&
+          (target.classList.contains("pool-search") ||
+           target.tagName === "BUTTON" ||
+           target.tagName === "A" ||
+           target.tagName === "INPUT")) return;
       if (event.key === "Backspace") {
         state.query = state.query.slice(0, -1);
         renderPool();
