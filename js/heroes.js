@@ -402,6 +402,12 @@
     state.heroes = data.heroes;
     state.meta = data.meta;
     state.matchups = data.matchups || { heroes: {} };
+    // Same source caption as the Draft page (fix B2-4).
+    const stamp = document.querySelector(".pool-data-date");
+    if (stamp) {
+      stamp.textContent =
+        "Source: OpenDota public matches · updated " + (data.matchups.updatedAt || "unknown");
+    }
     return fetch("./data/items.json")
       .then((r) => (r.ok ? r.json() : null))
       .then((items) => {
