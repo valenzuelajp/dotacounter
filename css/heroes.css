@@ -180,6 +180,20 @@
   }
 }
 
+/* Heroes page frame: same centered container as the Draft page. */
+.heroes-view {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px;
+}
+/* Browse cards run slightly larger than Draft pool cards. */
+.heroes-view .hero-grid {
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+}
+.heroes-view .hero-portrait {
+  aspect-ratio: 64 / 74;
+}
+
 /* Matchups tab rows: hero pairs and item counters. */
 .matchups-group-name {
   margin: 12px 0 4px 0;
