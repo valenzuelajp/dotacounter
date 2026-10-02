@@ -243,18 +243,23 @@
     const dialog = document.querySelector(".hero-modal");
     if (!dialog) return;
     if (!hero) {
+      // Unknown hash: message inside the dialog, pool untouched.
       state.current = null;
-      document.querySelector(".hero-modal-backdrop").hidden = true;
-      const pool = document.querySelector(".hero-pool");
-      pool.innerHTML = "";
-      const missing = document.createElement("p");
-      missing.className = "hero-not-found";
-      missing.textContent = "Hero not found";
-      pool.appendChild(missing);
+      state.lastFocus = document.activeElement;
+      document.querySelector(".hero-modal-top").hidden = true;
+      document.querySelector(".hero-modal-timeline").hidden = true;
+      document.querySelector(".hero-modal-missing").hidden = false;
+      document.querySelector(".hero-modal-backdrop").hidden = false;
+      document.body.classList.add("modal-open");
+      document.querySelector(".hero-modal-close").focus();
       return;
     }
     state.current = id;
     state.lastFocus = document.activeElement;
+    // Restore the normal sections (an unknown-hash visit may hide them).
+    document.querySelector(".hero-modal-top").hidden = false;
+    document.querySelector(".hero-modal-timeline").hidden = false;
+    document.querySelector(".hero-modal-missing").hidden = true;
     document.querySelector(".hero-modal-portrait").src = hero.image;
     document.querySelector(".hero-modal-portrait").alt = hero.name;
     document.querySelector(".hero-modal-name").textContent = hero.name;
