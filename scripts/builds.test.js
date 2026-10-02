@@ -55,3 +55,28 @@ heroes.forEach((x) => (x.counterItems || []).forEach((c) => {
   if (!items[c.item]) dangling.push(x.id + "->" + c.item);
 }));
 assert(dangling.length === 0, "every counterItems id resolves in items.json");
+
+// No pure recipe component may appear in a mid or late timeline. The
+// hidden list is data-driven: data/pure-components.json, written by the
+// fetch script from the dotaconstants qual/components/created fields.
+let pureComponents = [];
+try {
+  pureComponents = JSON.parse(
+    fs.readFileSync(__dirname + "/../data/pure-components.json", "utf8")
+  ).hidden;
+} catch (error) {
+  pureComponents = [];
+}
+const hidden = new Set(pureComponents);
+let leaked = 0;
+for (const hero of heroes) {
+  const entry = builds[hero.id];
+  if (!entry) continue;
+  for (const phase of ["mid", "late"]) {
+    for (const row of entry[phase] || []) {
+      if (hidden.has(row.item)) leaked += 1;
+    }
+  }
+}
+assert(pureComponents.length > 0, "pure-components.json lists hidden pieces");
+assert(leaked === 0, "no pure component in any mid/late timeline");

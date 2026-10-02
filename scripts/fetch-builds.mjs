@@ -33,12 +33,15 @@ async function getJsonRetry(url) {
 }
 
 // Top N items of one phase with each item's share of the phase total.
-// Share is one decimal, same convention as heroWinRate.
-function topPhase(counts) {
+// Share is one decimal, same convention as heroWinRate. Denominator is the
+// FULL phase total (including hidden pieces) so shown shares stay honest.
+// hide: a Set of item keys to skip (pure recipe components in mid/late).
+function topPhase(counts, hide) {
   const entries = Object.entries(counts || {});
   const total = entries.reduce((sum, [, n]) => sum + n, 0);
   if (total === 0) return [];
   return entries
+    .filter(([key]) => !hide.has(key))
     .sort((a, b) => b[1] - a[1])
     .slice(0, TOP_N)
     .map(([numericId, games]) => ({
@@ -64,6 +67,22 @@ try {
     };
   }
 
+  // Pure recipe components: bought only as pieces of bigger items, never
+  // as a plan of their own. Mid/late timelines listing "Ogre Axe" look
+  // broken, so hide them there (start/early keep everything — pieces are
+  // honest opening buys). Rule: (component|secret_shop) + not assemblable
+  // + not on the real-buy keep list (blink/boots/gem are standalone buys
+  // despite matching the shape; shard etc. survive via other quals).
+  const HIDE_QUALS = new Set(["component", "secret_shop"]);
+  const MID_LATE_KEEP = new Set(["blink", "boots", "gem"]);
+  const hiddenMidLate = new Set();
+  for (const [key, entry] of Object.entries(dcItems)) {
+    if (HIDE_QUALS.has(entry.qual) && entry.created !== true && !MID_LATE_KEEP.has(key)) {
+      hiddenMidLate.add(key);
+    }
+  }
+  const noHide = new Set();
+
   // numeric OpenDota id -> dotaconstants short key (= our hero id).
   const numericToOurs = {};
   for (const [num, entry] of Object.entries(dcHeroes)) {
@@ -77,14 +96,14 @@ try {
     const pop = await getJsonRetry("https://api.opendota.com/api/heroes/" + numericId + "/itemPopularity");
     const ours = numericToOurs[numericId];
     const phases = {};
-    for (const [phase, apiKey] of [["start", "start_game_items"], ["early", "early_game_items"], ["mid", "mid_game_items"], ["late", "late_game_items"]]) {
+    for (const [phase, apiKey, hide] of [["start", "start_game_items", noHide], ["early", "early_game_items", noHide], ["mid", "mid_game_items", hiddenMidLate], ["late", "late_game_items", hiddenMidLate]]) {
       const counts = {};
       for (const [itemNum, games] of Object.entries(pop[apiKey] || {})) {
         const key = dcItemIds[String(itemNum)];
         if (!key) continue;
         counts[key] = games;
       }
-      phases[phase] = topPhase(counts);
+      phases[phase] = topPhase(counts, hide);
     }
     builds[ours] = phases;
     done += 1;
@@ -95,13 +114,16 @@ try {
   const stamp = new Date().toISOString().slice(0, 10);
   const itemsTemp = "data/items.json.tmp";
   const buildsTemp = "data/builds.json.tmp";
+  const hiddenTemp = "data/pure-components.json.tmp";
   // Minified on purpose: 501 items + 127 timelines are far too big pretty;
   // no human edits these files by hand.
   writeFileSync(itemsTemp, JSON.stringify({ updatedAt: stamp, items }));
   renameSync(itemsTemp, "data/items.json");
   writeFileSync(buildsTemp, JSON.stringify({ updatedAt: stamp, builds }));
   renameSync(buildsTemp, "data/builds.json");
-  console.log("Wrote items (" + Object.keys(items).length + ") and builds for " + Object.keys(builds).length + " heroes.");
+  writeFileSync(hiddenTemp, JSON.stringify({ updatedAt: stamp, hidden: [...hiddenMidLate].sort() }));
+  renameSync(hiddenTemp, "data/pure-components.json");
+  console.log("Wrote items (" + Object.keys(items).length + ") and builds for " + Object.keys(builds).length + " heroes; hid " + hiddenMidLate.size + " pure components from mid/late.");
 } catch (error) {
   console.error("Build refresh failed, data files untouched: " + error.message);
   process.exit(1);
