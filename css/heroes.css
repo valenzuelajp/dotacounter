@@ -1,0 +1,181 @@
+/* Heroes page modal: 900px dialog, 1px steel border, portrait left,
+   info right, item timeline full-width at the bottom. Narrow screens
+   get a full-screen sheet. Class names mirror the Draft page. */
+.hero-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.hero-modal-backdrop[hidden] {
+  display: none;
+}
+.hero-modal {
+  width: 900px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid #4a5866;
+  padding: 20px;
+  position: relative;
+}
+.hero-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+.hero-modal-close:hover {
+  color: var(--ink);
+}
+.hero-modal-top {
+  display: flex;
+  gap: 20px;
+}
+.hero-modal-left {
+  flex: 0 0 25%;
+}
+.hero-modal-portrait {
+  width: 100%;
+  display: block;
+  aspect-ratio: 60 / 70;
+  object-fit: cover;
+  object-position: center top;
+}
+.hero-modal-name {
+  font-size: 22px;
+  margin: 8px 0 4px 0;
+}
+.hero-modal-sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+.hero-modal-roles {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 4px 0 0 0;
+}
+.hero-modal-right {
+  flex: 1;
+  min-width: 0;
+}
+.hero-modal-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 12px 0;
+}
+.hero-modal-meta strong {
+  color: var(--ink);
+}
+.hero-modal-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.hero-modal-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.hero-modal-tab-active {
+  color: var(--ink);
+  border-bottom-color: var(--teal);
+}
+.hero-modal-guide-line {
+  font-size: 14px;
+  margin: 6px 0;
+}
+.hero-modal-guide-label {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+.hero-modal-matchups {
+  font-size: 14px;
+  margin: 6px 0;
+}
+.hero-modal-timeline {
+  margin-top: 16px;
+  border-top: 1px solid var(--divider);
+  padding-top: 12px;
+}
+.timeline-title {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 4px 0;
+}
+.timeline-caption {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 8px 0;
+}
+.timeline-phases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.timeline-phase-name {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 6px 0;
+}
+.timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin: 0 0 4px 0;
+}
+.timeline-item img {
+  width: 40px;
+  height: 30px;
+  object-fit: cover;
+  display: block;
+}
+.timeline-share {
+  color: var(--muted);
+  margin-left: auto;
+}
+.hero-modal-empty {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Narrow screens: the modal becomes a full-screen sheet. */
+@media (max-width: 640px) {
+  .hero-modal {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+  }
+  .hero-modal-top {
+    flex-direction: column;
+  }
+  .hero-modal-left {
+    flex: none;
+  }
+  .timeline-phases {
+    grid-template-columns: 1fr 1fr;
+  }
+}
