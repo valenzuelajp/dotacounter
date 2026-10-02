@@ -189,7 +189,8 @@
   }
 
   // Render MATCHUPS tab: 5 most favorable + 5 least favorable pairings,
-  // each with the win rate and sample size. matchupEdge returns an
+  // each with the win rate and sample size, plus the items that weaken
+  // this hero from its curated counterItems. matchupEdge returns an
   // object { edge, games, wins, rate, lowSample }, never a number.
   function renderMatchupsTab(hero) {
     const box = document.querySelector(".hero-modal-matchups");
@@ -234,6 +235,26 @@
         }
         box.appendChild(line);
       }
+    }
+    // Third section: items that weaken this hero (curated data).
+    const itemsTitle = document.createElement("h4");
+    itemsTitle.className = "matchups-group-name";
+    itemsTitle.textContent = "Items that weaken this hero";
+    box.appendChild(itemsTitle);
+    const counters = hero.counterItems || [];
+    if (counters.length === 0) {
+      box.appendChild(document.createTextNode("No item counters listed yet"));
+    }
+    for (const entry of counters) {
+      const line = document.createElement("div");
+      line.className = "matchups-item-row";
+      line.appendChild(itemIcon(entry.item));
+      const why = document.createElement("span");
+      why.className = "matchups-item-why";
+      const dname = (state.items[entry.item] || {}).dname || entry.item;
+      why.textContent = dname + " — " + entry.when;
+      line.appendChild(why);
+      box.appendChild(line);
     }
   }
 
