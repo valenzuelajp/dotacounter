@@ -188,15 +188,26 @@
     box.appendChild(note);
   }
 
-  // Render MATCHUPS tab: 5 most favorable + 5 least favorable pairings.
+  // Render MATCHUPS tab: 5 most favorable + 5 least favorable pairings,
+  // each with the win rate and sample size. matchupEdge returns an
+  // object { edge, games, wins, rate, lowSample }, never a number.
   function renderMatchupsTab(hero) {
     const box = document.querySelector(".hero-modal-matchups");
     box.innerHTML = "";
     const scored = [];
     for (const other of state.heroes) {
       if (other.id === hero.id) continue;
-      const edge = window.DotaCounter.matchupEdge(hero.id, other.id, state.matchups);
-      if (edge !== null) scored.push({ id: other.id, name: other.name, edge });
+      const cell = window.DotaCounter.matchupEdge(hero.id, other.id, state.matchups);
+      if (cell !== null) {
+        scored.push({
+          id: other.id,
+          name: other.name,
+          edge: cell.edge,
+          games: cell.games,
+          rate: cell.rate,
+          lowSample: cell.lowSample,
+        });
+      }
     }
     scored.sort((a, b) => b.edge - a.edge);
     const groups = [
@@ -215,7 +226,12 @@
       for (const row of rows) {
         const line = document.createElement("p");
         line.className = "matchups-row";
-        line.textContent = row.name + " (" + (row.edge > 0 ? "+" : "") + row.edge + ")";
+        line.textContent =
+          row.name + " — " + row.rate + "% over " + row.games + " games";
+        if (row.lowSample) {
+          line.classList.add("matchups-row-thin");
+          line.title = "Low sample";
+        }
         box.appendChild(line);
       }
     }
