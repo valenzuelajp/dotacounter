@@ -1,5 +1,7 @@
 // heroes: Heroes page pool + hero popup modal.
 // Small functions, beginner-readable. State lives in one object.
+// Guide schema (B3): hero.guide = { howToWin, playTips[], powerSpikes[],
+// reviewed }. Unreviewed guides render with a draft badge.
 (function heroes() {
   const CDN = "https://cdn.cloudflare.steamstatic.com";
   const ATTRIBUTE_ORDER = ["strength", "agility", "intelligence", "universal"];
@@ -165,27 +167,42 @@
     }
   }
 
-  // Render GUIDE tab: B3 content when present, draft label otherwise.
+  // Render GUIDE tab. Schema (documented for B3 authors):
+  // hero.guide = { howToWin, playTips[], powerSpikes[], reviewed }.
+  // Reviewed heroes show text alone; unreviewed show the text plus the
+  // draft badge; heroes with no guide show "No guide yet".
   function renderGuide(hero) {
     const box = document.querySelector(".hero-modal-guide");
     box.innerHTML = "";
-    if (hero.guide && hero.guide.reviewed) {
-      const win = document.createElement("p");
-      win.className = "guide-how";
-      win.textContent = hero.guide.howToWin;
-      box.appendChild(win);
-      for (const tip of hero.guide.playTips || []) {
-        const line = document.createElement("p");
-        line.className = "guide-tip";
-        line.textContent = tip;
-        box.appendChild(line);
-      }
+    const guide = hero.guide;
+    if (!guide) {
+      box.textContent = "No guide yet";
       return;
     }
-    const note = document.createElement("p");
-    note.className = "guide-draft-note";
-    note.textContent = "Draft guide, not yet reviewed";
-    box.appendChild(note);
+    if (guide.reviewed !== true) {
+      const badge = document.createElement("p");
+      badge.className = "guide-draft-note";
+      badge.textContent = "Draft guide, not yet reviewed";
+      box.appendChild(badge);
+    }
+    if (guide.howToWin) {
+      const win = document.createElement("p");
+      win.className = "guide-how";
+      win.textContent = guide.howToWin;
+      box.appendChild(win);
+    }
+    for (const tip of guide.playTips || []) {
+      const line = document.createElement("p");
+      line.className = "guide-tip";
+      line.textContent = tip;
+      box.appendChild(line);
+    }
+    if ((guide.powerSpikes || []).length > 0) {
+      const spikes = document.createElement("p");
+      spikes.className = "guide-spikes";
+      spikes.textContent = "Power spikes: " + guide.powerSpikes.join("; ");
+      box.appendChild(spikes);
+    }
   }
 
   // Render MATCHUPS tab: 5 most favorable + 5 least favorable pairings,
