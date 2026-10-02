@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DotaCounter — pick the enemy, get counters</title>
+  <title>DotaCounter — heroes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Rajdhani:wght@600;700&display=swap">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/heroes.css">
 </head>
 <body>
   <header class="top-bar">
     <h1 class="site-title">DotaCounter</h1>
     <p class="patch-label">Patch: loading…</p>
     <nav class="site-nav">
-      <a class="nav-link nav-link-active" href="./index.html">Draft</a>
-      <a class="nav-link" href="./heroes.html">Heroes</a>
+      <a class="nav-link" href="./index.html">Draft</a>
+      <a class="nav-link nav-link-active" href="./heroes.html">Heroes</a>
       <a class="nav-link" href="./items.html">Items</a>
       <a class="nav-link" href="./meta.html">Meta today</a>
     </nav>
-    <button class="role-change" hidden>Role: (change)</button>
   </header>
 
-  <main class="draft-view">
+  <main class="heroes-view">
     <section class="pool-section">
       <h2 class="section-title">Hero pool</h2>
-      <p class="pool-query-hint">Tap an enemy to add them.</p>
+      <p class="pool-query-hint">Tap a portrait to open the hero popup.</p>
       <div class="pool-controls-row">
         <div class="role-tabs">
           <button class="role-tab role-tab-active" data-tab="all">All</button>
@@ -40,47 +40,42 @@
         </div>
       </div>
       <div class="pool-caption-row">
-        <p class="pool-data-date">Source: loading…</p>
-        <label class="rates-toggle"><input type="checkbox" class="rates-checkbox"> Show win rates</label>
+        <p class="pool-data-date">Source: loading.</p>
       </div>
       <div class="hero-pool"></div>
     </section>
-
-    <div class="draft-main">
-    <section class="draft-board">
-      <h2 class="section-title">Enemy lineup</h2>
-      <div class="draft-teams">
-        <div class="draft-team draft-team-dire">
-          <div class="draft-slots draft-slots-dire"></div>
-        </div>
-      </div>
-      <p class="draft-hint">Tap a drafted hero to remove them.</p>
-    </section>
-
-    <section class="counter-results">
-      <h2 class="section-title">Best counters</h2>
-      <p class="empty-prompt">Add enemy heroes to see who beats them and how.</p>
-      <div class="enemy-support-pick" hidden></div>
-      <div class="counter-list"></div>
-    </section>
-    </div>
   </main>
 
-  <div class="role-modal">
-    <div class="role-dialog">
-      <h2 class="role-dialog-title">What is your role?</h2>
-      <p class="role-dialog-sub">Pick the position you play. Supports get best-support picks; cores get answers without their own supports' noise.</p>
-      <div class="role-options">
-        <button class="role-option" data-profile="carry">P1 — Safe lane carry</button>
-        <button class="role-option" data-profile="mid">P2 — Mid laner</button>
-        <button class="role-option" data-profile="offlane">P3 — Offlane</button>
-        <button class="role-option" data-profile="support">P4 / P5 — Support</button>
+  <div class="hero-modal-backdrop" hidden>
+    <div class="hero-modal" role="dialog" aria-modal="true" aria-labelledby="hero-modal-name">
+      <button class="hero-modal-close" aria-label="Close">X</button>
+      <div class="hero-modal-top">
+        <div class="hero-modal-left">
+          <img class="hero-modal-portrait" alt="">
+          <h2 class="hero-modal-name" id="hero-modal-name"></h2>
+          <p class="hero-modal-attr"></p>
+          <p class="hero-modal-roles"></p>
+        </div>
+        <div class="hero-modal-right">
+          <p class="hero-modal-meta"></p>
+          <div class="hero-modal-tabs">
+            <button class="hero-modal-tab hero-modal-tab-active" data-mtab="guide">Guide</button>
+            <button class="hero-modal-tab" data-mtab="matchups">Matchups</button>
+          </div>
+          <div class="hero-modal-guide"></div>
+          <div class="hero-modal-matchups" hidden></div>
+        </div>
+      </div>
+      <div class="hero-modal-timeline">
+        <h3 class="timeline-title">Item timeline</h3>
+        <p class="timeline-caption">Item timeline - share of item purchases (OpenDota public matches)</p>
+        <div class="timeline-phases"></div>
       </div>
     </div>
   </div>
 
   <script src="./js/data-loader.js"></script>
   <script src="./js/scoring.js"></script>
-  <script src="./js/app.js"></script>
+  <script src="./js/heroes.js"></script>
 </body>
 </html>

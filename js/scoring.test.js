@@ -5,7 +5,7 @@ const vm = require("vm");
 const context = { window: { DotaCounter: {} } };
 vm.createContext(context);
 vm.runInContext(fs.readFileSync(__dirname + "/scoring.js", "utf8"), context);
-const { scoreCounters, suggestSynergy } = context.window.DotaCounter;
+const { scoreCounters } = context.window.DotaCounter;
 
 function assertEqual(actual, expected, name) {
   const a = JSON.stringify(actual);
@@ -20,10 +20,10 @@ function assertEqual(actual, expected, name) {
 
 const heroes = JSON.parse(fs.readFileSync(__dirname + "/../data/heroes.json", "utf8"));
 
-// Many heroes counter juggernaut (+2 each) => alphabetical tiebreak.
+// Curated-only ranking (no matchups passed): every hit is +2, ties alpha.
 // (Pinned ids retired with the 12-hero pool; assert the contract.)
 const ranked = scoreCounters(["juggernaut"], heroes);
-assertEqual(ranked[0].score, 2, "top counter scores +2");
+assertEqual(ranked[0].score, 2, "top counter scores +2 without data");
 assertEqual(ranked.map((r) => r.id), [...ranked.map((r) => r.id)].sort(), "ranking breaks ties alphabetically");
 assertEqual(ranked.filter((r) => r.score === 2).map((r) => r.id).includes("lion"), true, "lion still a top juggernaut counter");
 assertEqual(ranked[0].score >= 2, true, "direct counter scores +2");
@@ -31,37 +31,96 @@ assertEqual(ranked[0].score >= 2, true, "direct counter scores +2");
 // Empty picks => empty ranking, never an error.
 assertEqual(scoreCounters([], heroes), [], "empty picks give empty ranking");
 
-// Tiebreak is alphabetical so output is stable.
+// Tiebreak is alphabetical so output is stable (curated-only call).
 const tied = scoreCounters(["axe"], heroes).filter((r) => r.score > 0).map((r) => r.id);
 assertEqual(tied, [...tied].sort(), "ties broken alphabetically");
 
-// Synergy: ally axe + enemy juggernaut => suggested pick counters juggernaut.
-const pick = suggestSynergy(["axe"], ["juggernaut"], heroes);
-const pickHero = heroes.find((h) => h.id === pick.id);
-assertEqual(pickHero.counters.some((c) => c.hero === "juggernaut"), true, "synergy suggests a juggernaut counter");
+// matchupEdge: shrunk advantage from real baked tables.
+// Axe vs Juggernaut is 60/117: 100 * 1.5 / 217 = 150/217 (decimal, K=100).
+const { matchupEdge } = context.window.DotaCounter;
+const bakedTables = JSON.parse(fs.readFileSync(__dirname + "/../data/matchups.json", "utf8"));
+// Axe vs Juggernaut is 60/117 at 51.3% observed; axe rates 50.6% overall
+// vs juggernaut's 52.5%, so expected is ~48.1% and the edge is positive.
+const axeEdge = matchupEdge("axe", "juggernaut", bakedTables);
+assertEqual(
+  { games: axeEdge.games, wins: axeEdge.wins, rate: axeEdge.rate, lowSample: axeEdge.lowSample },
+  { games: 117, wins: 60, rate: 51.3, lowSample: false },
+  "axe holds a small shrunk edge vs juggernaut"
+);
+assertEqual(Math.round(axeEdge.edge * 1000) / 1000, 1.695, "axe edge value matches the formula");
+const thin = matchupEdge("antimage", "hoodwink", bakedTables);
+assertEqual(thin, null, "29-game pair is unscored");
+assertEqual(matchupEdge("axe", "no_such_hero", bakedTables), null, "unknown enemy is null");
 
-// winEstimate: empty draft is 50/50 with no reasons.
-const { winEstimate, applyRoleProfile } = context.window.DotaCounter;
-assertEqual(winEstimate([], [], heroes), { radiant: 50, dire: 50, reasons: [] }, "empty draft is 50/50");
+// Matchup-specific scoring on synthetic tables: a 60% overall hero going
+// 50/50 (100/200) vs a 40% hero is BELOW expectation (0.6 + 0.1 = 0.7),
+// so the edge is negative — general strength earns no bonus.
+const { overallRate } = context.window.DotaCounter;
+const synth = {
+  heroes: { strong: { games: 1000, wins: 600 }, weak: { games: 1000, wins: 400 } },
+  matchups: {
+    strong: { weak: { games: 200, wins: 100 } },
+    weak: { strong: { games: 200, wins: 100 } },
+  },
+};
+assertEqual(overallRate("nobody", synth), 0.5, "unknown hero rates 0.5");
+const strongEdge = matchupEdge("strong", "weak", synth);
+assertEqual(strongEdge.edge < 0, true, "strong hero gets no bonus for general strength");
+const weakEdge = matchupEdge("weak", "strong", synth);
+assertEqual(weakEdge.edge > 0, true, "underdog beating expectation scores positive");
+// Same 50% observed gap, fewer games: 40-game edge is smaller and tagged,
+// 20-game is unscored.
+const midSynth = {
+  heroes: synth.heroes,
+  matchups: { strong: { weak: { games: 40, wins: 20 } } },
+};
+const midEdge = matchupEdge("strong", "weak", midSynth);
+assertEqual(
+  Math.abs(midEdge.edge) < Math.abs(strongEdge.edge),
+  true,
+  "same gap with fewer games shrinks the edge"
+);
+assertEqual(midEdge.lowSample, true, "30-to-60 game pair is tagged low sample");
+const thinSynth = {
+  heroes: synth.heroes,
+  matchups: { strong: { weak: { games: 20, wins: 10 } } },
+};
+assertEqual(matchupEdge("strong", "weak", thinSynth), null, "20-game pair is unscored");
+// Per-pair edge cap: 2000/2000 at 50% expected would be +47.6, capped to +10.
+const capSynth = {
+  heroes: {
+    capped: { games: 1000, wins: 500 },
+    foe: { games: 1000, wins: 500 },
+  },
+  matchups: { capped: { foe: { games: 2000, wins: 2000 } } },
+};
+assertEqual(matchupEdge("capped", "foe", capSynth).edge, 10, "edge caps at plus 10");
+assertEqual(matchupEdge("axe", "no_such_hero", bakedTables), null, "unknown enemy is null");
+assertEqual(matchupEdge("axe", "juggernaut", {}), null, "missing tables are null");
 
-// Axe (radiant) counters Juggernaut (dire): +4% radiant, one reason.
-const w1 = winEstimate(["axe"], ["juggernaut"], heroes);
-assertEqual(w1.radiant, 54, "axe vs juggernaut favors radiant by 4");
-assertEqual(w1.dire, 46, "dire is the mirror of radiant");
-assertEqual(w1.reasons.length, 1, "one reason per counter hit");
-
-// Radiant Lion+Axe vs Dire Juggernaut+Phantom Assassin: 4 hits (+16) capped at +15.
-const w2 = winEstimate(["lion", "axe"], ["juggernaut", "phantom_assassin"], heroes);
-assertEqual(w2.radiant, 65, "shift capped at +15");
-assertEqual(w2.dire, 35, "dire mirrors the cap");
-assertEqual(w2.reasons.length >= 4, true, "every hit explained");
-
-// Balanced roles add 2%: radiant Axe+Lion (initiator+support) vs lone Juggernaut.
-// +4 (axe>jugg) +4 (lion>jugg) +2 (radiant role coverage) = 60.
-const w3 = winEstimate(["axe", "lion"], ["juggernaut"], heroes);
-assertEqual(w3.radiant, 60, "counter hits plus role coverage");
+// With baked tables the ranking is data-driven: sorted by score desc,
+// then games desc, then name. Lion carries a juggernaut matchup reason,
+// and the order differs from the curated-only ranking above.
+const withData = scoreCounters(["juggernaut"], heroes, bakedTables);
+const ordered = withData.every(
+  (r, i, arr) =>
+    i === 0 ||
+    arr[i - 1].score > r.score ||
+    (arr[i - 1].score === r.score &&
+      (arr[i - 1].games > r.games || (arr[i - 1].games === r.games && arr[i - 1].id < r.id)))
+);
+assertEqual(ordered, true, "data ranking is score-desc, games then name on ties");
+const lionEntry = withData.find((r) => r.id === "lion");
+assertEqual(lionEntry !== undefined, true, "lion ranks vs juggernaut with data");
+assertEqual(lionEntry.reasons.some((x) => x.includes("games vs Juggernaut")), true, "reasons cite win rate and sample");
+assertEqual(
+  JSON.stringify(withData.map((r) => r.id)) === JSON.stringify(ranked.map((r) => r.id)),
+  false,
+  "pub data moves the ranking"
+);
 
 // applyRoleProfile: support profile keeps the draft but scores supports only.
+const { applyRoleProfile } = context.window.DotaCounter;
 const asSupport = applyRoleProfile("support", ["axe", "lion"], heroes);
 assertEqual(asSupport.supportMode, true, "support profile sets support mode");
 assertEqual(asSupport.calcRadiant, ["axe", "lion"], "support calc keeps own picks");
@@ -110,3 +169,18 @@ assertEqual(highlightName("Axe", "jug"), "Axe", "no match returns plain name");
 assertEqual(highlightName("Axe", ""), "Axe", "empty query returns plain name");
 assertEqual(highlightName("<Axe>", "axe"), "&lt;<span class=\"hero-name-hit\">Axe</span>&gt;", "output is HTML-escaped");
 assertEqual(highlightName("Anti-Mage", "<"), "Anti-Mage", "query symbols cannot break markup");
+
+// heroWinRate: real baked numbers, one decimal, null when absent.
+const { heroWinRate, roleMatches } = context.window.DotaCounter;
+const baked = JSON.parse(fs.readFileSync(__dirname + "/../data/matchups.json", "utf8"));
+assertEqual(heroWinRate("axe", baked), 50.6, "axe badge shows baked pub win rate");
+assertEqual(heroWinRate("no_such_hero", baked), null, "unknown hero hides the badge");
+assertEqual(heroWinRate("axe", { heroes: {} }), null, "empty stats hide the badge");
+assertEqual(heroWinRate("axe", { heroes: { axe: { games: 0, wins: 0 } } }), null, "zero games hide the badge");
+
+// roleMatches: tabs filter lane roles; legacy initiator is offlane-side.
+assertEqual(roleMatches("carry", "carry"), true, "carry sits under Carry");
+assertEqual(roleMatches("carry", "mid"), false, "carry is not Mid");
+assertEqual(roleMatches("initiator", "offlane"), true, "legacy initiator counts as offlane");
+assertEqual(roleMatches("support", "all"), true, "All tab shows everything");
+assertEqual(roleMatches("mid", "support"), false, "mid is not Support");

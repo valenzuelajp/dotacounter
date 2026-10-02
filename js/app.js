@@ -1,7 +1,8 @@
-// app: draft board UI — hero pool, drag+tap drafting, win estimate.
+// app: enemy-picker UI — hero pool, tap-to-add enemy drafting, counters.
 // Small functions, beginner-readable. State lives in one object.
 (function app() {
-  const ATTRIBUTE_ORDER = ["agility", "strength", "intelligence", "universal"];
+  // Client column order: Strength, Agility, Intelligence, Universal.
+  const ATTRIBUTE_ORDER = ["strength", "agility", "intelligence", "universal"];
   const ATTRIBUTE_LABELS = {
     strength: "Strength",
     agility: "Agility",
@@ -11,12 +12,15 @@
 
   const state = {
     heroes: [],
+    matchups: { heroes: {} }, // baked pub win rates for the badges.
     query: "", // live pool search text; "" means no filter.
-    side: "radiant", // which team the next tap adds to.
-    radiant: [],
-    dire: [],
+    tab: "all", // pool role tab; one of all|carry|mid|offlane|support.
+    showRates: false, // win numbers hidden until the toggle is switched on.
+    dire: [], // the enemy lineup, max 5.
+    expanded: false, // show-more toggle for the best-picks list.
+    lastDire: "", // draft key; a new draft collapses the list again.
     profile: null, // carry | mid | offlane | support, asked once in the modal.
-    enemySupports: [], // drafted Dire heroes the player marked as supports.
+    enemySupports: [], // enemy heroes the player marked as supports.
   };
 
   const PROFILE_LABELS = {
@@ -31,16 +35,22 @@
     return state.heroes.find((h) => h.id === id);
   }
 
-  // Render the pool as one vertical column per attribute, owner order:
-  // agility first. The live query hides non-matching heroes (and the
-  // whole column when nothing in it matches).
+  // Render the pool as one vertical column per attribute, client order:
+  // Strength, Agility, Intelligence, Universal; alphabetical in column.
+  // A typed query never hides heroes: matches stay lit, the rest turn
+  // black-and-white until the query is cleared.
   function renderPool() {
     const pool = document.querySelector(".hero-pool");
     pool.innerHTML = "";
     const match = window.DotaCounter.matchHeroName;
-    const shown = state.heroes.filter((h) => match(h.name, state.query));
     for (const attribute of ATTRIBUTE_ORDER) {
-      const group = shown.filter((h) => (h.attribute || "strength") === attribute);
+      const group = state.heroes
+        .filter(
+          (h) =>
+            (h.attribute || "strength") === attribute &&
+            window.DotaCounter.roleMatches(h.role, state.tab)
+        )
+        .sort((a, b) => (a.name < b.name ? -1 : 1));
       if (group.length === 0) continue;
       const column = document.createElement("div");
       column.className = "pool-column pool-column-" + attribute;
@@ -56,16 +66,33 @@
       column.appendChild(grid);
       pool.appendChild(column);
     }
+    // Show the typed letters so there is feedback; the search box
+    // carries the full instructions in its placeholder.
+    const hint = document.querySelector(".pool-query-hint");
+    if (hint) {
+      hint.textContent =
+        state.query === ""
+          ? "Tap an enemy to add them."
+          : 'Filtering: "' + state.query + '".';
+    }
   }
 
-  // One draggable, clickable portrait card.
+  // One draggable, clickable portrait card: portrait only, hero name in
+  // the hover tooltip (client style). Query matches still dim the rest;
+  // the hint line shows the typed text. Badge = baked pub hero win rate.
   function heroCard(hero) {
     const card = document.createElement("button");
     card.className = "hero-card";
+    if (state.query !== "" && !window.DotaCounter.matchHeroName(hero.name, state.query)) {
+      card.className = "hero-card hero-dimmed";
+    }
     card.dataset.heroId = hero.id;
+    card.title = hero.name;
     card.draggable = true;
     const img = document.createElement("img");
     img.className = "hero-portrait";
+    // Tall client-style crop via CSS (the CDN has no vertical files);
+    // the landscape art is center-cropped to portrait shape.
     img.src = hero.image;
     img.alt = hero.name;
     img.draggable = false;
@@ -73,57 +100,59 @@
       img.onerror = null;
       img.src = "./assets/heroes/placeholder.png";
     };
-    const name = document.createElement("div");
-    name.className = "hero-name";
-    // Glowing match letters; plain escaped text when there is no query.
-    name.innerHTML = window.DotaCounter.highlightName(hero.name, state.query);
-    card.append(img, name);
-    // Tap = add to active side. Drag = drop onto a team slot.
-    card.addEventListener("click", () => placeHero(hero.id, state.side));
+    card.append(img);
+    // Pub win-rate number from baked stats. Off unless the toggle is on;
+    // plain bottom-left text like the client, tinted by value.
+    const rate = window.DotaCounter.heroWinRate(hero.id, state.matchups);
+    if (state.showRates && rate !== null) {
+      const badge = document.createElement("div");
+      badge.className =
+        "win-badge " + (rate > 52 ? "win-high" : rate < 48 ? "win-low" : "win-mid");
+      badge.textContent = rate + "%";
+      badge.title = rate + "% pub win rate";
+      card.appendChild(badge);
+    }
+    // Tap = add to the enemy lineup. Drag = drop onto the enemy slots.
+    card.addEventListener("click", () => placeHero(hero.id));
     card.addEventListener("dragstart", (event) => {
       event.dataTransfer.setData("text/plain", hero.id);
     });
     return card;
   }
 
-  // Add a hero to a team (max 5, no duplicates across teams).
-  function placeHero(id, side) {
-    const team = side === "radiant" ? state.radiant : state.dire;
-    if (team.includes(id) || otherTeam(side).includes(id)) return;
-    if (team.length >= 5) return;
-    team.push(id);
+  // Add a hero to the enemy lineup (max 5, no duplicates).
+  function placeHero(id) {
+    if (state.dire.includes(id)) return;
+    if (state.dire.length >= 5) return;
+    state.dire.push(id);
     renderBoard();
   }
 
-  function otherTeam(side) {
-    return side === "radiant" ? state.dire : state.radiant;
-  }
-
-  // Remove a hero from a team slot.
-  function removeHero(id, side) {
-    const team = side === "radiant" ? state.radiant : state.dire;
-    const index = team.indexOf(id);
-    if (index >= 0) team.splice(index, 1);
+  // Remove a hero from the enemy lineup.
+  function removeHero(id) {
+    const index = state.dire.indexOf(id);
+    if (index >= 0) state.dire.splice(index, 1);
     renderBoard();
   }
 
-  // Render both teams as 5 slots each (empty slots accept drops).
+  // Render the enemy lineup as 5 slots (empty slots accept drops).
   function renderBoard() {
-    renderTeam(".draft-slots-radiant", "radiant");
-    renderTeam(".draft-slots-dire", "dire");
-    renderWin();
+    renderTeam();
     renderCounters();
   }
 
-  function renderTeam(selector, side) {
-    const row = document.querySelector(selector);
+  function renderTeam() {
+    const row = document.querySelector(".draft-slots-dire");
     if (!row) return;
     row.innerHTML = "";
-    const team = side === "radiant" ? state.radiant : state.dire;
     for (let slot = 0; slot < 5; slot++) {
-      const id = team[slot];
+      const id = state.dire[slot];
       const cell = document.createElement("div");
-      cell.className = "draft-slot" + (id ? "" : " draft-slot-empty");
+      cell.className = "draft-slot" + (id ? " draft-slot-filled" : "");
+      const number = document.createElement("span");
+      number.className = "draft-slot-number";
+      number.textContent = slot + 1;
+      cell.appendChild(number);
       if (id) {
         const hero = heroById(id);
         const img = document.createElement("img");
@@ -134,54 +163,30 @@
           img.onerror = null;
           img.src = "./assets/heroes/placeholder.png";
         };
-        const name = document.createElement("div");
-        name.className = "hero-name";
-        name.textContent = hero.name;
-        cell.append(img, name);
+        cell.append(img);
         cell.title = "Remove " + hero.name;
-        cell.addEventListener("click", () => removeHero(id, side));
-      } else {
-        cell.textContent = "Empty";
+        cell.addEventListener("click", () => removeHero(id));
       }
-      // Drops from the pool land in the first free slot of this team.
+      // Drops from the pool land in the first free enemy slot.
       cell.addEventListener("dragover", (event) => event.preventDefault());
       cell.addEventListener("drop", (event) => {
         event.preventDefault();
-        placeHero(event.dataTransfer.getData("text/plain"), side);
+        placeHero(event.dataTransfer.getData("text/plain"));
       });
       row.appendChild(cell);
     }
   }
 
-  // Role profile: supports score supports only; cores score without own supports.
+  // Role profile: supports score supports only; cores score the full
+  // pool. There is no own team anymore, so the own-picks list is empty.
   function roleView() {
-    return window.DotaCounter.applyRoleProfile(state.profile, state.radiant, state.heroes);
+    return window.DotaCounter.applyRoleProfile(state.profile, [], state.heroes);
   }
 
-  // Render the win bar + one reason line per calculation shift.
-  function renderWin() {
-    const bar = document.querySelector(".win-bar-fill-radiant");
-    const label = document.querySelector(".win-bar-label");
-    const list = document.querySelector(".win-reasons");
-    if (!bar || !label || !list) return;
-    const view = roleView();
-    const result = window.DotaCounter.winEstimate(view.calcRadiant, state.dire, view.scorePool);
-    bar.style.width = result.radiant + "%";
-    label.textContent =
-      state.radiant.length === 0 && state.dire.length === 0
-        ? "Draft heroes to estimate the winner (estimated)"
-        : "Radiant " + result.radiant + "% — Dire " + result.dire + "% (estimated)";
-    list.innerHTML = "";
-    for (const reason of result.reasons) {
-      const line = document.createElement("li");
-      line.className = "win-reason";
-      line.textContent = reason;
-      list.appendChild(line);
-    }
-  }
-
-  // Ranked counters against the drafted enemy (Dire) team, with detail links.
+  // Ranked counters against the enemy lineup, with detail links.
   // Support mode lists support-lane heroes under a support heading.
+  // An empty ranking is thin data (few curated counters hit), not a
+  // render bug, so the panel says so instead of going blank.
   function renderCounters() {
     const list = document.querySelector(".counter-list");
     const prompt = document.querySelector(".empty-prompt");
@@ -190,80 +195,72 @@
     list.innerHTML = "";
     const view = roleView();
     if (heading) {
-      heading.textContent = view.supportMode ? "Best support picks vs Dire" : "Best counters vs Dire";
+      heading.textContent = view.supportMode ? "Best support picks" : "Best counters";
     }
     if (state.dire.length === 0) {
       if (prompt) prompt.hidden = false;
-      const panel = document.querySelector(".hero-detail");
-      if (panel) panel.innerHTML = "";
       return;
     }
     if (prompt) prompt.hidden = true;
     const ranked = view.supportMode
-      ? window.DotaCounter.scoreCounters(state.dire, view.scorePool)
-      : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool);
+      ? window.DotaCounter.scoreCounters(state.dire, view.scorePool, state.matchups)
+      : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool, state.matchups);
     renderSupportChips(view);
-    for (const entry of ranked.slice(0, 5)) {
+    if (ranked.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "counter-empty";
+      empty.textContent = "No strong counters for this draft yet.";
+      list.appendChild(empty);
+      return;
+    }
+    // A new draft collapses the list back to the top 5.
+    const draftKey = state.dire.join(",");
+    if (draftKey !== state.lastDire) {
+      state.lastDire = draftKey;
+      state.expanded = false;
+    }
+    for (const entry of state.expanded ? ranked.slice(0, 10) : ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
+      const hero = view.scorePool.find((h) => h.id === entry.id);
+      if (hero) {
+        const img = document.createElement("img");
+        img.className = "hero-portrait counter-portrait";
+        img.src = hero.image;
+        img.alt = entry.name;
+        img.onerror = () => { img.onerror = null; img.src = "./assets/heroes/placeholder.png"; };
+        item.appendChild(img);
+      }
+      const body = document.createElement("div");
+      body.className = "counter-body";
       const title = document.createElement("strong");
       title.className = "counter-name";
-      title.textContent = entry.name + " (+" + entry.score + ")";
+      title.textContent = entry.name + " (+" + (Math.round(entry.score * 10) / 10) + ")";
       const reason = document.createElement("p");
       reason.className = "counter-reason";
-      reason.textContent = entry.reasons.join("; ");
-      const detail = document.createElement("button");
+      // Top 2 reasons only; the hero page has the full story.
+      reason.textContent = entry.reasons.slice(0, 2).join("; ");
+      const detail = document.createElement("a");
       detail.className = "counter-detail-link";
-      detail.textContent = "How to beat them: items + skill tips";
-      detail.addEventListener("click", () => renderHeroDetail(entry.id));
-      item.append(title, reason, detail);
+      detail.href = "./heroes.html#" + entry.id;
+      detail.textContent = "Items + skill tips";
+      body.append(title, reason, detail);
+      item.appendChild(body);
       list.appendChild(item);
     }
-  }
-
-  // One hero's items + skill tips: how to beat the enemy.
-  function renderHeroDetail(id) {
-    const hero = heroById(id);
-    if (!hero) return;
-    let panel = document.querySelector(".hero-detail");
-    if (!panel) {
-      panel = document.createElement("section");
-      panel.className = "hero-detail";
-      document.querySelector(".counter-results").appendChild(panel);
-    }
-    panel.innerHTML = "";
-    const title = document.createElement("h3");
-    title.className = "hero-detail-title";
-    title.textContent = hero.name + " — how to beat them";
-    panel.appendChild(title);
-    for (const entry of hero.counterItems || []) {
-      const line = document.createElement("p");
-      line.className = "hero-detail-item";
-      line.textContent = entry.item + " — " + entry.when;
-      panel.appendChild(line);
-    }
-    for (const tip of hero.skillTips || []) {
-      const line = document.createElement("p");
-      line.className = "hero-detail-tip";
-      line.textContent = tip;
-      panel.appendChild(line);
-    }
-  }
-
-  // Side toggle: taps add to the active team.
-  function wireSideToggle() {
-    const buttons = document.querySelectorAll(".side-toggle");
-    for (const button of buttons) {
-      button.addEventListener("click", () => {
-        state.side = button.dataset.side;
-        for (const other of buttons) {
-          other.classList.toggle("side-toggle-active", other === button);
-        }
+    if (ranked.length > 5) {
+      const more = document.createElement("button");
+      more.className = "counter-more";
+      more.textContent = state.expanded ? "Show less" : "Show more";
+      more.addEventListener("click", () => {
+        state.expanded = !state.expanded;
+        renderCounters();
       });
+      list.appendChild(more);
     }
   }
 
-  // Enemy-support chips (core profiles): tap drafted Dire heroes that are
+  // Enemy-support chips (core profiles): tap enemy heroes that are
   // supports to aim same-role answers at them. Hidden for support profiles.
   function renderSupportChips(view) {
     const box = document.querySelector(".enemy-support-pick");
@@ -277,7 +274,7 @@
     state.enemySupports = state.enemySupports.filter((id) => state.dire.includes(id));
     const label = document.createElement("span");
     label.className = "enemy-support-label";
-    label.textContent = "Enemy supports? tap them:";
+    label.textContent = "Which enemies are supports?";
     box.appendChild(label);
     for (const id of state.dire) {
       const hero = heroById(id);
@@ -331,7 +328,6 @@
   }
 
   // Boot: restore a remembered profile, then load data and paint.
-  wireSideToggle();
   wireRoleModal();
   try {
     const saved = localStorage.getItem("dotacounter-profile");
@@ -350,14 +346,56 @@
   }
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
-    // Live search: each keystroke re-renders the pool through the filter.
-    const search = document.querySelector(".hero-search");
-    if (search) {
-      search.addEventListener("input", (event) => {
-        state.query = event.target.value;
+    state.matchups = data.matchups || { heroes: {} };
+    // Draft caption: where the numbers come from and how fresh they are.
+    const stamp = document.querySelector(".pool-data-date");
+    if (stamp) {
+      stamp.textContent =
+        "Source: OpenDota public matches · updated " + (data.matchups.updatedAt || "unknown");
+    }
+    // Win-numbers toggle: off by default, remembered nowhere.
+    const ratesBox = document.querySelector(".rates-checkbox");
+    if (ratesBox) {
+      ratesBox.addEventListener("change", () => {
+        state.showRates = ratesBox.checked;
         renderPool();
       });
     }
+    document.querySelectorAll(".role-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        state.tab = tab.dataset.tab;
+        document.querySelectorAll(".role-tab").forEach((t) => {
+          t.classList.toggle("role-tab-active", t === tab);
+        });
+        renderPool();
+      });
+    });
+    // Visible search box and type-anywhere share one query string.
+    const searchBox = document.querySelector(".pool-search");
+    if (searchBox) {
+      searchBox.addEventListener("input", () => {
+        state.query = searchBox.value;
+        renderPool();
+      });
+    }
+    // Type-to-filter: printable keys append, Backspace deletes one
+    // letter, Esc clears. Typing inside the box is left to the box.
+    document.addEventListener("keydown", (event) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.target && event.target.classList &&
+          event.target.classList.contains("pool-search")) return;
+      if (event.key === "Backspace") {
+        state.query = state.query.slice(0, -1);
+      } else if (event.key === "Escape") {
+        state.query = "";
+      } else if (event.key.length === 1) {
+        state.query = state.query + event.key;
+      } else {
+        return;
+      }
+      if (searchBox) searchBox.value = state.query;
+      renderPool();
+    });
     renderPool();
     renderBoard();
   });

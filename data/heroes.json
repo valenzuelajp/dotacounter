@@ -6,15 +6,33 @@
     "role": "initiator",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/axe.png",
     "counters": [
-      { "hero": "juggernaut", "reason": "Berserker's Call pierces Blade Fury and locks him during Omnislash" },
-      { "hero": "phantom_assassin", "reason": "Call plus Counter Helix shreds her low base health" },
-      { "hero": "sniper", "reason": "Blink Call jumps his backline before the team peels" }
+      {
+        "hero": "juggernaut",
+        "reason": "Berserker's Call pierces Blade Fury and locks him during Omnislash"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Call plus Counter Helix shreds her low base health"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Blink Call jumps his backline before the team peels"
+      }
     ],
     "counterItems": [
-      { "item": "blade-mail", "when": "Reflect burst when Called targets focus you" },
-      { "item": "blink-dagger", "when": "Call initiations before enemies scatter" }
+      {
+        "item": "blade_mail",
+        "when": "Reflect burst when Called targets focus you"
+      },
+      {
+        "item": "blink",
+        "when": "Call initiations before enemies scatter"
+      }
     ],
-    "skillTips": ["Save Call for the enemy carry's big spell or escape", "Spin with Counter Helix by drawing auto-attacks in lane"]
+    "skillTips": [
+      "Save Call for the enemy carry's big spell or escape",
+      "Spin with Counter Helix by drawing auto-attacks in lane"
+    ]
   },
   {
     "id": "lion",
@@ -23,15 +41,33 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lion.png",
     "counters": [
-      { "hero": "juggernaut", "reason": "Hex and Earth Spike pierce Blade Fury spin" },
-      { "hero": "enigma", "reason": "Instant Hex cancels Black Hole channel" },
-      { "hero": "phantom_assassin", "reason": "Double disables plus Finger burst delete her before crits land" }
+      {
+        "hero": "juggernaut",
+        "reason": "Hex and Earth Spike pierce Blade Fury spin"
+      },
+      {
+        "hero": "enigma",
+        "reason": "Instant Hex cancels Black Hole channel"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Double disables plus Finger burst delete her before crits land"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Hex the Black Hole or Omnislash from fog" },
-      { "item": "force-staff", "when": "Reposition allies out of Call and Ravage" }
+      {
+        "item": "blink",
+        "when": "Hex the Black Hole or Omnislash from fog"
+      },
+      {
+        "item": "force_staff",
+        "when": "Reposition allies out of Call and Ravage"
+      }
     ],
-    "skillTips": ["Hold Hex for the channel or escape, never open with it", "Stack Earth Spike after Hex for the full disable chain"]
+    "skillTips": [
+      "Hold Hex for the channel or escape, never open with it",
+      "Stack Earth Spike after Hex for the full disable chain"
+    ]
   },
   {
     "id": "juggernaut",
@@ -40,15 +76,33 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/juggernaut.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Spin plus Omnislash run down her slow, squishy support" },
-      { "hero": "sniper", "reason": "Blade Fury closes the range gap and Healing Ward out-sustains Shrapnel" },
-      { "hero": "drow_ranger", "reason": "Magic-immune spin ignores Gust silence and runs her down" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Spin plus Omnislash run down her slow, squishy support"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Blade Fury closes the range gap and Healing Ward out-sustains Shrapnel"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Magic-immune spin ignores Gust silence and runs her down"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Ignore Lion Hex and Ravage during Omnislash" },
-      { "item": "manta-style", "when": "Dispel slows and split-push against Tidehunter lineups" }
+      {
+        "item": "black_king_bar",
+        "when": "Ignore Lion Hex and Ravage during Omnislash"
+      },
+      {
+        "item": "manta",
+        "when": "Dispel slows and split-push against Tidehunter lineups"
+      }
     ],
-    "skillTips": ["Spin offensively to dodge Call timing, not just to escape", "Ward before Omnislash so the target cannot hide in fog"]
+    "skillTips": [
+      "Spin offensively to dodge Call timing, not just to escape",
+      "Ward before Omnislash so the target cannot hide in fog"
+    ]
   },
   {
     "id": "phantom_assassin",
@@ -57,15 +111,33 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/phantom_assassin.png",
     "counters": [
-      { "hero": "sniper", "reason": "Phantom Strike jumps his range advantage and crits burst him" },
-      { "hero": "drow_ranger", "reason": "Gap close plus Blur dodge beats her stand-and-shoot" },
-      { "hero": "crystal_maiden", "reason": "Jump, silence the Frostbite, delete the support first" }
+      {
+        "hero": "sniper",
+        "reason": "Phantom Strike jumps his range advantage and crits burst him"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Gap close plus Blur dodge beats her stand-and-shoot"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Jump, silence the Frostbite, delete the support first"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Stop Lion Hex and Earthshaker Echo mid-jump" },
-      { "item": "satanic", "when": "Out-lifesteal Axe Call focus and Tidehunter Anchor Smash" }
+      {
+        "item": "black_king_bar",
+        "when": "Stop Lion Hex and Earthshaker Echo mid-jump"
+      },
+      {
+        "item": "satanic",
+        "when": "Out-lifesteal Axe Call focus and Tidehunter Anchor Smash"
+      }
     ],
-    "skillTips": ["Enter after Call and Ravage are spent, never first", "Blur up before jumping Sniper so the first shots miss"]
+    "skillTips": [
+      "Enter after Call and Ravage are spent, never first",
+      "Blur up before jumping Sniper so the first shots miss"
+    ]
   },
   {
     "id": "crystal_maiden",
@@ -74,14 +146,29 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/crystal_maiden.png",
     "counters": [
-      { "hero": "sven", "reason": "Frostbite roots the melee carry so the team kites him" },
-      { "hero": "enigma", "reason": "Instant Frostbite cancels Black Hole from safety" }
+      {
+        "hero": "sven",
+        "reason": "Frostbite roots the melee carry so the team kites him"
+      },
+      {
+        "hero": "enigma",
+        "reason": "Instant Frostbite cancels Black Hole from safety"
+      }
     ],
     "counterItems": [
-      { "item": "glimmer-cape", "when": "Hide allies from Pudge hooks and PA jumps" },
-      { "item": "force-staff", "when": "Break Sven Storm Hammer range and push allies out" }
+      {
+        "item": "glimmer_cape",
+        "when": "Hide allies from Pudge hooks and PA jumps"
+      },
+      {
+        "item": "force_staff",
+        "when": "Break Sven Storm Hammer range and push allies out"
+      }
     ],
-    "skillTips": ["Hold Frostbite for Black Hole and Storm Hammer, not lane harass", "Freezing Field only after enemy jumps are down"]
+    "skillTips": [
+      "Hold Frostbite for Black Hole and Storm Hammer, not lane harass",
+      "Freezing Field only after enemy jumps are down"
+    ]
   },
   {
     "id": "sven",
@@ -90,15 +177,33 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sven.png",
     "counters": [
-      { "hero": "drow_ranger", "reason": "Storm Hammer plus God's Strength bursts her before Gust matters" },
-      { "hero": "crystal_maiden", "reason": "Stun and cleave delete the squishy support in one combo" },
-      { "hero": "sniper", "reason": "Blink stun closes range and cleave ignores Take Aim distance" }
+      {
+        "hero": "drow_ranger",
+        "reason": "Storm Hammer plus God's Strength bursts her before Gust matters"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Stun and cleave delete the squishy support in one combo"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Blink stun closes range and cleave ignores Take Aim distance"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "God's Strength through Lion and Tidehunter disables" },
-      { "item": "blink-dagger", "when": "Storm Hammer the backline before Glimmer saves them" }
+      {
+        "item": "black_king_bar",
+        "when": "God's Strength through Lion and Tidehunter disables"
+      },
+      {
+        "item": "blink",
+        "when": "Storm Hammer the backline before Glimmer saves them"
+      }
     ],
-    "skillTips": ["Pop God's Strength after the enemy support shows, not before", "Warcry before jumping so slows do not strand you"]
+    "skillTips": [
+      "Pop God's Strength after the enemy support shows, not before",
+      "Warcry before jumping so slows do not strand you"
+    ]
   },
   {
     "id": "drow_ranger",
@@ -107,15 +212,33 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/drow_ranger.png",
     "counters": [
-      { "hero": "enigma", "reason": "Long-range silence cancels Black Hole before it starts" },
-      { "hero": "tidehunter", "reason": "Gust plus range kites the melee initiator off Ravage angles" },
-      { "hero": "crystal_maiden", "reason": "Range and silence bully the slow support out of lane" }
+      {
+        "hero": "enigma",
+        "reason": "Long-range silence cancels Black Hole before it starts"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Gust plus range kites the melee initiator off Ravage angles"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Range and silence bully the slow support out of lane"
+      }
     ],
     "counterItems": [
-      { "item": "manta-style", "when": "Dispel Lion Hex setup and dodge Pudge hooks with illusions" },
-      { "item": "black-king-bar", "when": "Stand through Ravage and Echo to keep shooting" }
+      {
+        "item": "manta",
+        "when": "Dispel Lion Hex setup and dodge Pudge hooks with illusions"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Stand through Ravage and Echo to keep shooting"
+      }
     ],
-    "skillTips": ["Save Gust for the Black Hole and Blink initiations", "Never stand still against Axe: keep Call range in mind"]
+    "skillTips": [
+      "Save Gust for the Black Hole and Blink initiations",
+      "Never stand still against Axe: keep Call range in mind"
+    ]
   },
   {
     "id": "pudge",
@@ -124,15 +247,33 @@
     "role": "initiator",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pudge.png",
     "counters": [
-      { "hero": "sniper", "reason": "Hook drags the immobile shooter into Rot and Dismember" },
-      { "hero": "crystal_maiden", "reason": "Hook through fog punishes her slow, ward-dependent positioning" },
-      { "hero": "drow_ranger", "reason": "Hook breaks her range comfort and Rot slows the escape" }
+      {
+        "hero": "sniper",
+        "reason": "Hook drags the immobile shooter into Rot and Dismember"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Hook through fog punishes her slow, ward-dependent positioning"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Hook breaks her range comfort and Rot slows the escape"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Blink Dismember the Lion before Hex lands" },
-      { "item": "blade-mail", "when": "Punish Phantom Assassin and Sven for focusing you" }
+      {
+        "item": "blink",
+        "when": "Blink Dismember the Lion before Hex lands"
+      },
+      {
+        "item": "blade_mail",
+        "when": "Punish Phantom Assassin and Sven for focusing you"
+      }
     ],
-    "skillTips": ["Hook the Sniper the moment Take Aim channels, not earlier", "Rot toggle discipline: never die to your own Rot under Ravage"]
+    "skillTips": [
+      "Hook the Sniper the moment Take Aim channels, not earlier",
+      "Rot toggle discipline: never die to your own Rot under Ravage"
+    ]
   },
   {
     "id": "earthshaker",
@@ -141,15 +282,33 @@
     "role": "initiator",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/earthshaker.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Echo Slam scales on her grouped team and deletes her" },
-      { "hero": "sven", "reason": "Fissure kites God's Strength duration out, Echo punishes cleave clumps" },
-      { "hero": "drow_ranger", "reason": "Blink Echo reaches the backline she hides in" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Echo Slam scales on her grouped team and deletes her"
+      },
+      {
+        "hero": "sven",
+        "reason": "Fissure kites God's Strength duration out, Echo punishes cleave clumps"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Blink Echo reaches the backline she hides in"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Core item: Echo without Blink almost never lands" },
-      { "item": "aghanims-blessing", "when": "Second Echo wave against Tidehunter and Enigma clusters" }
+      {
+        "item": "blink",
+        "when": "Core item: Echo without Blink almost never lands"
+      },
+      {
+        "item": "ultimate_scepter_2",
+        "when": "Second Echo wave against Tidehunter and Enigma clusters"
+      }
     ],
-    "skillTips": ["Hold Echo for the clump, never solo-Echo the Axe", "Fissure the Sven charge path, not the Sven himself"]
+    "skillTips": [
+      "Hold Echo for the clump, never solo-Echo the Axe",
+      "Fissure the Sven charge path, not the Sven himself"
+    ]
   },
   {
     "id": "sniper",
@@ -158,15 +317,33 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sniper.png",
     "counters": [
-      { "hero": "enigma", "reason": "Extreme range harasses the jungler and Shrapnel spots Midnight setups" },
-      { "hero": "tidehunter", "reason": "Keeps distance on the melee initiator and headshots the Blink approach" },
-      { "hero": "lion", "reason": "Range advantage keeps the short-range disabler out of Hex range" }
+      {
+        "hero": "enigma",
+        "reason": "Extreme range harasses the jungler and Shrapnel spots Midnight setups"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Keeps distance on the melee initiator and headshots the Blink approach"
+      },
+      {
+        "hero": "lion",
+        "reason": "Range advantage keeps the short-range disabler out of Hex range"
+      }
     ],
     "counterItems": [
-      { "item": "hurricane-pike", "when": "Push away Axe Call and Pudge Rot follow-ups" },
-      { "item": "black-king-bar", "when": "Assassinate through Lion and Tidehunter combo chains" }
+      {
+        "item": "hurricane_pike",
+        "when": "Push away Axe Call and Pudge Rot follow-ups"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Assassinate through Lion and Tidehunter combo chains"
+      }
     ],
-    "skillTips": ["Position behind the Tidehunter, never beside him", "Assassinate the Enigma first if Black Hole is up"]
+    "skillTips": [
+      "Position behind the Tidehunter, never beside him",
+      "Assassinate the Enigma first if Black Hole is up"
+    ]
   },
   {
     "id": "tidehunter",
@@ -175,15 +352,33 @@
     "role": "initiator",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tidehunter.png",
     "counters": [
-      { "hero": "sven", "reason": "Anchor Smash drains his damage and Ravage stops God's Strength" },
-      { "hero": "juggernaut", "reason": "Ravage plus Kraken Shell control the spin fight" },
-      { "hero": "axe", "reason": "Thick targets plus Ravage punish Call initiations" }
+      {
+        "hero": "sven",
+        "reason": "Anchor Smash drains his damage and Ravage stops God's Strength"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Ravage plus Kraken Shell control the spin fight"
+      },
+      {
+        "hero": "axe",
+        "reason": "Thick targets plus Ravage punish Call initiations"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Blink Ravage before Lion and Sniper spread out" },
-      { "item": "pipe-of-insight", "when": "Shield the team against Lion Finger and Enigma Pulse" }
+      {
+        "item": "blink",
+        "when": "Blink Ravage before Lion and Sniper spread out"
+      },
+      {
+        "item": "pipe",
+        "when": "Shield the team against Lion Finger and Enigma Pulse"
+      }
     ],
-    "skillTips": ["Blink Ravage the Sniper pocket first, the rest follows", "Anchor Smash the Sven the moment God's Strength pops"]
+    "skillTips": [
+      "Blink Ravage the Sniper pocket first, the rest follows",
+      "Anchor Smash the Sven the moment God's Strength pops"
+    ]
   },
   {
     "id": "enigma",
@@ -192,14 +387,29 @@
     "role": "initiator",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/enigma.png",
     "counters": [
-      { "hero": "sven", "reason": "Black Hole holds God's Strength down for the full duration" },
-      { "hero": "pudge", "reason": "Eidolons pressure and Midnight Pulse melts his huge health pool" }
+      {
+        "hero": "sven",
+        "reason": "Black Hole holds God's Strength down for the full duration"
+      },
+      {
+        "hero": "pudge",
+        "reason": "Eidolons pressure and Midnight Pulse melts his huge health pool"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Blink Black Hole before Lion and Sniper react" },
-      { "item": "black-king-bar", "when": "Channel through Lion Hex and Sniper headshot flinch" }
+      {
+        "item": "blink",
+        "when": "Blink Black Hole before Lion and Sniper react"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Channel through Lion Hex and Sniper headshot flinch"
+      }
     ],
-    "skillTips": ["Black Hole the Sven, not the Tidehunter: Shell wastes half of it", "Show on lane to bait, then Blink Hole the counter-gank"]
+    "skillTips": [
+      "Black Hole the Sven, not the Tidehunter: Shell wastes half of it",
+      "Show on lane to bait, then Blink Hole the counter-gank"
+    ]
   },
   {
     "id": "tusk",
@@ -208,13 +418,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tusk.png",
     "counters": [
-      { "hero": "juggernaut", "reason": "Snowball punch interrupts his Healing Ward timing" },
-      { "hero": "sniper", "reason": "Blink Shards closes the range Sniper needs" }
+      {
+        "hero": "juggernaut",
+        "reason": "Snowball punch interrupts his Healing Ward timing"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Blink Shards closes the range Sniper needs"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Shard initiation before enemy cores group" }
+      {
+        "item": "blink",
+        "when": "Shard initiation before enemy cores group"
+      }
     ],
-    "skillTips": ["Save Snowball for the second disable, not the first"]
+    "skillTips": [
+      "Save Snowball for the second disable, not the first"
+    ]
   },
   {
     "id": "slardar",
@@ -223,13 +444,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/slardar.png",
     "counters": [
-      { "hero": "tidehunter", "reason": "Amplify Damage strips the Kraken Shell tankiness" },
-      { "hero": "sven", "reason": "Corrosive Haze ruins Sven's armor-based timing" }
+      {
+        "hero": "tidehunter",
+        "reason": "Amplify Damage strips the Kraken Shell tankiness"
+      },
+      {
+        "hero": "sven",
+        "reason": "Corrosive Haze ruins Sven's armor-based timing"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Slithereen Crush initiation on grouped cores" }
+      {
+        "item": "blink",
+        "when": "Slithereen Crush initiation on grouped cores"
+      }
     ],
-    "skillTips": ["Haze the enemy carry before every fight, not during"]
+    "skillTips": [
+      "Haze the enemy carry before every fight, not during"
+    ]
   },
   {
     "id": "tiny",
@@ -238,13 +470,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tiny.png",
     "counters": [
-      { "hero": "sniper", "reason": "Avalanche Toss bursts Sniper before he repositions" },
-      { "hero": "drow_ranger", "reason": "Blink combo deletes Drow before Gust matters" }
+      {
+        "hero": "sniper",
+        "reason": "Avalanche Toss bursts Sniper before he repositions"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Blink combo deletes Drow before Gust matters"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Core initiation item every game" }
+      {
+        "item": "blink",
+        "when": "Core initiation item every game"
+      }
     ],
-    "skillTips": ["Toss the enemy into your team, not away from it"]
+    "skillTips": [
+      "Toss the enemy into your team, not away from it"
+    ]
   },
   {
     "id": "kunkka",
@@ -253,13 +496,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/kunkka.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Ghostship stun sets up burst she cannot dodge" },
-      { "hero": "juggernaut", "reason": "Tidebringer cleave hits through Blade Fury spin" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Ghostship stun sets up burst she cannot dodge"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Tidebringer cleave hits through Blade Fury spin"
+      }
     ],
     "counterItems": [
-      { "item": "armlet-of-mordiggian", "when": "Toggle sustain for Tidebringer trades" }
+      {
+        "item": "armlet",
+        "when": "Toggle sustain for Tidebringer trades"
+      }
     ],
-    "skillTips": ["X into Torrent into Boat is the full combo, land all three"]
+    "skillTips": [
+      "X into Torrent into Boat is the full combo, land all three"
+    ]
   },
   {
     "id": "dragon_knight",
@@ -268,13 +522,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dragon_knight.png",
     "counters": [
-      { "hero": "tidehunter", "reason": "Elder Dragon Form out-sieges Ravage cooldowns" },
-      { "hero": "pudge", "reason": "Breathe Fire reduces Hook follow-up damage" }
+      {
+        "hero": "tidehunter",
+        "reason": "Elder Dragon Form out-sieges Ravage cooldowns"
+      },
+      {
+        "hero": "pudge",
+        "reason": "Breathe Fire reduces Hook follow-up damage"
+      }
     ],
     "counterItems": [
-      { "item": "armlet-of-mordiggian", "when": "Toggle through Dragon Form pushes" }
+      {
+        "item": "armlet",
+        "when": "Toggle through Dragon Form pushes"
+      }
     ],
-    "skillTips": ["Stun first in dragon form, Breathe Fire second for the slow"]
+    "skillTips": [
+      "Stun first in dragon form, Breathe Fire second for the slow"
+    ]
   },
   {
     "id": "rattletrap",
@@ -283,13 +548,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/rattletrap.png",
     "counters": [
-      { "hero": "sniper", "reason": "Hookshot traps Sniper inside Cogs with no escape" },
-      { "hero": "enigma", "reason": "Cogs push cancels Black Hole channel" }
+      {
+        "hero": "sniper",
+        "reason": "Hookshot traps Sniper inside Cogs with no escape"
+      },
+      {
+        "hero": "enigma",
+        "reason": "Cogs push cancels Black Hole channel"
+      }
     ],
     "counterItems": [
-      { "item": "blade-mail", "when": "Reflect inside Battery Assault trades" }
+      {
+        "item": "blade_mail",
+        "when": "Reflect inside Battery Assault trades"
+      }
     ],
-    "skillTips": ["Cog the enemy carry against a wall so they cannot click out"]
+    "skillTips": [
+      "Cog the enemy carry against a wall so they cannot click out"
+    ]
   },
   {
     "id": "life_stealer",
@@ -298,14 +574,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/life_stealer.png",
     "counters": [
-      { "hero": "axe", "reason": "Rage ignores Berserker's Call completely" },
-      { "hero": "phantom_assassin", "reason": "Feast percent damage melts her low health pool" }
+      {
+        "hero": "axe",
+        "reason": "Rage ignores Berserker's Call completely"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Feast percent damage melts her low health pool"
+      }
     ],
     "counterItems": [
-      { "item": "armlet-of-mordiggian", "when": "Toggle with Rage timing in fights" },
-      { "item": "black-king-bar", "when": "Unstoppable Infest initiation" }
+      {
+        "item": "armlet",
+        "when": "Toggle with Rage timing in fights"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Infest initiation"
+      }
     ],
-    "skillTips": ["Rage the stun, not the slow, then stick with Open Wounds"]
+    "skillTips": [
+      "Rage the stun, not the slow, then stick with Open Wounds"
+    ]
   },
   {
     "id": "huskar",
@@ -314,14 +604,28 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/huskar.png",
     "counters": [
-      { "hero": "sniper", "reason": "Life Break closes on Sniper and heals through shrapnel" },
-      { "hero": "drow_ranger", "reason": "Wins every trade once Berserker's Blood stacks" }
+      {
+        "hero": "sniper",
+        "reason": "Life Break closes on Sniper and heals through shrapnel"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Wins every trade once Berserker's Blood stacks"
+      }
     ],
     "counterItems": [
-      { "item": "armlet-of-mordiggian", "when": "Toggle to stay in low-health damage zone" },
-      { "item": "halberd", "when": "Disarm the enemy right-click carry" }
+      {
+        "item": "armlet",
+        "when": "Toggle to stay in low-health damage zone"
+      },
+      {
+        "item": "heavens_halberd",
+        "when": "Disarm the enemy right-click carry"
+      }
     ],
-    "skillTips": ["Jump at 30 percent health, never at full, for maximum damage"]
+    "skillTips": [
+      "Jump at 30 percent health, never at full, for maximum damage"
+    ]
   },
   {
     "id": "night_stalker",
@@ -330,13 +634,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/night_stalker.png",
     "counters": [
-      { "hero": "sniper", "reason": "Night flight silences and runs Sniper down" },
-      { "hero": "crystal_maiden", "reason": "Hunter in the Night chases her slow movement" }
+      {
+        "hero": "sniper",
+        "reason": "Night flight silences and runs Sniper down"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Hunter in the Night chases her slow movement"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Unstoppable night initiations" }
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable night initiations"
+      }
     ],
-    "skillTips": ["First night at minute 5 is your kill window, be mid by then"]
+    "skillTips": [
+      "First night at minute 5 is your kill window, be mid by then"
+    ]
   },
   {
     "id": "spirit_breaker",
@@ -345,13 +660,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/spirit_breaker.png",
     "counters": [
-      { "hero": "enigma", "reason": "Charge bash cancels Black Hole from fog" },
-      { "hero": "crystal_maiden", "reason": "Global presence punishes her immobile channeling" }
+      {
+        "hero": "enigma",
+        "reason": "Charge bash cancels Black Hole from fog"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Global presence punishes her immobile channeling"
+      }
     ],
     "counterItems": [
-      { "item": "shadow-blade", "when": "Unseen charges Nether Strike setups" }
+      {
+        "item": "invis_sword",
+        "when": "Unseen charges Nether Strike setups"
+      }
     ],
-    "skillTips": ["Charge through the enemy, turn, then bash them back"]
+    "skillTips": [
+      "Charge through the enemy, turn, then bash them back"
+    ]
   },
   {
     "id": "alchemist",
@@ -360,14 +686,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/alchemist.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Out-farms her timing and stuns through Blur" },
-      { "hero": "sniper", "reason": "Radiance timing burns Sniper before he peaks" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Out-farms her timing and stuns through Blur"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Radiance timing burns Sniper before he peaks"
+      }
     ],
     "counterItems": [
-      { "item": "radiance", "when": "Fast timing item that accelerates all farm" },
-      { "item": "black-king-bar", "when": "Unstable Concoction delivery protection" }
+      {
+        "item": "radiance",
+        "when": "Fast timing item that accelerates all farm"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Unstable Concoction delivery protection"
+      }
     ],
-    "skillTips": ["Stack for yourself with Acid Spray, never skip the minute-7 rune"]
+    "skillTips": [
+      "Stack for yourself with Acid Spray, never skip the minute-7 rune"
+    ]
   },
   {
     "id": "lycan",
@@ -376,13 +716,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lycan.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Wolves run her down before Freezing Field" },
-      { "hero": "lion", "reason": "Shapeshift speed dodges Hex and Earth Spike" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Wolves run her down before Freezing Field"
+      },
+      {
+        "hero": "lion",
+        "reason": "Shapeshift speed dodges Hex and Earth Spike"
+      }
     ],
     "counterItems": [
-      { "item": "necronomicon", "when": "Push timing with Howl aura (where available)" }
+      {
+        "item": "necronomicon",
+        "when": "Push timing with Howl aura (where available)"
+      }
     ],
-    "skillTips": ["Shapeshift scout first, send wolves second, follow third"]
+    "skillTips": [
+      "Shapeshift scout first, send wolves second, follow third"
+    ]
   },
   {
     "id": "chaos_knight",
@@ -391,14 +742,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/chaos_knight.png",
     "counters": [
-      { "hero": "lion", "reason": "Mana Drain removes his stun and Phantasm threat" },
-      { "hero": "crystal_maiden", "reason": "Chaos Strike burst deletes her before Nova" }
+      {
+        "hero": "lion",
+        "reason": "Mana Drain removes his stun and Phantasm threat"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Chaos Strike burst deletes her before Nova"
+      }
     ],
     "counterItems": [
-      { "item": "armlet-of-mordiggian", "when": "Toggle through Reality Rift burst" },
-      { "item": "heart-of-tarrasque", "when": "Sustain the illusion army late" }
+      {
+        "item": "armlet",
+        "when": "Toggle through Reality Rift burst"
+      },
+      {
+        "item": "heart",
+        "when": "Sustain the illusion army late"
+      }
     ],
-    "skillTips": ["Phantasm before Rift so illusions also pull the target"]
+    "skillTips": [
+      "Phantasm before Rift so illusions also pull the target"
+    ]
   },
   {
     "id": "treant",
@@ -407,13 +772,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/treant.png",
     "counters": [
-      { "hero": "sniper", "reason": "Living Armor blocks Assassinate picks globally" },
-      { "hero": "phantom_assassin", "reason": "Overgrowth roots her during Blur engages" }
+      {
+        "hero": "sniper",
+        "reason": "Living Armor blocks Assassinate picks globally"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Overgrowth roots her during Blur engages"
+      }
     ],
     "counterItems": [
-      { "item": "meteor-hammer", "when": "Channel inside Overgrowth root" }
+      {
+        "item": "meteor_hammer",
+        "when": "Channel inside Overgrowth root"
+      }
     ],
-    "skillTips": ["Eyes of the Forest on cliffs before every objective fight"]
+    "skillTips": [
+      "Eyes of the Forest on cliffs before every objective fight"
+    ]
   },
   {
     "id": "ogre_magi",
@@ -422,13 +798,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ogre_magi.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Ignite slow plus stuns lock her early" },
-      { "hero": "juggernaut", "reason": "Fireblast interrupts Healing Ward channels" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Ignite slow plus stuns lock her early"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Fireblast interrupts Healing Ward channels"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Long-range Fireblast picks" }
+      {
+        "item": "aether_lens",
+        "when": "Long-range Fireblast picks"
+      }
     ],
-    "skillTips": ["Bloodlust your carry before the fight starts, not during"]
+    "skillTips": [
+      "Bloodlust your carry before the fight starts, not during"
+    ]
   },
   {
     "id": "undying",
@@ -437,13 +824,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/undying.png",
     "counters": [
-      { "hero": "axe", "reason": "Decay steals the damage Call relies on" },
-      { "hero": "tidehunter", "reason": "Tombstone zombies overwhelm his slow clear" }
+      {
+        "hero": "axe",
+        "reason": "Decay steals the damage Call relies on"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Tombstone zombies overwhelm his slow clear"
+      }
     ],
     "counterItems": [
-      { "item": "holy-locket", "when": "Boost Soul Rip team heals" }
+      {
+        "item": "holy_locket",
+        "when": "Boost Soul Rip team heals"
+      }
     ],
-    "skillTips": ["Drop Tombstone behind the fight so zombies arrive as it starts"]
+    "skillTips": [
+      "Drop Tombstone behind the fight so zombies arrive as it starts"
+    ]
   },
   {
     "id": "centaur",
@@ -452,14 +850,28 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/centaur.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Return reflects her burst back at her" },
-      { "hero": "juggernaut", "reason": "Stampede dispels Omnislash slows" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Return reflects her burst back at her"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Stampede dispels Omnislash slows"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Hoof Stomp initiation every fight" },
-      { "item": "blade-mail", "when": "Return plus reflect punishes focus" }
+      {
+        "item": "blink",
+        "when": "Hoof Stomp initiation every fight"
+      },
+      {
+        "item": "blade_mail",
+        "when": "Return plus reflect punishes focus"
+      }
     ],
-    "skillTips": ["Edge of the fight, Blink Stomp, Stampede out with your team"]
+    "skillTips": [
+      "Edge of the fight, Blink Stomp, Stampede out with your team"
+    ]
   },
   {
     "id": "shredder",
@@ -468,13 +880,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/shredder.png",
     "counters": [
-      { "hero": "axe", "reason": "Pure Whirling Death ignores Blademail and Call armor" },
-      { "hero": "tidehunter", "reason": "Reactive Armor stacks drain his Anchor Smash" }
+      {
+        "hero": "axe",
+        "reason": "Pure Whirling Death ignores Blademail and Call armor"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Reactive Armor stacks drain his Anchor Smash"
+      }
     ],
     "counterItems": [
-      { "item": "bloodstone", "when": "Spell lifesteal sustains Chakram dives" }
+      {
+        "item": "bloodstone",
+        "when": "Spell lifesteal sustains Chakram dives"
+      }
     ],
-    "skillTips": ["Cut trees with Chakram so Timber Chain always has an anchor"]
+    "skillTips": [
+      "Cut trees with Chakram so Timber Chain always has an anchor"
+    ]
   },
   {
     "id": "bristleback",
@@ -483,13 +906,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bristleback.png",
     "counters": [
-      { "hero": "sniper", "reason": "Goopy slows let him close on Sniper" },
-      { "hero": "drow_ranger", "reason": "Warpath stacks out-damage her early" }
+      {
+        "hero": "sniper",
+        "reason": "Goopy slows let him close on Sniper"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Warpath stacks out-damage her early"
+      }
     ],
     "counterItems": [
-      { "item": "blade-mail", "when": "Punish focus while quills stack" }
+      {
+        "item": "blade_mail",
+        "when": "Punish focus while quills stack"
+      }
     ],
-    "skillTips": ["Turn your back while quilling, face only to spray"]
+    "skillTips": [
+      "Turn your back while quilling, face only to spray"
+    ]
   },
   {
     "id": "elder_titan",
@@ -498,13 +932,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/elder_titan.png",
     "counters": [
-      { "hero": "axe", "reason": "Astral Spirit armor strip melts grouped Call targets" },
-      { "hero": "tidehunter", "reason": "Earth Splitter percent damage ignores Kraken Shell" }
+      {
+        "hero": "axe",
+        "reason": "Astral Spirit armor strip melts grouped Call targets"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Earth Splitter percent damage ignores Kraken Shell"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Echo Stomp initiation" }
+      {
+        "item": "blink",
+        "when": "Echo Stomp initiation"
+      }
     ],
-    "skillTips": ["Slam the spirit through the teamfight, not next to it"]
+    "skillTips": [
+      "Slam the spirit through the teamfight, not next to it"
+    ]
   },
   {
     "id": "legion_commander",
@@ -513,14 +958,28 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/legion_commander.png",
     "counters": [
-      { "hero": "juggernaut", "reason": "Duel locks him out of Omnislash escape" },
-      { "hero": "phantom_assassin", "reason": "Press the Attack dispels her slows" }
+      {
+        "hero": "juggernaut",
+        "reason": "Duel locks him out of Omnislash escape"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Press the Attack dispels her slows"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Duel initiation on isolated targets" },
-      { "item": "blade-mail", "when": "Win Duels against right-clickers" }
+      {
+        "item": "blink",
+        "when": "Duel initiation on isolated targets"
+      },
+      {
+        "item": "blade_mail",
+        "when": "Win Duels against right-clickers"
+      }
     ],
-    "skillTips": ["Duel the support first for safe damage stacks, cores later"]
+    "skillTips": [
+      "Duel the support first for safe damage stacks, cores later"
+    ]
   },
   {
     "id": "earth_spirit",
@@ -529,13 +988,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/earth_spirit.png",
     "counters": [
-      { "hero": "enigma", "reason": "Rolling Boulder silence stops Black Hole from range" },
-      { "hero": "sniper", "reason": "Magnetize plus rolls chase him down" }
+      {
+        "hero": "enigma",
+        "reason": "Rolling Boulder silence stops Black Hole from range"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Magnetize plus rolls chase him down"
+      }
     ],
     "counterItems": [
-      { "item": "veil-of-discord", "when": "Amplify rolling magic burst" }
+      {
+        "item": "veil_of_discord",
+        "when": "Amplify rolling magic burst"
+      }
     ],
-    "skillTips": ["Place the stone remnant before rolling, never during"]
+    "skillTips": [
+      "Place the stone remnant before rolling, never during"
+    ]
   },
   {
     "id": "abyssal_underlord",
@@ -544,13 +1014,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/abyssal_underlord.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Firestorm burn zones her Blink Strike spots" },
-      { "hero": "juggernaut", "reason": "Pit of Malice roots his Omnislash path" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Firestorm burn zones her Blink Strike spots"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Pit of Malice roots his Omnislash path"
+      }
     ],
     "counterItems": [
-      { "item": "pipe-of-insight", "when": "Team magic barrier every push" }
+      {
+        "item": "pipe",
+        "when": "Team magic barrier every push"
+      }
     ],
-    "skillTips": ["Dark Rift your team out the moment two heroes die"]
+    "skillTips": [
+      "Dark Rift your team out the moment two heroes die"
+    ]
   },
   {
     "id": "phoenix",
@@ -559,13 +1040,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/phoenix.png",
     "counters": [
-      { "hero": "axe", "reason": "Supernova forces him out of Call position" },
-      { "hero": "tidehunter", "reason": "Sun Ray percent burn ignores his armor" }
+      {
+        "hero": "axe",
+        "reason": "Supernova forces him out of Call position"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Sun Ray percent burn ignores his armor"
+      }
     ],
     "counterItems": [
-      { "item": "shivas-guard", "when": "Slow plus armor for egg defense" }
+      {
+        "item": "shivas_guard",
+        "when": "Slow plus armor for egg defense"
+      }
     ],
-    "skillTips": ["Egg behind your team, never in front, so they must dive for it"]
+    "skillTips": [
+      "Egg behind your team, never in front, so they must dive for it"
+    ]
   },
   {
     "id": "mars",
@@ -574,13 +1066,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/mars.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Arena walls her Blink Strike escapes" },
-      { "hero": "sniper", "reason": "Spear pins him before Assassinate range" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Arena walls her Blink Strike escapes"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Spear pins him before Assassinate range"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Arena plus Spear initiation" }
+      {
+        "item": "blink",
+        "when": "Arena plus Spear initiation"
+      }
     ],
-    "skillTips": ["Arena facing matters: pin them against the wall edge"]
+    "skillTips": [
+      "Arena facing matters: pin them against the wall edge"
+    ]
   },
   {
     "id": "dawnbreaker",
@@ -589,13 +1092,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dawnbreaker.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Global Solar Guardian answers her ganks" },
-      { "hero": "lion", "reason": "Starbreaker clears his disables with mobility" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Global Solar Guardian answers her ganks"
+      },
+      {
+        "hero": "lion",
+        "reason": "Starbreaker clears his disables with mobility"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Unstoppable Celestial Hammer engages" }
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Celestial Hammer engages"
+      }
     ],
-    "skillTips": ["Ult the fight your team is losing, not the one already won"]
+    "skillTips": [
+      "Ult the fight your team is losing, not the one already won"
+    ]
   },
   {
     "id": "primal_beast",
@@ -604,13 +1118,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/primal_beast.png",
     "counters": [
-      { "hero": "sniper", "reason": "Onslaught tramples the distance Sniper needs" },
-      { "hero": "drow_ranger", "reason": "Uproar armor plus charge runs her down" }
+      {
+        "hero": "sniper",
+        "reason": "Onslaught tramples the distance Sniper needs"
+      },
+      {
+        "hero": "drow_ranger",
+        "reason": "Uproar armor plus charge runs her down"
+      }
     ],
     "counterItems": [
-      { "item": "blade-mail", "when": "Reflect during Pulverize grabs" }
+      {
+        "item": "blade_mail",
+        "when": "Reflect during Pulverize grabs"
+      }
     ],
-    "skillTips": ["Charge the stomp, do not tap it, for maximum stun"]
+    "skillTips": [
+      "Charge the stomp, do not tap it, for maximum stun"
+    ]
   },
   {
     "id": "doom_bringer",
@@ -619,14 +1144,28 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/doom_bringer.png",
     "counters": [
-      { "hero": "enigma", "reason": "Doom silences Black Hole through BKB" },
-      { "hero": "juggernaut", "reason": "Doom removes Omnislash plus Healing Ward" }
+      {
+        "hero": "enigma",
+        "reason": "Doom silences Black Hole through BKB"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Doom removes Omnislash plus Healing Ward"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Doom delivery on the key target" },
-      { "item": "black-king-bar", "when": "Walk through disables to land Doom" }
+      {
+        "item": "blink",
+        "when": "Doom delivery on the key target"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Walk through disables to land Doom"
+      }
     ],
-    "skillTips": ["Doom the initiator before the fight, not the carry during"]
+    "skillTips": [
+      "Doom the initiator before the fight, not the carry during"
+    ]
   },
   {
     "id": "skeleton_king",
@@ -635,14 +1174,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/skeleton_king.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Two lives outlast her burst combo" },
-      { "hero": "lion", "reason": "Reincarnation wastes Hex and Finger" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Two lives outlast her burst combo"
+      },
+      {
+        "hero": "lion",
+        "reason": "Reincarnation wastes Hex and Finger"
+      }
     ],
     "counterItems": [
-      { "item": "armlet-of-mordiggian", "when": "Toggle through Reincarnation revive" },
-      { "item": "blink-dagger", "when": "Stun initiation on backlines" }
+      {
+        "item": "armlet",
+        "when": "Toggle through Reincarnation revive"
+      },
+      {
+        "item": "blink",
+        "when": "Stun initiation on backlines"
+      }
     ],
-    "skillTips": ["Die forward so your revive lands on their supports"]
+    "skillTips": [
+      "Die forward so your revive lands on their supports"
+    ]
   },
   {
     "id": "omniknight",
@@ -651,13 +1204,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/omniknight.png",
     "counters": [
-      { "hero": "axe", "reason": "Repel blocks Berserker's Call on your carry" },
-      { "hero": "lion", "reason": "Heavenly Grace purges Hex and slows" }
+      {
+        "hero": "axe",
+        "reason": "Repel blocks Berserker's Call on your carry"
+      },
+      {
+        "hero": "lion",
+        "reason": "Heavenly Grace purges Hex and slows"
+      }
     ],
     "counterItems": [
-      { "item": "holy-locket", "when": "Boost Purification team heals" }
+      {
+        "item": "holy_locket",
+        "when": "Boost Purification team heals"
+      }
     ],
-    "skillTips": ["Grace before the stun lands, not after, for the status resist"]
+    "skillTips": [
+      "Grace before the stun lands, not after, for the status resist"
+    ]
   },
   {
     "id": "largo",
@@ -666,13 +1230,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/largo.png",
     "counters": [
-      { "hero": "sniper", "reason": "Gap close tools pressure his positioning" },
-      { "hero": "crystal_maiden", "reason": "Early aggression answers his scaling" }
+      {
+        "hero": "sniper",
+        "reason": "Gap close tools pressure his positioning"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Early aggression answers his scaling"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Safe initiation timing" }
+      {
+        "item": "black_king_bar",
+        "when": "Safe initiation timing"
+      }
     ],
-    "skillTips": ["New hero: check the in-game guides until curated data lands"]
+    "skillTips": [
+      "New hero: check the in-game guides until curated data lands"
+    ]
   },
   {
     "id": "antimage",
@@ -681,14 +1256,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/antimage.png",
     "counters": [
-      { "hero": "lion", "reason": "Mana Break plus Void locks him before Hex" },
-      { "hero": "sniper", "reason": "Blink gap-close dodges Assassinate windup" }
+      {
+        "hero": "lion",
+        "reason": "Mana Break plus Void locks him before Hex"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Blink gap-close dodges Assassinate windup"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Spell shield plus BKB vs heavy disable" },
-      { "item": "manta-style", "when": "Dispel silences every fight" }
+      {
+        "item": "black_king_bar",
+        "when": "Spell shield plus BKB vs heavy disable"
+      },
+      {
+        "item": "manta",
+        "when": "Dispel silences every fight"
+      }
     ],
-    "skillTips": ["Blink to the backline, burn the support, Blink out"]
+    "skillTips": [
+      "Blink to the backline, burn the support, Blink out"
+    ]
   },
   {
     "id": "mirana",
@@ -697,13 +1286,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/mirana.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Sacred Arrow picks her from fog range" },
-      { "hero": "sniper", "reason": "Moonlight Shadow ganks close his distance" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Sacred Arrow picks her from fog range"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Moonlight Shadow ganks close his distance"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Long-range Arrow picks" }
+      {
+        "item": "aether_lens",
+        "when": "Long-range Arrow picks"
+      }
     ],
-    "skillTips": ["Arrow the farming pattern, not the moving target"]
+    "skillTips": [
+      "Arrow the farming pattern, not the moving target"
+    ]
   },
   {
     "id": "morphling",
@@ -712,14 +1312,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/morphling.png",
     "counters": [
-      { "hero": "lion", "reason": "Attribute Shift plus burst races his Hex" },
-      { "hero": "phantom_assassin", "reason": "Waveform dodge plus adaptive strike out-trades" }
+      {
+        "hero": "lion",
+        "reason": "Attribute Shift plus burst races his Hex"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Waveform dodge plus adaptive strike out-trades"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Unstoppable Strength morph fights" },
-      { "item": "satanic", "when": "Out-heal burst with Shift plus lifesteal" }
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Strength morph fights"
+      },
+      {
+        "item": "satanic",
+        "when": "Out-heal burst with Shift plus lifesteal"
+      }
     ],
-    "skillTips": ["Morph Strength before the stun lands, not after"]
+    "skillTips": [
+      "Morph Strength before the stun lands, not after"
+    ]
   },
   {
     "id": "nevermore",
@@ -728,13 +1342,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/nevermore.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Raze stacks zone her off every wave" },
-      { "hero": "sniper", "reason": "Early souls plus razes out-push his lane" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Raze stacks zone her off every wave"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Early souls plus razes out-push his lane"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Requiem delivery through disables" }
+      {
+        "item": "black_king_bar",
+        "when": "Requiem delivery through disables"
+      }
     ],
-    "skillTips": ["Stack souls on the small camp between waves"]
+    "skillTips": [
+      "Stack souls on the small camp between waves"
+    ]
   },
   {
     "id": "phantom_lancer",
@@ -743,14 +1368,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/phantom_lancer.png",
     "counters": [
-      { "hero": "axe", "reason": "Illusions feed Call plus Counter Helix spins" },
-      { "hero": "sven", "reason": "Doppelganger dodges Storm Hammer stuns" }
+      {
+        "hero": "axe",
+        "reason": "Illusions feed Call plus Counter Helix spins"
+      },
+      {
+        "hero": "sven",
+        "reason": "Doppelganger dodges Storm Hammer stuns"
+      }
     ],
     "counterItems": [
-      { "item": "diffusal-blade", "when": "Mana burn plus slow on the real target" },
-      { "item": "heart-of-tarrasque", "when": "Outlast AoE clear attempts" }
+      {
+        "item": "diffusal_blade",
+        "when": "Mana burn plus slow on the real target"
+      },
+      {
+        "item": "heart",
+        "when": "Outlast AoE clear attempts"
+      }
     ],
-    "skillTips": ["Spread illusions before the fight so AoE cannot catch all"]
+    "skillTips": [
+      "Spread illusions before the fight so AoE cannot catch all"
+    ]
   },
   {
     "id": "razor",
@@ -759,13 +1398,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/razor.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Static Link steals the damage her crits need" },
-      { "hero": "sven", "reason": "Link drains God's Strength during ult" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Static Link steals the damage her crits need"
+      },
+      {
+        "hero": "sven",
+        "reason": "Link drains God's Strength during ult"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Unbreakable link in teamfights" }
+      {
+        "item": "black_king_bar",
+        "when": "Unbreakable link in teamfights"
+      }
     ],
-    "skillTips": ["Link the carry at fight start, Eye of the Storm follows"]
+    "skillTips": [
+      "Link the carry at fight start, Eye of the Storm follows"
+    ]
   },
   {
     "id": "vengefulspirit",
@@ -774,13 +1424,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/vengefulspirit.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Swap saves allies from her burst" },
-      { "hero": "juggernaut", "reason": "Wave plus Swap repositions Omnislash targets" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Swap saves allies from her burst"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Wave plus Swap repositions Omnislash targets"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Long-range Swap saves" }
+      {
+        "item": "aether_lens",
+        "when": "Long-range Swap saves"
+      }
     ],
-    "skillTips": ["Swap the initiated ally out, never swap yourself in alone"]
+    "skillTips": [
+      "Swap the initiated ally out, never swap yourself in alone"
+    ]
   },
   {
     "id": "riki",
@@ -789,13 +1450,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/riki.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Permanent invis hunts her wards and lane" },
-      { "hero": "lion", "reason": "Backstab burst races his disable combo" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Permanent invis hunts her wards and lane"
+      },
+      {
+        "hero": "lion",
+        "reason": "Backstab burst races his disable combo"
+      }
     ],
     "counterItems": [
-      { "item": "diffusal-blade", "when": "Slow plus burn on Tricks targets" }
+      {
+        "item": "diffusal_blade",
+        "when": "Slow plus burn on Tricks targets"
+      }
     ],
-    "skillTips": ["Scout the support pattern first, kill on the second rotation"]
+    "skillTips": [
+      "Scout the support pattern first, kill on the second rotation"
+    ]
   },
   {
     "id": "bloodseeker",
@@ -804,13 +1476,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bloodseeker.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Rupture punishes her Blink Strike engages" },
-      { "hero": "juggernaut", "reason": "Thirst vision tracks Healing Ward retreats" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Rupture punishes her Blink Strike engages"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Thirst vision tracks Healing Ward retreats"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Rupture delivery through disables" }
+      {
+        "item": "black_king_bar",
+        "when": "Rupture delivery through disables"
+      }
     ],
-    "skillTips": ["Rupture the mobile hero first, the slow one never escapes anyway"]
+    "skillTips": [
+      "Rupture the mobile hero first, the slow one never escapes anyway"
+    ]
   },
   {
     "id": "faceless_void",
@@ -819,14 +1502,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/faceless_void.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Chronosphere freezes her before Blur matters" },
-      { "hero": "sniper", "reason": "Time Walk in plus Chrono traps him" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Chronosphere freezes her before Blur matters"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Time Walk in plus Chrono traps him"
+      }
     ],
     "counterItems": [
-      { "item": "battle-fury", "when": "Farm timing plus Chrono follow-up cleave" },
-      { "item": "black-king-bar", "when": "Clean Chronosphere setups" }
+      {
+        "item": "bfury",
+        "when": "Farm timing plus Chrono follow-up cleave"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Clean Chronosphere setups"
+      }
     ],
-    "skillTips": ["Chrono two heroes you can kill over five you cannot"]
+    "skillTips": [
+      "Chrono two heroes you can kill over five you cannot"
+    ]
   },
   {
     "id": "templar_assassin",
@@ -835,13 +1532,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/templar_assassin.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Refraction blocks Nova plus lane harass" },
-      { "hero": "sniper", "reason": "Meld burst wins the mid matchup" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Refraction blocks Nova plus lane harass"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Meld burst wins the mid matchup"
+      }
     ],
     "counterItems": [
-      { "item": "desolator", "when": "Minus armor with Psi Blades splash" }
+      {
+        "item": "desolator",
+        "when": "Minus armor with Psi Blades splash"
+      }
     ],
-    "skillTips": ["Trap the rune spots and the Roshan pit, nowhere else early"]
+    "skillTips": [
+      "Trap the rune spots and the Roshan pit, nowhere else early"
+    ]
   },
   {
     "id": "viper",
@@ -850,13 +1558,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/viper.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Break plus corrosive ruins her lane" },
-      { "hero": "tidehunter", "reason": "Nethertoxin percent damage ignores Kraken Shell" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Break plus corrosive ruins her lane"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Nethertoxin percent damage ignores Kraken Shell"
+      }
     ],
     "counterItems": [
-      { "item": "hurricane-pike", "when": "Reposition plus range vs gap closers" }
+      {
+        "item": "hurricane_pike",
+        "when": "Reposition plus range vs gap closers"
+      }
     ],
-    "skillTips": ["Break the passive hero first, damage second"]
+    "skillTips": [
+      "Break the passive hero first, damage second"
+    ]
   },
   {
     "id": "luna",
@@ -865,13 +1584,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/luna.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Glaive bounces clear her Blur engages" },
-      { "hero": "crystal_maiden", "reason": "Lucent Beam plus Eclipse zones her lane" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Glaive bounces clear her Blur engages"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Lucent Beam plus Eclipse zones her lane"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Eclipse delivery through teamfight" }
+      {
+        "item": "black_king_bar",
+        "when": "Eclipse delivery through teamfight"
+      }
     ],
-    "skillTips": ["Farm the triangle with Glaives, Eclipse only with BKB ready"]
+    "skillTips": [
+      "Farm the triangle with Glaives, Eclipse only with BKB ready"
+    ]
   },
   {
     "id": "clinkz",
@@ -880,13 +1610,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/clinkz.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Invis plus Strafe deletes her before Nova" },
-      { "hero": "lion", "reason": "Burning Barrage races Hex from fog" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Invis plus Strafe deletes her before Nova"
+      },
+      {
+        "hero": "lion",
+        "reason": "Burning Barrage races Hex from fog"
+      }
     ],
     "counterItems": [
-      { "item": "orchid-malevolence", "when": "Silence the escape hero first" }
+      {
+        "item": "orchid",
+        "when": "Silence the escape hero first"
+      }
     ],
-    "skillTips": ["Skeleton Walk scout, Strafe from behind, never face-first"]
+    "skillTips": [
+      "Skeleton Walk scout, Strafe from behind, never face-first"
+    ]
   },
   {
     "id": "broodmother",
@@ -895,13 +1636,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/broodmother.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Webs plus spiders trap her slow escape" },
-      { "hero": "lion", "reason": "Insatiable Hunger races his mana pool" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Webs plus spiders trap her slow escape"
+      },
+      {
+        "hero": "lion",
+        "reason": "Insatiable Hunger races his mana pool"
+      }
     ],
     "counterItems": [
-      { "item": "orchid-malevolence", "when": "Silence the web clearer" }
+      {
+        "item": "orchid",
+        "when": "Silence the web clearer"
+      }
     ],
-    "skillTips": ["Web the enemy jungle by minute 8, never your own"]
+    "skillTips": [
+      "Web the enemy jungle by minute 8, never your own"
+    ]
   },
   {
     "id": "bounty_hunter",
@@ -910,13 +1662,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bounty_hunter.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Track plus Jinada hunts her greedy positioning" },
-      { "hero": "sniper", "reason": "Shadow Walk ganks close his range gap" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Track plus Jinada hunts her greedy positioning"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Shadow Walk ganks close his range gap"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Track gold swing for the whole team" }
+      {
+        "item": "aghanims_shard",
+        "when": "Track gold swing for the whole team"
+      }
     ],
-    "skillTips": ["Track the hero your team is already hitting, not the runner"]
+    "skillTips": [
+      "Track the hero your team is already hitting, not the runner"
+    ]
   },
   {
     "id": "weaver",
@@ -925,13 +1688,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/weaver.png",
     "counters": [
-      { "hero": "lion", "reason": "Time Lapse resets Hex plus Finger combos" },
-      { "hero": "crystal_maiden", "reason": "Shukuchi plus Swarm never lets her cast" }
+      {
+        "hero": "lion",
+        "reason": "Time Lapse resets Hex plus Finger combos"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Shukuchi plus Swarm never lets her cast"
+      }
     ],
     "counterItems": [
-      { "item": "linkens-sphere", "when": "Block the opening disable" }
+      {
+        "item": "sphere",
+        "when": "Block the opening disable"
+      }
     ],
-    "skillTips": ["Lapse back five seconds to the high ground, not one second back"]
+    "skillTips": [
+      "Lapse back five seconds to the high ground, not one second back"
+    ]
   },
   {
     "id": "spectre",
@@ -940,14 +1714,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/spectre.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Global Haunt punishes her immobile lane" },
-      { "hero": "lion", "reason": "Desolate plus Haunt isolates him from backup" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Global Haunt punishes her immobile lane"
+      },
+      {
+        "hero": "lion",
+        "reason": "Desolate plus Haunt isolates him from backup"
+      }
     ],
     "counterItems": [
-      { "item": "radiance", "when": "Burn plus miss chance timing" },
-      { "item": "manta-style", "when": "Dispel plus illusion push" }
+      {
+        "item": "radiance",
+        "when": "Burn plus miss chance timing"
+      },
+      {
+        "item": "manta",
+        "when": "Dispel plus illusion push"
+      }
     ],
-    "skillTips": ["Haunt the fight already happening, never start one alone"]
+    "skillTips": [
+      "Haunt the fight already happening, never start one alone"
+    ]
   },
   {
     "id": "ursa",
@@ -956,14 +1744,28 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ursa.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Fury Swipes stacks melt her low armor" },
-      { "hero": "axe", "reason": "Enrage removes Call plus Blade Mail damage" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Fury Swipes stacks melt her low armor"
+      },
+      {
+        "hero": "axe",
+        "reason": "Enrage removes Call plus Blade Mail damage"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Overpower burst initiation" },
-      { "item": "black-king-bar", "when": "Unstoppable Roshan plus fight timing" }
+      {
+        "item": "blink",
+        "when": "Overpower burst initiation"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Roshan plus fight timing"
+      }
     ],
-    "skillTips": ["Roshan at minute 10 with lifesteal, ping it before you start"]
+    "skillTips": [
+      "Roshan at minute 10 with lifesteal, ping it before you start"
+    ]
   },
   {
     "id": "gyrocopter",
@@ -972,13 +1774,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/gyrocopter.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Flak plus Call Down zones her Blur" },
-      { "hero": "crystal_maiden", "reason": "Rocket Barrage out-trades her lane" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Flak plus Call Down zones her Blur"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Rocket Barrage out-trades her lane"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Full Call Down delivery" }
+      {
+        "item": "black_king_bar",
+        "when": "Full Call Down delivery"
+      }
     ],
-    "skillTips": ["Call Down the choke before your team walks in, not after"]
+    "skillTips": [
+      "Call Down the choke before your team walks in, not after"
+    ]
   },
   {
     "id": "lone_druid",
@@ -987,13 +1800,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lone_druid.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Bear plus Spirit Link runs her down" },
-      { "hero": "lion", "reason": "Savage Roar disengages his combo" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Bear plus Spirit Link runs her down"
+      },
+      {
+        "hero": "lion",
+        "reason": "Savage Roar disengages his combo"
+      }
     ],
     "counterItems": [
-      { "item": "radiance", "when": "Bear burn timing" }
+      {
+        "item": "radiance",
+        "when": "Bear burn timing"
+      }
     ],
-    "skillTips": ["Micro the bear to the backline while you siege"]
+    "skillTips": [
+      "Micro the bear to the backline while you siege"
+    ]
   },
   {
     "id": "meepo",
@@ -1002,13 +1826,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/meepo.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Poof chains delete her before Nova" },
-      { "hero": "sniper", "reason": "Divided We Stand closes from every angle" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Poof chains delete her before Nova"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Divided We Stand closes from every angle"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Poof initiation on the prime Meepo" }
+      {
+        "item": "blink",
+        "when": "Poof initiation on the prime Meepo"
+      }
     ],
-    "skillTips": ["One death kills all: never commit the prime Meepo first"]
+    "skillTips": [
+      "One death kills all: never commit the prime Meepo first"
+    ]
   },
   {
     "id": "naga_siren",
@@ -1017,13 +1852,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/naga_siren.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Riptide minus armor plus ensnare traps her" },
-      { "hero": "lion", "reason": "Song setups isolate him from saves" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Riptide minus armor plus ensnare traps her"
+      },
+      {
+        "hero": "lion",
+        "reason": "Song setups isolate him from saves"
+      }
     ],
     "counterItems": [
-      { "item": "radiance", "when": "Illusion farm acceleration" }
+      {
+        "item": "radiance",
+        "when": "Illusion farm acceleration"
+      }
     ],
-    "skillTips": ["Song to disengage and reset, not only to engage"]
+    "skillTips": [
+      "Song to disengage and reset, not only to engage"
+    ]
   },
   {
     "id": "slark",
@@ -1032,13 +1878,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/slark.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Pounce plus Essence Shift stacks out-trade" },
-      { "hero": "lion", "reason": "Dark Pact purges Hex plus slow" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Pounce plus Essence Shift stacks out-trade"
+      },
+      {
+        "hero": "lion",
+        "reason": "Dark Pact purges Hex plus slow"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Shadow Dance delivery" }
+      {
+        "item": "black_king_bar",
+        "when": "Shadow Dance delivery"
+      }
     ],
-    "skillTips": ["Pact the disable off, Pounce the escape after"]
+    "skillTips": [
+      "Pact the disable off, Pounce the escape after"
+    ]
   },
   {
     "id": "medusa",
@@ -1047,13 +1904,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/medusa.png",
     "counters": [
-      { "hero": "lion", "reason": "Mana Shield drains into Finger plus Mana Drain" },
-      { "hero": "phantom_assassin", "reason": "Split Shot plus Mystic Snake out-farms her" }
+      {
+        "hero": "lion",
+        "reason": "Mana Shield drains into Finger plus Mana Drain"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Split Shot plus Mystic Snake out-farms her"
+      }
     ],
     "counterItems": [
-      { "item": "manta-style", "when": "Dispel plus illusion push" }
+      {
+        "item": "manta",
+        "when": "Dispel plus illusion push"
+      }
     ],
-    "skillTips": ["Stone Gaze the dive, never chase past it"]
+    "skillTips": [
+      "Stone Gaze the dive, never chase past it"
+    ]
   },
   {
     "id": "troll_warlord",
@@ -1062,13 +1930,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/troll_warlord.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Whirling Axes blind ruins her crits" },
-      { "hero": "axe", "reason": "Battle Trance plus armor outlasts Call" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Whirling Axes blind ruins her crits"
+      },
+      {
+        "hero": "axe",
+        "reason": "Battle Trance plus armor outlasts Call"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Unstoppable Battle Trance" }
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Battle Trance"
+      }
     ],
-    "skillTips": ["Melee form for the stun, ranged form after they commit"]
+    "skillTips": [
+      "Melee form for the stun, ranged form after they commit"
+    ]
   },
   {
     "id": "terrorblade",
@@ -1077,13 +1956,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/terrorblade.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Reflection plus illusions scale past her" },
-      { "hero": "lion", "reason": "Sunder resets his combo at full health" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Reflection plus illusions scale past her"
+      },
+      {
+        "hero": "lion",
+        "reason": "Sunder resets his combo at full health"
+      }
     ],
     "counterItems": [
-      { "item": "manta-style", "when": "Dispel plus illusion army" }
+      {
+        "item": "manta",
+        "when": "Dispel plus illusion army"
+      }
     ],
-    "skillTips": ["Sunder the full-health hero, never the half-dead one"]
+    "skillTips": [
+      "Sunder the full-health hero, never the half-dead one"
+    ]
   },
   {
     "id": "monkey_king",
@@ -1092,13 +1982,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/monkey_king.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Jingu plus Boundless Strike controls her lane" },
-      { "hero": "sniper", "reason": "Tree Dance closes his range advantage" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Jingu plus Boundless Strike controls her lane"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Tree Dance closes his range advantage"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Wukong's Command delivery" }
+      {
+        "item": "black_king_bar",
+        "when": "Wukong's Command delivery"
+      }
     ],
-    "skillTips": ["Four Jingu hits first, stun second, never reverse"]
+    "skillTips": [
+      "Four Jingu hits first, stun second, never reverse"
+    ]
   },
   {
     "id": "hoodwink",
@@ -1107,13 +2008,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/hoodwink.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Bushwhack plus Acorn Shot kites her" },
-      { "hero": "sniper", "reason": "Decoy plus Scurry dodges Assassinate" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Bushwhack plus Acorn Shot kites her"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Decoy plus Scurry dodges Assassinate"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Long-range Bushwhack picks" }
+      {
+        "item": "aether_lens",
+        "when": "Long-range Bushwhack picks"
+      }
     ],
-    "skillTips": ["Bushwhack the tree next to the lane, not the hero"]
+    "skillTips": [
+      "Bushwhack the tree next to the lane, not the hero"
+    ]
   },
   {
     "id": "ember_spirit",
@@ -1122,13 +2034,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ember_spirit.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Sleight plus Chains deletes her lane" },
-      { "hero": "lion", "reason": "Remnant escapes plus Flame Guard blocks combo" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Sleight plus Chains deletes her lane"
+      },
+      {
+        "hero": "lion",
+        "reason": "Remnant escapes plus Flame Guard blocks combo"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Unstoppable Sleight chains" }
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Sleight chains"
+      }
     ],
-    "skillTips": ["Leave a remnant behind before every aggressive Sleight"]
+    "skillTips": [
+      "Leave a remnant behind before every aggressive Sleight"
+    ]
   },
   {
     "id": "kez",
@@ -1137,13 +2060,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/kez.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Stance switches out-trade her slow kit" },
-      { "hero": "sniper", "reason": "Gap close plus burst races his farm" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Stance switches out-trade her slow kit"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Gap close plus burst races his farm"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Safe stance combo delivery" }
+      {
+        "item": "black_king_bar",
+        "when": "Safe stance combo delivery"
+      }
     ],
-    "skillTips": ["Newer hero: check the in-game guides until curated data lands"]
+    "skillTips": [
+      "Newer hero: check the in-game guides until curated data lands"
+    ]
   },
   {
     "id": "puck",
@@ -1152,13 +2086,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/puck.png",
     "counters": [
-      { "hero": "sniper", "reason": "Orb plus Coil silences his repositioning" },
-      { "hero": "crystal_maiden", "reason": "Phase Shift dodges Nova plus Freezing Field" }
+      {
+        "hero": "sniper",
+        "reason": "Orb plus Coil silences his repositioning"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Phase Shift dodges Nova plus Freezing Field"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Coil initiation from fog" }
+      {
+        "item": "blink",
+        "when": "Coil initiation from fog"
+      }
     ],
-    "skillTips": ["Coil first, Orb second, Shift the counter-stun"]
+    "skillTips": [
+      "Coil first, Orb second, Shift the counter-stun"
+    ]
   },
   {
     "id": "zuus",
@@ -1167,13 +2112,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/zuus.png",
     "counters": [
-      { "hero": "weaver", "reason": "Global Nimbus plusbolts break his escapes" },
-      { "hero": "clinkz", "reason": "Static vision plus burst answers invis" }
+      {
+        "hero": "weaver",
+        "reason": "Global Nimbus plusbolts break his escapes"
+      },
+      {
+        "hero": "clinkz",
+        "reason": "Static vision plus burst answers invis"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Long-range bolt picks" }
+      {
+        "item": "aether_lens",
+        "when": "Long-range bolt picks"
+      }
     ],
-    "skillTips": ["Nimbus the objective, not the lane, before fights"]
+    "skillTips": [
+      "Nimbus the objective, not the lane, before fights"
+    ]
   },
   {
     "id": "lina",
@@ -1182,13 +2138,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lina.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Dragon Slave plus Light Strike out-lanes her" },
-      { "hero": "sniper", "reason": "Burst combo deletes him before Take Aim" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Dragon Slave plus Light Strike out-lanes her"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Burst combo deletes him before Take Aim"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Laguna delivery through disables" }
+      {
+        "item": "black_king_bar",
+        "when": "Laguna delivery through disables"
+      }
     ],
-    "skillTips": ["Stun the setup, Laguna the low target, never reverse"]
+    "skillTips": [
+      "Stun the setup, Laguna the low target, never reverse"
+    ]
   },
   {
     "id": "shadow_shaman",
@@ -1197,14 +2164,28 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/shadow_shaman.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Hex plus Shackles locks her Blur engage" },
-      { "hero": "juggernaut", "reason": "Wards siege while Shackles holds him" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Hex plus Shackles locks her Blur engage"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Wards siege while Shackles holds him"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Hex initiation on cores" },
-      { "item": "aghanims-shard", "when": "Mini-wards pressure every push" }
+      {
+        "item": "blink",
+        "when": "Hex initiation on cores"
+      },
+      {
+        "item": "aghanims_shard",
+        "when": "Mini-wards pressure every push"
+      }
     ],
-    "skillTips": ["Hex the initiator, Shackle the follower, Ward the tower"]
+    "skillTips": [
+      "Hex the initiator, Shackle the follower, Ward the tower"
+    ]
   },
   {
     "id": "witch_doctor",
@@ -1213,13 +2194,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/witch_doctor.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Cask stuns bounce through her team" },
-      { "hero": "juggernaut", "reason": "Maledict plus Death Ward zones his Ward spot" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Cask stuns bounce through her team"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Maledict plus Death Ward zones his Ward spot"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Voodoo switch survivability" }
+      {
+        "item": "aghanims_shard",
+        "when": "Voodoo switch survivability"
+      }
     ],
-    "skillTips": ["Maledict first so Death Ward ticks count double"]
+    "skillTips": [
+      "Maledict first so Death Ward ticks count double"
+    ]
   },
   {
     "id": "lich",
@@ -1228,13 +2220,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lich.png",
     "counters": [
-      { "hero": "phantom_lancer", "reason": "Chain Frost bounces through illusion armies" },
-      { "hero": "spectre", "reason": "Frost Shield blocks Desolate plus Haunt" }
+      {
+        "hero": "phantom_lancer",
+        "reason": "Chain Frost bounces through illusion armies"
+      },
+      {
+        "hero": "spectre",
+        "reason": "Frost Shield blocks Desolate plus Haunt"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Safe Frost Blast slows" }
+      {
+        "item": "aether_lens",
+        "when": "Safe Frost Blast slows"
+      }
     ],
-    "skillTips": ["Shield the initiator walking in, not the carry already hit"]
+    "skillTips": [
+      "Shield the initiator walking in, not the carry already hit"
+    ]
   },
   {
     "id": "tinker",
@@ -1243,13 +2246,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tinker.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "March plus rockets shove her out of lane" },
-      { "hero": "sniper", "reason": "Blind rockets ruin his last hits" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "March plus rockets shove her out of lane"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Blind rockets ruin his last hits"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Rearm repositioning every fight" }
+      {
+        "item": "blink",
+        "when": "Rearm repositioning every fight"
+      }
     ],
-    "skillTips": ["March the wave, rocket the jungler, never show to gank"]
+    "skillTips": [
+      "March the wave, rocket the jungler, never show to gank"
+    ]
   },
   {
     "id": "necrolyte",
@@ -1258,13 +2272,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/necrolyte.png",
     "counters": [
-      { "hero": "huskar", "reason": "Heartstopper percent burn answers low-health play" },
-      { "hero": "axe", "reason": "Ghost Shroud dodges Call plus Reaper finishes" }
+      {
+        "hero": "huskar",
+        "reason": "Heartstopper percent burn answers low-health play"
+      },
+      {
+        "hero": "axe",
+        "reason": "Ghost Shroud dodges Call plus Reaper finishes"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Shroud plus Reaper delivery" }
+      {
+        "item": "black_king_bar",
+        "when": "Shroud plus Reaper delivery"
+      }
     ],
-    "skillTips": ["Reaper the half-health hero, the aura does the rest"]
+    "skillTips": [
+      "Reaper the half-health hero, the aura does the rest"
+    ]
   },
   {
     "id": "warlock",
@@ -1273,13 +2298,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/warlock.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Fatal Bonds spreads her burst onto her team" },
-      { "hero": "juggernaut", "reason": "Golem stun plus slow zones his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Fatal Bonds spreads her burst onto her team"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Golem stun plus slow zones his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "refresher-orb", "when": "Double Golem teamfights" }
+      {
+        "item": "refresher",
+        "when": "Double Golem teamfights"
+      }
     ],
-    "skillTips": ["Bonds before Golem lands so the stun spreads damage"]
+    "skillTips": [
+      "Bonds before Golem lands so the stun spreads damage"
+    ]
   },
   {
     "id": "queenofpain",
@@ -1288,13 +2324,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/queenofpain.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Blink plus Scream deletes her lane" },
-      { "hero": "sniper", "reason": "Sonic Wave reaches his backline spot" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Blink plus Scream deletes her lane"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Sonic Wave reaches his backline spot"
+      }
     ],
     "counterItems": [
-      { "item": "orchid-malevolence", "when": "Silence the escape hero" }
+      {
+        "item": "orchid",
+        "when": "Silence the escape hero"
+      }
     ],
-    "skillTips": ["Blink in after the stun is used, never before"]
+    "skillTips": [
+      "Blink in after the stun is used, never before"
+    ]
   },
   {
     "id": "pugna",
@@ -1303,13 +2350,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pugna.png",
     "counters": [
-      { "hero": "skeleton_king", "reason": "Decrepify plus Nether Blast burns his two lives" },
-      { "hero": "sven", "reason": "Ward punishes his God's Strength swings" }
+      {
+        "hero": "skeleton_king",
+        "reason": "Decrepify plus Nether Blast burns his two lives"
+      },
+      {
+        "hero": "sven",
+        "reason": "Ward punishes his God's Strength swings"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Safe Decrepify plus drain range" }
+      {
+        "item": "aether_lens",
+        "when": "Safe Decrepify plus drain range"
+      }
     ],
-    "skillTips": ["Ward the high ground before sieging, Life Drain the diver"]
+    "skillTips": [
+      "Ward the high ground before sieging, Life Drain the diver"
+    ]
   },
   {
     "id": "leshrac",
@@ -1318,14 +2376,28 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/leshrac.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Diabolic Edict plus stun bursts her early" },
-      { "hero": "tidehunter", "reason": "Pulse Nova percent damage ignores Kraken Shell" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Diabolic Edict plus stun bursts her early"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Pulse Nova percent damage ignores Kraken Shell"
+      }
     ],
     "counterItems": [
-      { "item": "bloodstone", "when": "Spell lifesteal plus burst sustain" },
-      { "item": "black-king-bar", "when": "Full Nova delivery" }
+      {
+        "item": "bloodstone",
+        "when": "Spell lifesteal plus burst sustain"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Full Nova delivery"
+      }
     ],
-    "skillTips": ["Stun the escape, Edict the tower, Nova last"]
+    "skillTips": [
+      "Stun the escape, Edict the tower, Nova last"
+    ]
   },
   {
     "id": "enchantress",
@@ -1334,13 +2406,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/enchantress.png",
     "counters": [
-      { "hero": "ursa", "reason": "Untouchable slows his Fury Swipes stacks" },
-      { "hero": "sven", "reason": "Enchant plus Impetus kites his ult" }
+      {
+        "hero": "ursa",
+        "reason": "Untouchable slows his Fury Swipes stacks"
+      },
+      {
+        "hero": "sven",
+        "reason": "Enchant plus Impetus kites his ult"
+      }
     ],
     "counterItems": [
-      { "item": "hurricane-pike", "when": "Keep distance from gap closers" }
+      {
+        "item": "hurricane_pike",
+        "when": "Keep distance from gap closers"
+      }
     ],
-    "skillTips": ["Enchant the big creep at minute 1, never the small one"]
+    "skillTips": [
+      "Enchant the big creep at minute 1, never the small one"
+    ]
   },
   {
     "id": "jakiro",
@@ -1349,14 +2432,28 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/jakiro.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Ice Path plus Macropyre zones her engage" },
-      { "hero": "juggernaut", "reason": "Dual Breath slows his Ward repositioning" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Ice Path plus Macropyre zones her engage"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Dual Breath slows his Ward repositioning"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Liquid Fire siege pressure" },
-      { "item": "force-staff", "when": "Save allies from dives" }
+      {
+        "item": "aghanims_shard",
+        "when": "Liquid Fire siege pressure"
+      },
+      {
+        "item": "force_staff",
+        "when": "Save allies from dives"
+      }
     ],
-    "skillTips": ["Ice Path the choke before Macropyre, never after"]
+    "skillTips": [
+      "Ice Path the choke before Macropyre, never after"
+    ]
   },
   {
     "id": "chen",
@@ -1365,13 +2462,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/chen.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Creep stuns plus Hand of God out-sustains burst" },
-      { "hero": "sniper", "reason": "Early creep ganks close his lane" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Creep stuns plus Hand of God out-sustains burst"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Early creep ganks close his lane"
+      }
     ],
     "counterItems": [
-      { "item": "holy-locket", "when": "Boost global heal" }
+      {
+        "item": "holy_locket",
+        "when": "Boost global heal"
+      }
     ],
-    "skillTips": ["Send one creep to stack, keep two for the minute-4 gank"]
+    "skillTips": [
+      "Send one creep to stack, keep two for the minute-4 gank"
+    ]
   },
   {
     "id": "ancient_apparition",
@@ -1380,14 +2488,28 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ancient_apparition.png",
     "counters": [
-      { "hero": "huskar", "reason": "Ice Blast stops his low-health healing" },
-      { "hero": "skeleton_king", "reason": "Shatter finishes Reincarnation revives" },
-      { "hero": "alchemist", "reason": "Blast denies his Chemical Rage sustain" }
+      {
+        "hero": "huskar",
+        "reason": "Ice Blast stops his low-health healing"
+      },
+      {
+        "hero": "skeleton_king",
+        "reason": "Shatter finishes Reincarnation revives"
+      },
+      {
+        "hero": "alchemist",
+        "reason": "Blast denies his Chemical Rage sustain"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Burst plus break on demand" }
+      {
+        "item": "aghanims_shard",
+        "when": "Burst plus break on demand"
+      }
     ],
-    "skillTips": ["Blast the fight already joined, Chilling Touch your carry first"]
+    "skillTips": [
+      "Blast the fight already joined, Chilling Touch your carry first"
+    ]
   },
   {
     "id": "invoker",
@@ -1396,14 +2518,28 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/invoker.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Tornado plus EMP setups delete her mid" },
-      { "hero": "sniper", "reason": "Ghost Walk plus Sun Strike reaches his spot" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Tornado plus EMP setups delete her mid"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Ghost Walk plus Sun Strike reaches his spot"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-scepter", "when": "Cataclysm teamfight combos" },
-      { "item": "octarine-core", "when": "Spell spam plus lifesteal" }
+      {
+        "item": "ultimate_scepter",
+        "when": "Cataclysm teamfight combos"
+      },
+      {
+        "item": "octarine_core",
+        "when": "Spell spam plus lifesteal"
+      }
     ],
-    "skillTips": ["Tornado first for the setup, EMP second, Blast to finish"]
+    "skillTips": [
+      "Tornado first for the setup, EMP second, Blast to finish"
+    ]
   },
   {
     "id": "silencer",
@@ -1412,13 +2548,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/silencer.png",
     "counters": [
-      { "hero": "enigma", "reason": "Global Silence stops Black Hole anywhere" },
-      { "hero": "crystal_maiden", "reason": "Glaive steals plus Curse zones her lane" }
+      {
+        "hero": "enigma",
+        "reason": "Global Silence stops Black Hole anywhere"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Glaive steals plus Curse zones her lane"
+      }
     ],
     "counterItems": [
-      { "item": "force-staff", "when": "Position for Global plus steals" }
+      {
+        "item": "force_staff",
+        "when": "Position for Global plus steals"
+      }
     ],
-    "skillTips": ["Global the initiation, not the cleanup, to win fights"]
+    "skillTips": [
+      "Global the initiation, not the cleanup, to win fights"
+    ]
   },
   {
     "id": "obsidian_destroyer",
@@ -1427,13 +2574,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/obsidian_destroyer.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Astral plus Orb locks her before Blur" },
-      { "hero": "juggernaut", "reason": "Sanity's Eclipse burns his low mana pool" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Astral plus Orb locks her before Blur"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Sanity's Eclipse burns his low mana pool"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Eclipse delivery through teamfight" }
+      {
+        "item": "black_king_bar",
+        "when": "Eclipse delivery through teamfight"
+      }
     ],
-    "skillTips": ["Astral the initiator mid-jump, never the fleeing support"]
+    "skillTips": [
+      "Astral the initiator mid-jump, never the fleeing support"
+    ]
   },
   {
     "id": "shadow_demon",
@@ -1442,13 +2600,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/shadow_demon.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Disruption illusions plus Soul Catcher amp her" },
-      { "hero": "juggernaut", "reason": "Demonic Purge slows his Omnislash path" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Disruption illusions plus Soul Catcher amp her"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Demonic Purge slows his Omnislash path"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Extra Disruption charges" }
+      {
+        "item": "aghanims_shard",
+        "when": "Extra Disruption charges"
+      }
     ],
-    "skillTips": ["Disrupt the focused ally, Purge the diving carry"]
+    "skillTips": [
+      "Disrupt the focused ally, Purge the diving carry"
+    ]
   },
   {
     "id": "rubick",
@@ -1457,14 +2626,28 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/rubick.png",
     "counters": [
-      { "hero": "enigma", "reason": "Steals Black Hole and turns it around" },
-      { "hero": "tidehunter", "reason": "Steals Ravage for your own teamfight" }
+      {
+        "hero": "enigma",
+        "reason": "Steals Black Hole and turns it around"
+      },
+      {
+        "hero": "tidehunter",
+        "reason": "Steals Ravage for your own teamfight"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Lift plus steal positioning" },
-      { "item": "aghanims-shard", "when": "Upgrade stolen key spells" }
+      {
+        "item": "blink",
+        "when": "Lift plus steal positioning"
+      },
+      {
+        "item": "aghanims_shard",
+        "when": "Upgrade stolen key spells"
+      }
     ],
-    "skillTips": ["Position for the steal first, Lift second, cast third"]
+    "skillTips": [
+      "Position for the steal first, Lift second, cast third"
+    ]
   },
   {
     "id": "disruptor",
@@ -1473,13 +2656,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/disruptor.png",
     "counters": [
-      { "hero": "ember_spirit", "reason": "Static Storm plus Kinetic Field traps remnants" },
-      { "hero": "weaver", "reason": "Glimpse returns his Shukuchi escapes" }
+      {
+        "hero": "ember_spirit",
+        "reason": "Static Storm plus Kinetic Field traps remnants"
+      },
+      {
+        "hero": "weaver",
+        "reason": "Glimpse returns his Shukuchi escapes"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Extra Thunder Strike control" }
+      {
+        "item": "aghanims_shard",
+        "when": "Extra Thunder Strike control"
+      }
     ],
-    "skillTips": ["Field the escape path first, Storm second, never reverse"]
+    "skillTips": [
+      "Field the escape path first, Storm second, never reverse"
+    ]
   },
   {
     "id": "keeper_of_the_light",
@@ -1488,13 +2682,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/keeper_of_the_light.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Blinding Light miss chance ruins her combo" },
-      { "hero": "juggernaut", "reason": "Recall plus Illuminate zones his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Blinding Light miss chance ruins her combo"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Recall plus Illuminate zones his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Solar Bind control" }
+      {
+        "item": "aghanims_shard",
+        "when": "Solar Bind control"
+      }
     ],
-    "skillTips": ["Illuminate from fog so the fear of it zones more than the hit"]
+    "skillTips": [
+      "Illuminate from fog so the fear of it zones more than the hit"
+    ]
   },
   {
     "id": "skywrath_mage",
@@ -1503,13 +2708,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/skywrath_mage.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Bolt plus slow out-trades her lane" },
-      { "hero": "sniper", "reason": "Mystic Flare zones his static spot" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Bolt plus slow out-trades her lane"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Mystic Flare zones his static spot"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Safe bolt harass range" }
+      {
+        "item": "aether_lens",
+        "when": "Safe bolt harass range"
+      }
     ],
-    "skillTips": ["Slow first so every bolt lands, never lead with Flare"]
+    "skillTips": [
+      "Slow first so every bolt lands, never lead with Flare"
+    ]
   },
   {
     "id": "oracle",
@@ -1518,13 +2734,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/oracle.png",
     "counters": [
-      { "hero": "axe", "reason": "Fate's Edict disarms Call plus False Promise saves" },
-      { "hero": "phantom_assassin", "reason": "Promise resets her burst window" }
+      {
+        "hero": "axe",
+        "reason": "Fate's Edict disarms Call plus False Promise saves"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Promise resets her burst window"
+      }
     ],
     "counterItems": [
-      { "item": "holy-locket", "when": "Boost Purifying Flames heals" }
+      {
+        "item": "holy_locket",
+        "when": "Boost Purifying Flames heals"
+      }
     ],
-    "skillTips": ["Promise at half health, not at ten percent, for full value"]
+    "skillTips": [
+      "Promise at half health, not at ten percent, for full value"
+    ]
   },
   {
     "id": "winter_wyvern",
@@ -1533,13 +2760,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/winter_wyvern.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Cold Embrace saves her burst target" },
-      { "hero": "juggernaut", "reason": "Curse turns his team against his Ward push" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Cold Embrace saves her burst target"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Curse turns his team against his Ward push"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Curse positioning on backlines" }
+      {
+        "item": "blink",
+        "when": "Curse positioning on backlines"
+      }
     ],
-    "skillTips": ["Curse the isolated support, never the grouped cores"]
+    "skillTips": [
+      "Curse the isolated support, never the grouped cores"
+    ]
   },
   {
     "id": "dark_willow",
@@ -1548,13 +2786,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dark_willow.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Terrorize plus Bedlam zones her engage" },
-      { "hero": "sniper", "reason": "Cursed Crown plus Brambles locks his spot" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Terrorize plus Bedlam zones her engage"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Cursed Crown plus Brambles locks his spot"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Safe Bramble plus Crown range" }
+      {
+        "item": "aether_lens",
+        "when": "Safe Bramble plus Crown range"
+      }
     ],
-    "skillTips": ["Brambles where they will run, not where they stand"]
+    "skillTips": [
+      "Brambles where they will run, not where they stand"
+    ]
   },
   {
     "id": "grimstroke",
@@ -1563,13 +2812,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/grimstroke.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Soulbind doubles disables onto her" },
-      { "hero": "juggernaut", "reason": "Ink Swell stun rides your initiator in" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Soulbind doubles disables onto her"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Ink Swell stun rides your initiator in"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Safe Stroke plus bind range" }
+      {
+        "item": "aether_lens",
+        "when": "Safe Stroke plus bind range"
+      }
     ],
-    "skillTips": ["Bind two heroes before the disable, never after"]
+    "skillTips": [
+      "Bind two heroes before the disable, never after"
+    ]
   },
   {
     "id": "muerta",
@@ -1578,13 +2838,24 @@
     "role": "carry",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/muerta.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Pierce the Veil plus gunner out-trades" },
-      { "hero": "juggernaut", "reason": "Dead Shot plus fear zones his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Pierce the Veil plus gunner out-trades"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Dead Shot plus fear zones his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Veil delivery through teamfight" }
+      {
+        "item": "black_king_bar",
+        "when": "Veil delivery through teamfight"
+      }
     ],
-    "skillTips": ["Veil the focus, gun the support, never reverse"]
+    "skillTips": [
+      "Veil the focus, gun the support, never reverse"
+    ]
   },
   {
     "id": "ringmaster",
@@ -1593,13 +2864,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ringmaster.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Tame plus traps control her engage" },
-      { "hero": "sniper", "reason": "Box plus escape tools close his range" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Tame plus traps control her engage"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Box plus escape tools close his range"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Trap plus initiation positioning" }
+      {
+        "item": "blink",
+        "when": "Trap plus initiation positioning"
+      }
     ],
-    "skillTips": ["Newer hero: check the in-game guides until curated data lands"]
+    "skillTips": [
+      "Newer hero: check the in-game guides until curated data lands"
+    ]
   },
   {
     "id": "storm_spirit",
@@ -1608,14 +2890,28 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/storm_spirit.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Zip plus Vortex deletes her before Nova" },
-      { "hero": "sniper", "reason": "Ball Lightning closes from off-screen" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Zip plus Vortex deletes her before Nova"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Ball Lightning closes from off-screen"
+      }
     ],
     "counterItems": [
-      { "item": "bloodstone", "when": "Zip sustain plus spell lifesteal" },
-      { "item": "orchid-malevolence", "when": "Silence the escape hero" }
+      {
+        "item": "bloodstone",
+        "when": "Zip sustain plus spell lifesteal"
+      },
+      {
+        "item": "orchid",
+        "when": "Silence the escape hero"
+      }
     ],
-    "skillTips": ["Zip past the target then Vortex back, never Vortex first"]
+    "skillTips": [
+      "Zip past the target then Vortex back, never Vortex first"
+    ]
   },
   {
     "id": "dark_seer",
@@ -1624,13 +2920,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dark_seer.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Ion Shell plus Wall turns her team against her" },
-      { "hero": "juggernaut", "reason": "Vacuum plus Wall copies his Omnislash damage" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Ion Shell plus Wall turns her team against her"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Vacuum plus Wall copies his Omnislash damage"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Vacuum plus Wall initiation" }
+      {
+        "item": "blink",
+        "when": "Vacuum plus Wall initiation"
+      }
     ],
-    "skillTips": ["Wall the committed fight, Surge the carry out after"]
+    "skillTips": [
+      "Wall the committed fight, Surge the carry out after"
+    ]
   },
   {
     "id": "bane",
@@ -1639,13 +2946,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bane.png",
     "counters": [
-      { "hero": "enigma", "reason": "Fiend's Grip pierces Black Hole setup" },
-      { "hero": "phantom_assassin", "reason": "Nightmare plus Grip locks her combo" }
+      {
+        "hero": "enigma",
+        "reason": "Fiend's Grip pierces Black Hole setup"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Nightmare plus Grip locks her combo"
+      }
     ],
     "counterItems": [
-      { "item": "aether-lens", "when": "Safe Grip plus Nightmare range" }
+      {
+        "item": "aether_lens",
+        "when": "Safe Grip plus Nightmare range"
+      }
     ],
-    "skillTips": ["Nightmare the save, Grip the carry, never Grip first"]
+    "skillTips": [
+      "Nightmare the save, Grip the carry, never Grip first"
+    ]
   },
   {
     "id": "sand_king",
@@ -1654,13 +2972,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sand_king.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Burrow plus Epicenter bursts her early" },
-      { "hero": "sniper", "reason": "Sandstorm plus stun closes his range" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Burrow plus Epicenter bursts her early"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Sandstorm plus stun closes his range"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Epicenter initiation" }
+      {
+        "item": "blink",
+        "when": "Epicenter initiation"
+      }
     ],
-    "skillTips": ["Channel Epicenter in the trees, Blink in at the last pulse"]
+    "skillTips": [
+      "Channel Epicenter in the trees, Blink in at the last pulse"
+    ]
   },
   {
     "id": "windrunner",
@@ -1669,13 +2998,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/windrunner.png",
     "counters": [
-      { "hero": "sniper", "reason": "Shackleshot plus Focus Fire out-ranges him" },
-      { "hero": "crystal_maiden", "reason": "Powershot plus Windrun wins the lane" }
+      {
+        "hero": "sniper",
+        "reason": "Shackleshot plus Focus Fire out-ranges him"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Powershot plus Windrun wins the lane"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Shackle angle setups" }
+      {
+        "item": "blink",
+        "when": "Shackle angle setups"
+      }
     ],
-    "skillTips": ["Shackle to a tree or creep first, Focus Fire second"]
+    "skillTips": [
+      "Shackle to a tree or creep first, Focus Fire second"
+    ]
   },
   {
     "id": "beastmaster",
@@ -1684,13 +3024,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/beastmaster.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Roar plus Hawk vision locks her down" },
-      { "hero": "juggernaut", "reason": "Boar slows plus Roar zones his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Roar plus Hawk vision locks her down"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Boar slows plus Roar zones his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "necronomicon", "when": "Push timing with aura (where available)" }
+      {
+        "item": "necronomicon",
+        "when": "Push timing with aura (where available)"
+      }
     ],
-    "skillTips": ["Hawk the pit and the triangle before every objective"]
+    "skillTips": [
+      "Hawk the pit and the triangle before every objective"
+    ]
   },
   {
     "id": "venomancer",
@@ -1699,13 +3050,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/venomancer.png",
     "counters": [
-      { "hero": "huskar", "reason": "Poison plus wards stop his healing trades" },
-      { "hero": "phantom_assassin", "reason": "Gale plus Nova slows her engage" }
+      {
+        "hero": "huskar",
+        "reason": "Poison plus wards stop his healing trades"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Gale plus Nova slows her engage"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Latent poison burst" }
+      {
+        "item": "aghanims_shard",
+        "when": "Latent poison burst"
+      }
     ],
-    "skillTips": ["Wards the escape path, Gale the chase, never reverse"]
+    "skillTips": [
+      "Wards the escape path, Gale the chase, never reverse"
+    ]
   },
   {
     "id": "death_prophet",
@@ -1714,13 +3076,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/death_prophet.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Crypt Swarm plus Exorcism pushes her out" },
-      { "hero": "sniper", "reason": "Silence plus ghosts run him down" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Crypt Swarm plus Exorcism pushes her out"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Silence plus ghosts run him down"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Full Exorcism delivery" }
+      {
+        "item": "black_king_bar",
+        "when": "Full Exorcism delivery"
+      }
     ],
-    "skillTips": ["Exorcism the tower push, Silence the counter-initiation"]
+    "skillTips": [
+      "Exorcism the tower push, Silence the counter-initiation"
+    ]
   },
   {
     "id": "dazzle",
@@ -1729,13 +3102,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dazzle.png",
     "counters": [
-      { "hero": "axe", "reason": "Shallow Grave plus armor answers Call burst" },
-      { "hero": "phantom_assassin", "reason": "Grave resets her combo window" }
+      {
+        "hero": "axe",
+        "reason": "Shallow Grave plus armor answers Call burst"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Grave resets her combo window"
+      }
     ],
     "counterItems": [
-      { "item": "holy-locket", "when": "Boost Shadow Wave heals" }
+      {
+        "item": "holy_locket",
+        "when": "Boost Shadow Wave heals"
+      }
     ],
-    "skillTips": ["Grave at half health while heals land, not at ten percent"]
+    "skillTips": [
+      "Grave at half health while heals land, not at ten percent"
+    ]
   },
   {
     "id": "furion",
@@ -1744,13 +3128,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/furion.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Global Sprout plus treants trap her" },
-      { "hero": "sniper", "reason": "Teleport ganks close his range" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Global Sprout plus treants trap her"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Teleport ganks close his range"
+      }
     ],
     "counterItems": [
-      { "item": "orchid-malevolence", "when": "Silence the escape hero" }
+      {
+        "item": "orchid",
+        "when": "Silence the escape hero"
+      }
     ],
-    "skillTips": ["Sprout the rune fight, teleport to the opposite lane push"]
+    "skillTips": [
+      "Sprout the rune fight, teleport to the opposite lane push"
+    ]
   },
   {
     "id": "brewmaster",
@@ -1759,13 +3154,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/brewmaster.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Cinder Brew plus Split miss chance ruins her" },
-      { "hero": "juggernaut", "reason": "Split cyclones plus stuns control his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Cinder Brew plus Split miss chance ruins her"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Split cyclones plus stuns control his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Clap plus Split initiation" }
+      {
+        "item": "blink",
+        "when": "Clap plus Split initiation"
+      }
     ],
-    "skillTips": ["Split before the stuns land, micro the storm panda first"]
+    "skillTips": [
+      "Split before the stuns land, micro the storm panda first"
+    ]
   },
   {
     "id": "nyx_assassin",
@@ -1774,15 +3180,32 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/nyx_assassin.png",
     "counters": [
-      { "hero": "invoker", "reason": "Carapace reflects Sun Strike plus EMP" },
-      { "hero": "faceless_void", "reason": "Impale stuns him before Chronosphere" },
-      { "hero": "skywrath_mage", "reason": "Spiked Carapace punishes his burst" }
+      {
+        "hero": "invoker",
+        "reason": "Carapace reflects Sun Strike plus EMP"
+      },
+      {
+        "hero": "faceless_void",
+        "reason": "Impale stuns him before Chronosphere"
+      },
+      {
+        "hero": "skywrath_mage",
+        "reason": "Spiked Carapace punishes his burst"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Impale plus Carapace initiation" },
-      { "item": "aghanims-shard", "when": "Burrow control" }
+      {
+        "item": "blink",
+        "when": "Impale plus Carapace initiation"
+      },
+      {
+        "item": "aghanims_shard",
+        "when": "Burrow control"
+      }
     ],
-    "skillTips": ["Carapace the nuke you see coming, Impale the follow-up"]
+    "skillTips": [
+      "Carapace the nuke you see coming, Impale the follow-up"
+    ]
   },
   {
     "id": "wisp",
@@ -1791,13 +3214,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/wisp.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Tether plus Overcharge out-sustains burst" },
-      { "hero": "juggernaut", "reason": "Relocate saves Omnislash targets globally" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Tether plus Overcharge out-sustains burst"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Relocate saves Omnislash targets globally"
+      }
     ],
     "counterItems": [
-      { "item": "holy-locket", "when": "Boost Tether heals" }
+      {
+        "item": "holy_locket",
+        "when": "Boost Tether heals"
+      }
     ],
-    "skillTips": ["Tether the carry before the fight, Relocate out together"]
+    "skillTips": [
+      "Tether the carry before the fight, Relocate out together"
+    ]
   },
   {
     "id": "visage",
@@ -1806,13 +3240,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/visage.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Grave Chill plus familiars kite her" },
-      { "hero": "crystal_maiden", "reason": "Soul Assumption burst deletes her lane" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Grave Chill plus familiars kite her"
+      },
+      {
+        "hero": "crystal_maiden",
+        "reason": "Soul Assumption burst deletes her lane"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Silent familiars control" }
+      {
+        "item": "aghanims_shard",
+        "when": "Silent familiars control"
+      }
     ],
-    "skillTips": ["Stack Grave Chill charges before committing familiars"]
+    "skillTips": [
+      "Stack Grave Chill charges before committing familiars"
+    ]
   },
   {
     "id": "magnataur",
@@ -1821,14 +3266,28 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/magnataur.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Reverse Polarity groups her team for cleave" },
-      { "hero": "juggernaut", "reason": "Skewer drags him off his Ward spot" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Reverse Polarity groups her team for cleave"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Skewer drags him off his Ward spot"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Horn plus Skewer initiation" },
-      { "item": "refresher-orb", "when": "Double Polarity teamfights" }
+      {
+        "item": "blink",
+        "when": "Horn plus Skewer initiation"
+      },
+      {
+        "item": "refresher",
+        "when": "Double Polarity teamfights"
+      }
     ],
-    "skillTips": ["Empower the carry at minute 1, never yourself first"]
+    "skillTips": [
+      "Empower the carry at minute 1, never yourself first"
+    ]
   },
   {
     "id": "abaddon",
@@ -1837,13 +3296,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/abaddon.png",
     "counters": [
-      { "hero": "axe", "reason": "Shield plus Borrowed Time purges Call focus" },
-      { "hero": "phantom_assassin", "reason": "Mist Coil plus shield out-sustains burst" }
+      {
+        "hero": "axe",
+        "reason": "Shield plus Borrowed Time purges Call focus"
+      },
+      {
+        "hero": "phantom_assassin",
+        "reason": "Mist Coil plus shield out-sustains burst"
+      }
     ],
     "counterItems": [
-      { "item": "holy-locket", "when": "Boost Mist Coil saves" }
+      {
+        "item": "holy_locket",
+        "when": "Boost Mist Coil saves"
+      }
     ],
-    "skillTips": ["Shield the stunned ally first, heal second, ult will trigger itself"]
+    "skillTips": [
+      "Shield the stunned ally first, heal second, ult will trigger itself"
+    ]
   },
   {
     "id": "techies",
@@ -1852,13 +3322,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/techies.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Mines plus Blast Off zones her farm" },
-      { "hero": "sniper", "reason": "Stasis plus traps lock his static spot" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Mines plus Blast Off zones her farm"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Stasis plus traps lock his static spot"
+      }
     ],
     "counterItems": [
-      { "item": "aghanims-shard", "when": "Minefield control" }
+      {
+        "item": "aghanims_shard",
+        "when": "Minefield control"
+      }
     ],
-    "skillTips": ["Mine the retreat path, not the engage path, for kills"]
+    "skillTips": [
+      "Mine the retreat path, not the engage path, for kills"
+    ]
   },
   {
     "id": "arc_warden",
@@ -1867,13 +3348,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/arc_warden.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Spark plus clone doubles her lane loss" },
-      { "hero": "sniper", "reason": "Magnetic Field plus long range wins trades" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Spark plus clone doubles her lane loss"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Magnetic Field plus long range wins trades"
+      }
     ],
     "counterItems": [
-      { "item": "manta-style", "when": "Double Tempest plus push" }
+      {
+        "item": "manta",
+        "when": "Double Tempest plus push"
+      }
     ],
-    "skillTips": ["Field your clone separately so one always casts"]
+    "skillTips": [
+      "Field your clone separately so one always casts"
+    ]
   },
   {
     "id": "pangolier",
@@ -1882,13 +3374,24 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pangolier.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Roll plus disarm ruins her combo" },
-      { "hero": "sniper", "reason": "Shield Crash closes his range gap" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Roll plus disarm ruins her combo"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Shield Crash closes his range gap"
+      }
     ],
     "counterItems": [
-      { "item": "diffusal-blade", "when": "Slow plus burn on roll targets" }
+      {
+        "item": "diffusal_blade",
+        "when": "Slow plus burn on roll targets"
+      }
     ],
-    "skillTips": ["Roll the escape path to bounce back, never roll away straight"]
+    "skillTips": [
+      "Roll the escape path to bounce back, never roll away straight"
+    ]
   },
   {
     "id": "void_spirit",
@@ -1897,13 +3400,24 @@
     "role": "mid",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/void_spirit.png",
     "counters": [
-      { "hero": "crystal_maiden", "reason": "Remnant plus Dissimilate deletes her lane" },
-      { "hero": "sniper", "reason": "Astral Step gap close plus silence" }
+      {
+        "hero": "crystal_maiden",
+        "reason": "Remnant plus Dissimilate deletes her lane"
+      },
+      {
+        "hero": "sniper",
+        "reason": "Astral Step gap close plus silence"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Full combo delivery" }
+      {
+        "item": "black_king_bar",
+        "when": "Full combo delivery"
+      }
     ],
-    "skillTips": ["Step in, shield second, Dissimilate out, never Step out"]
+    "skillTips": [
+      "Step in, shield second, Dissimilate out, never Step out"
+    ]
   },
   {
     "id": "snapfire",
@@ -1912,13 +3426,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/snapfire.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Cookie stun plus Mortimer Kisses zones her" },
-      { "hero": "juggernaut", "reason": "Lil Shredder plus slows kite his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Cookie stun plus Mortimer Kisses zones her"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Lil Shredder plus slows kite his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "force-staff", "when": "Cookie plus save combos" }
+      {
+        "item": "force_staff",
+        "when": "Cookie plus save combos"
+      }
     ],
-    "skillTips": ["Cookie the ally toward safety, Kisses where they land"]
+    "skillTips": [
+      "Cookie the ally toward safety, Kisses where they land"
+    ]
   },
   {
     "id": "marci",
@@ -1927,13 +3452,24 @@
     "role": "support",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/marci.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Dispose plus Rebound locks her down" },
-      { "hero": "juggernaut", "reason": "Sidekick plus stuns trade his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Dispose plus Rebound locks her down"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Sidekick plus stuns trade his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "black-king-bar", "when": "Unstoppable Unleash combos" }
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Unleash combos"
+      }
     ],
-    "skillTips": ["Rebound off your ally in, Dispose back, Unleash last"]
+    "skillTips": [
+      "Rebound off your ally in, Dispose back, Unleash last"
+    ]
   },
   {
     "id": "batrider",
@@ -1942,13 +3478,27 @@
     "role": "offlane",
     "image": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/batrider.png",
     "counters": [
-      { "hero": "phantom_assassin", "reason": "Lasso drags her out of Blur spots" },
-      { "hero": "juggernaut", "reason": "Flamebreak plus Lasso zones his Ward" }
+      {
+        "hero": "phantom_assassin",
+        "reason": "Lasso drags her out of Blur spots"
+      },
+      {
+        "hero": "juggernaut",
+        "reason": "Flamebreak plus Lasso zones his Ward"
+      }
     ],
     "counterItems": [
-      { "item": "blink-dagger", "when": "Lasso initiation" },
-      { "item": "black-king-bar", "when": "Unstoppable Lasso delivery" }
+      {
+        "item": "blink",
+        "when": "Lasso initiation"
+      },
+      {
+        "item": "black_king_bar",
+        "when": "Unstoppable Lasso delivery"
+      }
     ],
-    "skillTips": ["Lasso the target into your team, never away from it"]
+    "skillTips": [
+      "Lasso the target into your team, never away from it"
+    ]
   }
 ]

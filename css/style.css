@@ -1,114 +1,144 @@
-/* DotaCounter theme: Dota client-inspired dark board.
-   Semantic class names, full words only. One component, one block. */
+/* DotaCounter theme: cold client-console look.
+   Near-black blue-grey, square translucent panels, uppercase wide-tracked
+   type. Semantic class names, full words only. One component, one block. */
 
 :root {
-  --page: #14100b;
-  --panel: #1e1812;
-  --panel-edge: #3a2f22;
+  --bg: #0b0d10;
+  --panel: rgba(0, 0, 0, 0.6);
+  --divider: rgba(255, 255, 255, 0.08);
+  --row-hover: rgba(255, 255, 255, 0.06);
+  --ink: #e6ebf0;
+  --muted: #9aa7b2;
   --gold: #c8a45c;
-  --ink: #e8ddc9;
-  --ink-dim: #a99e86;
-  --radiant: #6fae5a;
-  --dire: #c05a4a;
+  --teal: #6fd3d0;
+  --green: #5da64a;
+  --red: #c05a4a;
   --str: #c0564d;
   --agi: #7bb661;
   --int: #6a9fd8;
   --uni: #c8a45c;
 }
 
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(90, 115, 140, 0.28), rgba(0, 0, 0, 0) 60%),
+    radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%),
+    var(--bg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 body {
-  background: var(--page);
+  min-height: 100vh;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Barlow, "Segoe UI", Arial, sans-serif;
   margin: 0;
 }
 
-/* Top bar: title, patch, tabs. */
+/* Top bar: full-width console strip; content edges match the panels. */
 .top-bar {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 16px;
-  border-bottom: 1px solid var(--panel-edge);
+  margin: 0;
+  padding: 0 max(16px, calc((100vw - 1400px) / 2));
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--divider);
+  background: rgba(0, 0, 0, 0.45);
 }
 .site-title {
-  font-size: 30px;
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
   margin: 0;
-  color: var(--gold);
-  letter-spacing: 1px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
 }
 .patch-label {
-  color: var(--ink-dim);
-  margin: 4px 0 0;
+  color: var(--muted);
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.08em;
 }
 .site-nav {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
 }
 .nav-link {
-  color: var(--ink-dim);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
   text-decoration: none;
-  padding: 6px 14px;
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
+  padding: 14px 18px 12px;
+  border-bottom: 2px solid transparent;
+}
+.nav-link:hover {
+  color: var(--ink);
+  background: var(--row-hover);
 }
 .nav-link-active {
   color: var(--ink);
-  border-color: var(--gold);
+  background: rgba(255, 255, 255, 0.07);
+  border-bottom-color: var(--ink);
 }
 
-/* Draft page frame. */
+/* Draft page frame: pool left, sticky draft panel right >= 1000px. */
 .draft-view {
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (min-width: 1000px) {
+  .draft-view {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+  .pool-section {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  .draft-main {
+    position: sticky;
+    top: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+  }
 }
 .section-title {
-  font-size: 20px;
-  color: var(--gold);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
   margin: 0 0 12px;
 }
 .pool-section,
 .draft-board,
-.win-section,
 .counter-results {
   background: var(--panel);
-  border: 1px solid var(--panel-edge);
-  border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
 }
 
-/* Side switch: which team taps add to. */
-.side-switch {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.side-switch-label {
-  color: var(--ink-dim);
-}
-.side-toggle {
-  background: var(--page);
-  color: var(--ink-dim);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  padding: 6px 14px;
-  cursor: pointer;
-}
-.side-toggle-radiant.side-toggle-active {
-  border-color: var(--radiant);
-  color: var(--radiant);
-}
-.side-toggle-dire.side-toggle-active {
-  border-color: var(--dire);
-  color: var(--dire);
-}
-
 /* Hero pool: attribute titles in client colors, portrait grid. */
 .pool-group-title {
-  font-size: 16px;
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 15px;
   margin: 16px 0 8px;
 }
 .pool-group-strength {
@@ -125,139 +155,188 @@ body {
 }
 .hero-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  justify-content: start;
 }
 .hero-card {
-  background: var(--page);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  padding: 4px;
+  position: relative;
+  background: #000;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   cursor: grab;
   color: var(--ink);
 }
 .hero-card:hover {
-  border-color: var(--gold);
+  outline: 1px solid var(--ink);
 }
 .hero-portrait {
   width: 100%;
   display: block;
-  border-radius: 2px;
+  aspect-ratio: 60 / 70;
+  object-fit: cover;
+  object-position: center top;
 }
 .hero-name {
   font-size: 12px;
   text-align: center;
-  margin-top: 4px;
+  padding: 3px 2px;
+  color: var(--muted);
 }
 
-/* Draft board: two teams of five slots. */
-.draft-teams {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+/* Pool controls: role tabs left, search input right, one row. */
+.pool-controls-row {
+  display: flex;
+  align-items: center;
   gap: 16px;
+  margin: 8px 0 12px;
+  flex-wrap: wrap;
 }
-.draft-team-name {
-  font-size: 16px;
-  margin: 0 0 8px;
+.pool-controls-row .role-tabs {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
 }
-.draft-team-radiant .draft-team-name {
-  color: var(--radiant);
+/* Visible pool search box: same console styling as the tabs. */
+.pool-search-wrap {
+  position: relative;
+  flex: 0 1 320px;
+  min-width: 0;
+  margin-left: auto;
 }
-.draft-team-dire .draft-team-name {
-  color: var(--dire);
+.pool-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
 }
+.pool-search {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  background: #000;
+  color: var(--ink);
+  border: 1px solid var(--divider);
+  border-radius: 0;
+  padding: 8px 10px 8px 32px;
+  font-family: Barlow, "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  margin: 0;
+}
+.pool-search::placeholder {
+  color: var(--muted);
+}
+.pool-search:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal);
+}
+/* Draft board: single enemy lineup inside the sticky panel. */
+/* Draft board: portrait-shaped slots with a faint slot number. */
 .draft-slots {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+  gap: 4px;
 }
 .draft-slot {
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  padding: 4px;
-  min-height: 64px;
+  position: relative;
+  background: #000;
+  padding: 0;
+  aspect-ratio: 60 / 70;
   cursor: pointer;
 }
-.draft-slot-empty {
-  border-style: dashed;
-  color: var(--ink-dim);
+.draft-slot-number {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
+  color: rgba(255, 255, 255, 0.22);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+.draft-slot-filled {
+  cursor: pointer;
+}
+.draft-slot .hero-portrait {
+  position: relative;
 }
 .draft-hint {
-  color: var(--ink-dim);
+  color: var(--muted);
   margin: 12px 0 0;
-}
-
-/* Win estimate bar: green fills from the left, red shows through. */
-.win-bar {
-  background: var(--dire);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  height: 24px;
-  overflow: hidden;
-}
-.win-bar-fill-radiant {
-  background: var(--radiant);
-  height: 100%;
-  width: 50%;
-}
-.win-bar-label {
-  font-size: 18px;
-  margin: 8px 0;
-}
-.win-reasons {
-  margin: 0;
-  padding-left: 20px;
-}
-.win-reason {
-  color: var(--ink);
-  margin-bottom: 4px;
+  font-size: 13px;
 }
 
 /* Counter list and hero detail. */
 .empty-prompt {
-  color: var(--ink-dim);
+  color: var(--muted);
 }
 .counter-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 .counter-entry {
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  padding: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--divider);
+}
+.counter-entry:hover {
+  background: var(--row-hover);
+}
+.counter-portrait {
+  width: 56px;
+  height: 64px;
+  flex: none;
+  object-fit: cover;
+  object-position: center top;
+}
+.counter-body {
+  min-width: 0;
 }
 .counter-name {
-  color: var(--gold);
+  color: var(--ink);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 15px;
 }
 .counter-reason {
-  color: var(--ink);
-  margin: 4px 0;
+  color: var(--muted);
+  margin: 2px 0 4px;
+  font-size: 13px;
 }
 .counter-detail-link {
   background: none;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  border-radius: 4px;
+  border: 1px solid var(--teal);
+  color: var(--teal);
+  border-radius: 0;
   padding: 4px 10px;
   cursor: pointer;
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 13px;
 }
-.hero-detail {
-  margin-top: 12px;
-  border-top: 1px solid var(--panel-edge);
-  padding-top: 12px;
+.counter-detail-link:hover {
+  background: var(--row-hover);
 }
-.hero-detail-title {
-  color: var(--gold);
-  margin: 0 0 8px;
-}
-.hero-detail-item,
-.hero-detail-tip {
-  margin: 4px 0;
+.counter-more {
+  background: none;
+  border: none;
+  color: var(--teal);
+  cursor: pointer;
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  padding: 8px 4px;
+  text-align: left;
 }
 
 /* Meta today page. */
@@ -267,24 +346,31 @@ body {
   padding: 16px;
 }
 .meta-updated {
-  color: var(--ink-dim);
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 .tier-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 .tier-row {
   background: var(--panel);
-  border: 1px solid var(--panel-edge);
-  border-radius: 8px;
-  padding: 8px;
+  padding: 8px 4px;
   display: flex;
   gap: 12px;
+  border-bottom: 1px solid var(--divider);
+}
+.tier-row:hover {
+  background: var(--row-hover);
 }
 .tier-label {
   min-width: 64px;
   color: var(--gold);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 .tier-members {
   color: var(--ink);
@@ -294,33 +380,30 @@ body {
 .role-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   margin-bottom: 16px;
 }
 .role-card {
   background: var(--panel);
-  border: 1px solid var(--panel-edge);
-  border-radius: 8px;
-  padding: 8px;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--divider);
+}
+.role-card:hover {
+  background: var(--row-hover);
 }
 .role-name {
-  color: var(--gold);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink);
   margin-right: 12px;
 }
 .role-picks {
   color: var(--ink);
 }
 .role-note {
-  color: var(--ink-dim);
+  color: var(--muted);
   margin: 4px 0 0 0;
-}
-
-/* Offline note. */
-.offline-note {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 8px 16px;
-  color: var(--gold);
+  font-size: 13px;
 }
 
 /* Role question modal: full-screen overlay, centered dialog. */
@@ -337,18 +420,20 @@ body {
   display: none;
 }
 .role-dialog {
-  background: var(--panel);
-  border: 1px solid var(--gold);
-  border-radius: 8px;
+  background: #101318;
+  border-top: 2px solid var(--ink);
   padding: 24px;
   max-width: 420px;
 }
 .role-dialog-title {
-  color: var(--gold);
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink);
   margin: 0 0 8px;
 }
 .role-dialog-sub {
-  color: var(--ink-dim);
+  color: var(--muted);
   margin: 0 0 16px;
 }
 .role-options {
@@ -357,34 +442,44 @@ body {
   gap: 8px;
 }
 .role-option {
-  background: var(--page);
-  color: var(--ink);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 0;
   padding: 10px;
   cursor: pointer;
   text-align: left;
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 15px;
+  font-weight: 600;
 }
 .role-option:hover {
-  border-color: var(--gold);
+  filter: brightness(1.12);
 }
 
-/* Role change button in the top bar. */
+/* Role change: small button pinned to the right edge of the top bar. */
 .role-change {
+  margin-left: auto;
   background: none;
-  border: 1px solid var(--panel-edge);
-  color: var(--ink-dim);
-  border-radius: 4px;
+  border: 1px solid var(--divider);
+  color: var(--muted);
+  border-radius: 0;
   padding: 4px 10px;
-  margin-top: 12px;
   cursor: pointer;
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  white-space: nowrap;
 }
 .role-change:hover {
-  border-color: var(--gold);
-  color: var(--gold);
+  color: var(--ink);
+  background: var(--row-hover);
 }
 
-/* Enemy-support chips: mark drafted Dire heroes that are supports. */
+/* Enemy-support chips: mark enemy heroes that are supports. */
 .enemy-support-pick {
   display: flex;
   flex-wrap: wrap;
@@ -396,49 +491,26 @@ body {
   display: none;
 }
 .enemy-support-label {
-  color: var(--ink-dim);
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 .enemy-support-chip {
-  background: var(--page);
-  color: var(--ink-dim);
-  border: 1px solid var(--panel-edge);
-  border-radius: 12px;
+  background: none;
+  color: var(--muted);
+  border: 1px solid var(--divider);
+  border-radius: 0;
   padding: 4px 12px;
   cursor: pointer;
 }
+.enemy-support-chip:hover {
+  background: var(--row-hover);
+  color: var(--ink);
+}
 .enemy-support-chip-on {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-/* Win estimate: small sticky strip pinned under the top bar. */
-.win-section-top {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  max-width: 1400px;
-  width: calc(100% - 32px);
-  margin: 12px auto 0;
-  padding: 8px 12px;
-}
-.win-section-top .section-title {
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-.win-section-top .win-bar {
-  height: 14px;
-}
-.win-section-top .win-bar-label {
-  font-size: 13px;
-  margin: 6px 0;
-}
-.win-section-top .win-reasons {
-  font-size: 13px;
-}
-
-/* Draft page: hero pool covers the full width, draft stacks below it. */
-.draft-view {
-  max-width: 1400px;
+  border-color: var(--teal);
+  color: var(--teal);
 }
 
 /* Pool columns side by side like the Dota client (700px and up). */
@@ -446,7 +518,7 @@ body {
   .hero-pool {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    gap: 24px;
     align-items: start;
   }
   .pool-column {
@@ -454,31 +526,133 @@ body {
   }
 }
 
-/* Draft teams stacked vertically: Radiant row, Dire row below. */
-.draft-teams {
-  grid-template-columns: 1fr;
+/* Typed-query hint line (replaces the old search box). */
+.pool-query-hint {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0 0 12px;
 }
 
-/* Pool search box above the attribute columns. */
-.hero-search {
-  width: 100%;
-  box-sizing: border-box;
-  background: var(--page);
-  color: var(--ink);
-  border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  font-size: 14px;
+/* Non-matching heroes turn black-and-white while filtering. */
+.hero-dimmed .hero-portrait {
+  filter: grayscale(1) brightness(0.6);
 }
-.hero-search:focus {
-  outline: none;
-  border-color: var(--gold);
+.hero-dimmed .hero-name {
+  opacity: 0.45;
 }
 
 /* Glowing matched letters inside a hero name while searching. */
 .hero-name-hit {
-  color: var(--gold);
-  text-shadow: 0 0 6px var(--gold), 0 0 2px var(--gold);
+  color: var(--teal);
 }
 
+/* Pool role tabs: one active filter at a time. */
+.pool-data-date {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0 0 12px;
+}.role-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0 12px;
+}
+.role-tab {
+  background: none;
+  color: var(--muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 4px 12px 2px;
+  cursor: pointer;
+  font-family: Rajdhani, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+}
+.role-tab:hover {
+  color: var(--ink);
+}
+.role-tab-active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+/* Pub win-rate number: plain bottom-left text like the client, no pill. */
+.win-badge {
+  position: absolute;
+  left: 4px;
+  bottom: 2px;
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px #000, 0 0 4px #000;
+  pointer-events: none;
+}
+.win-high {
+  color: var(--green);
+}
+.win-mid {
+  color: var(--muted);
+}
+.win-low {
+  color: var(--red);
+}
+/* Empty best-picks state: thin data, not a render bug. */
+.counter-empty {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
+/* Pool caption row: data date left, win toggle right. */
+.pool-caption-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.rates-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+/* Dark client-style switch: track plus knob, teal when on. */
+.rates-checkbox {
+  appearance: none;
+  width: 34px;
+  height: 18px;
+  margin: 0;
+  border-radius: 9px;
+  background: #1a2027;
+  border: 1px solid var(--divider);
+  position: relative;
+  cursor: pointer;
+  flex: none;
+}
+.rates-checkbox::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.rates-checkbox:checked {
+  border-color: var(--teal);
+}
+.rates-checkbox:checked::after {
+  left: 18px;
+  background: var(--teal);
+}

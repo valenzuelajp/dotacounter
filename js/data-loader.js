@@ -1,5 +1,5 @@
-// data-loader: loads baked JSON, falls back gracefully, flags offline mode.
-// Every fetch is relative ("./data/...") so the /dotacounter/ subpath works.
+// Data date is the freshness signal; there is no live probe and no
+// offline note. Everything renders from baked JSON.
 window.DotaCounter = window.DotaCounter || {};
 
 window.DotaCounter.loadData = async function loadData() {
@@ -18,21 +18,8 @@ window.DotaCounter.loadData = async function loadData() {
   const meta = (await loadFile("./data/meta.json")) || { patch: "unknown", tiers: {}, updatedAt: "unknown" };
   const matchups = (await loadFile("./data/matchups.json")) || { pairs: {} };
 
-  // Offline means: we could not reach the live stats endpoint, so the page
-  // shows baked data with a note. Live refresh is attempted by the caller.
-  let offline = false;
-  try {
-    const probe = await fetch("https://api.opendota.com/api/heroes", { method: "HEAD" });
-    if (!probe.ok) offline = true;
-  } catch (error) {
-    offline = true;
-  }
-
-  const note = document.querySelector(".offline-note");
-  if (note) note.hidden = !offline;
-
   const label = document.querySelector(".patch-label");
   if (label) label.textContent = "Patch: " + meta.patch;
 
-  return { heroes, meta, matchups, offline };
+  return { heroes, meta, matchups };
 };
