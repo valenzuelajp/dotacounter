@@ -39,14 +39,16 @@
     return null;
   }
 
-  // Pick rate percent (one decimal) from baked match totals.
+  // Percent of matches the hero appears in (one decimal). Baked totals
+  // count all 10 picks per match, so the hero's share is multiplied by 10:
+  // Axe at 1.8% of picks appears in ~18% of matches.
   function pickRate(id) {
     const all = state.matchups.heroes || {};
     let total = 0;
     for (const key of Object.keys(all)) total += all[key].games || 0;
     const entry = all[id];
     if (!entry || !(total > 0)) return null;
-    return Math.round((entry.games / total) * 1000) / 10;
+    return Math.round((entry.games / total) * 10000) / 10;
   }
 
   // One portrait-only pool card. Name lives in the hover tooltip.
@@ -311,7 +313,7 @@
     document.querySelector(".hero-modal-meta").textContent =
       "Tier " + (tier || "—") +
       " · Win " + (win === null ? "—" : win + "%") +
-      " · Pick " + (pick === null ? "—" : pick + "%");
+      " · Pick " + (pick === null ? "—" : pick + "% of matches");
     renderGuide(hero);
     renderMatchupsTab(hero);
     renderTimeline(hero);
