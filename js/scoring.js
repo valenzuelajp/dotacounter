@@ -188,3 +188,33 @@ window.DotaCounter.roleMatches = function roleMatches(heroRole, tab) {
   if (tab === "offlane") return heroRole === "offlane" || heroRole === "initiator";
   return heroRole === tab;
 };
+
+// First-pick helper for support players: in ranked, supports pick first,
+// so this returns the 5 most-picked supports plus the 5 highest-win-rate
+// supports with at least minGames games (default 10000, about a week of
+// pubs at this dataset's scale). Shape:
+// { popular: [{ id, name, rate, games }], best: [...] }.
+// Zero-game heroes never make either list; empty input gives empty lists.
+window.DotaCounter.topSupports = function topSupports(heroes, matchups, minGames) {
+  const floor = typeof minGames === "number" ? minGames : 10000;
+  const stats = (matchups && matchups.heroes) || {};
+  const supports = [];
+  for (const hero of heroes || []) {
+    if (hero.role !== "support") continue;
+    const entry = stats[hero.id] || {};
+    const games = entry.games || 0;
+    if (!(games > 0)) continue;
+    supports.push({
+      id: hero.id,
+      name: hero.name,
+      games,
+      rate: Math.round(((entry.wins || 0) / games) * 1000) / 10,
+    });
+  }
+  const byGames = [...supports].sort((a, b) => b.games - a.games).slice(0, 5);
+  const byRate = supports
+    .filter((s) => s.games >= floor)
+    .sort((a, b) => b.rate - a.rate)
+    .slice(0, 5);
+  return { popular: byGames, best: byRate };
+};

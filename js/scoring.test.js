@@ -178,6 +178,29 @@ assertEqual(heroWinRate("no_such_hero", baked), null, "unknown hero hides the ba
 assertEqual(heroWinRate("axe", { heroes: {} }), null, "empty stats hide the badge");
 assertEqual(heroWinRate("axe", { heroes: { axe: { games: 0, wins: 0 } } }), null, "zero games hide the badge");
 
+// topSupports: first-pick helper for support players (in ranked,
+// supports pick first). Five most-picked plus five highest-win-rate
+// supports above a sample floor. Pure: safe to assert on baked data.
+const { topSupports } = context.window.DotaCounter;
+const supportIds = heroes.filter((h) => h.role === "support").map((h) => h.id);
+const lists = topSupports(heroes, baked, 10000);
+assertEqual(lists.popular.length > 0 && lists.popular.length <= 5, true, "popular holds up to five supports");
+assertEqual(lists.popular.every((s) => supportIds.includes(s.id)), true, "popular holds supports only");
+assertEqual(
+  lists.popular.map((s) => s.games),
+  [...lists.popular.map((s) => s.games)].sort((a, b) => b - a),
+  "popular sorted by games desc"
+);
+assertEqual(lists.best.length > 0, true, "best list non-empty on baked data");
+assertEqual(lists.best.every((s) => s.games >= 10000), true, "best respects the sample floor");
+assertEqual(
+  lists.best.map((s) => s.rate),
+  [...lists.best.map((s) => s.rate)].sort((a, b) => b - a),
+  "best sorted by rate desc"
+);
+assertEqual(topSupports(heroes, { heroes: {} }, 10000), { popular: [], best: [] }, "no stats gives empty lists");
+assertEqual(topSupports([], baked, 10000), { popular: [], best: [] }, "no heroes gives empty lists");
+
 // roleMatches: tabs filter lane roles; legacy initiator is offlane-side.
 assertEqual(roleMatches("carry", "carry"), true, "carry sits under Carry");
 assertEqual(roleMatches("carry", "mid"), false, "carry is not Mid");

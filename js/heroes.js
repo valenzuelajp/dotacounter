@@ -24,7 +24,20 @@
     showNames: false, // small names under portraits, off like the client.
     current: null, // hero id shown in the open modal, or null.
     lastFocus: null, // element that opened the modal, for focus restore.
+    myRole: null, // player's lane role (p1..p5), chosen in the role popup.
   };
+
+  // Lane roles for the opening popup. P1-P3 map to their pool tab;
+  // both support positions share the Support tab, and P4/P5 also get
+  // the first-pick support list (supports pick first in ranked).
+  const LANE_ROLES = {
+    p1: { label: "P1 · Safe Lane Carry", tab: "carry" },
+    p2: { label: "P2 · Mid", tab: "mid" },
+    p3: { label: "P3 · Offlane", tab: "offlane" },
+    p4: { label: "P4 · Soft Support", tab: "support" },
+    p5: { label: "P5 · Hard Support", tab: "support" },
+  };
+  const ROLE_STORAGE_KEY = "dotacounter-lane-role";
 
   // Find a hero by id.
   function heroById(id) {
@@ -75,6 +88,15 @@
       img.src = "./assets/heroes/placeholder.png";
     };
     card.appendChild(img);
+    // Win-rate badge on top of the card. heroWinRate returns null when
+    // the hero has no baked stats: null means "hide the badge".
+    const rate = window.DotaCounter.heroWinRate(hero.id, state.matchups);
+    if (rate !== null) {
+      const badge = document.createElement("div");
+      badge.className = "hero-winrate";
+      badge.textContent = rate.toFixed(1) + "%";
+      card.appendChild(badge);
+    }
     if (state.showNames) {
       const label = document.createElement("div");
       label.className = "hero-name";
@@ -380,6 +402,114 @@
     if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
   }
 
+  // --- Lane-role popup (opens on every page load) ---
+
+  // Show the role popup, preselecting the saved role if there is one.
+  function openRoleModal() {
+    state.lastFocus = document.activeElement;
+    document.querySelectorAll(".role-option").forEach((b) => {
+      b.classList.toggle("role-option-selected", b.dataset.role === state.myRole);
+    });
+    document.querySelector(".role-modal-backdrop").hidden = false;
+    document.body.classList.add("modal-open");
+    const selected =
+      document.querySelector(".role-option-selected") || document.querySelector(".role-option");
+    if (selected) selected.focus();
+  }
+
+  // Hide the role popup. The body class lifts only when no popup
+  // (hero, role, support) is still visible.
+  function hideRoleModal() {
+    const backdrop = document.querySelector(".role-modal-backdrop");
+    if (!backdrop || backdrop.hidden) return;
+    backdrop.hidden = true;
+    liftModalOpen();
+    if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
+  }
+
+  // Remove the modal-open body class when all three popups are hidden.
+  function liftModalOpen() {
+    for (const selector of [".hero-modal-backdrop", ".role-modal-backdrop", ".support-modal-backdrop"]) {
+      const backdrop = document.querySelector(selector);
+      if (backdrop && !backdrop.hidden) return;
+    }
+    document.body.classList.remove("modal-open");
+  }
+
+  // Apply a lane role: filter the pool to its lane tab, remember it,
+  // and show the first-pick support list for support players.
+  function chooseLaneRole(role) {
+    const entry = LANE_ROLES[role];
+    if (!entry) return;
+    state.myRole = role;
+    try {
+      localStorage.setItem(ROLE_STORAGE_KEY, role);
+    } catch (ignored) {
+      // Private mode: the choice lasts this visit only.
+    }
+    state.tab = entry.tab;
+    document.querySelectorAll(".role-tab").forEach((t) => {
+      t.classList.toggle("role-tab-active", t.dataset.tab === entry.tab);
+    });
+    paintRoleChip();
+    renderPool();
+    hideRoleModal();
+    if (role === "p4" || role === "p5") openSupportModal();
+  }
+
+  // The role chip in the caption row reopens the popup to change roles.
+  function paintRoleChip() {
+    const chip = document.querySelector(".role-chip");
+    if (!chip) return;
+    const entry = LANE_ROLES[state.myRole];
+    chip.textContent = "Role: " + (entry ? entry.label : "pick yours");
+  }
+
+  // --- First-pick support popup (supports pick first in ranked) ---
+
+  // One clickable support row: name left, win rate + sample right.
+  // Opens the hero popup for that support.
+  function supportRow(box, entry) {
+    const row = document.createElement("button");
+    row.className = "support-row";
+    const name = document.createElement("span");
+    name.className = "support-row-name";
+    name.textContent = entry.name;
+    const stats = document.createElement("span");
+    stats.className = "support-row-stats";
+    stats.textContent = entry.rate.toFixed(1) + "% · " + entry.games.toLocaleString() + " games";
+    row.append(name, stats);
+    row.addEventListener("click", () => {
+      hideSupportModal();
+      openModal(entry.id);
+    });
+    box.appendChild(row);
+  }
+
+  // Fill and show the support popup from the baked pub tables.
+  function openSupportModal() {
+    const lists = window.DotaCounter.topSupports(state.heroes, state.matchups);
+    const popular = document.querySelector(".support-popular");
+    const best = document.querySelector(".support-best");
+    if (!popular || !best) return;
+    popular.innerHTML = "";
+    best.innerHTML = "";
+    for (const entry of lists.popular) supportRow(popular, entry);
+    for (const entry of lists.best) supportRow(best, entry);
+    state.lastFocus = document.activeElement;
+    document.querySelector(".support-modal-backdrop").hidden = false;
+    document.body.classList.add("modal-open");
+    document.querySelector(".support-modal-close").focus();
+  }
+
+  function hideSupportModal() {
+    const backdrop = document.querySelector(".support-modal-backdrop");
+    if (!backdrop || backdrop.hidden) return;
+    backdrop.hidden = true;
+    liftModalOpen();
+    if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
+  }
+
   // Keep only the modal focusable while it is open.
   function trapFocus(event) {
     if (event.key !== "Tab") return;
@@ -429,9 +559,13 @@
     // letter, Esc clears. Skipped while typing in the search box, while
     // the modal is open, or when focus sits on a button or link — typing
     // and Space must never leak into the hidden query or get swallowed.
+    // Any open popup (hero, role, support) pauses type-anywhere.
     const modalOpen = () => {
-      const backdrop = document.querySelector(".hero-modal-backdrop");
-      return backdrop && !backdrop.hidden;
+      for (const selector of [".hero-modal-backdrop", ".role-modal-backdrop", ".support-modal-backdrop"]) {
+        const backdrop = document.querySelector(selector);
+        if (backdrop && !backdrop.hidden) return true;
+      }
+      return false;
     };
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
@@ -471,12 +605,41 @@
         renderPool();
       }
     });
-    // Modal Escape: dedicated handler so an open popup always closes on
-    // Esc and clears its hash (closeModal restores focus to the card).
+    // Popup Escape: close the topmost popup first (support over role
+    // over hero), so Esc never skips a layer.
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && modalOpen()) closeModal();
+      if (event.key !== "Escape") return;
+      const support = document.querySelector(".support-modal-backdrop");
+      if (support && !support.hidden) {
+        hideSupportModal();
+        return;
+      }
+      const role = document.querySelector(".role-modal-backdrop");
+      if (role && !role.hidden) {
+        hideRoleModal();
+        return;
+      }
+      if (modalOpen()) closeModal();
     });
     document.querySelector(".hero-modal-close").addEventListener("click", closeModal);
+    // Role popup: one button per lane position, plus backdrop-click close.
+    document.querySelectorAll(".role-option").forEach((option) => {
+      option.addEventListener("click", () => chooseLaneRole(option.dataset.role));
+    });
+    document.querySelector(".role-modal-close").addEventListener("click", hideRoleModal);
+    document.querySelector(".role-modal-backdrop").addEventListener("click", (event) => {
+      if (event.target.classList.contains("role-modal-backdrop")) hideRoleModal();
+    });
+    // Support popup: close button, backdrop-click close, and two reopens
+    // (the caption-row button and the role chip that reopens role picking).
+    document.querySelector(".support-modal-close").addEventListener("click", hideSupportModal);
+    document.querySelector(".support-modal-backdrop").addEventListener("click", (event) => {
+      if (event.target.classList.contains("support-modal-backdrop")) hideSupportModal();
+    });
+    const firstPick = document.querySelector(".first-pick-button");
+    if (firstPick) firstPick.addEventListener("click", openSupportModal);
+    const chip = document.querySelector(".role-chip");
+    if (chip) chip.addEventListener("click", openRoleModal);
     document.querySelector(".hero-modal-backdrop").addEventListener("click", (event) => {
       if (event.target.classList.contains("hero-modal-backdrop")) closeModal();
     });
@@ -530,7 +693,20 @@
           return hero ? hero.name : "";
         });
         const id = window.location.hash.replace("#", "");
-        if (id !== "") openModal(id);
+        if (id !== "") {
+          // Deep link: honor it and skip the role popup this visit.
+          openModal(id);
+        } else {
+          // Fresh open: restore the saved role for preselect, then ask.
+          try {
+            const saved = localStorage.getItem(ROLE_STORAGE_KEY);
+            if (saved && LANE_ROLES[saved]) state.myRole = saved;
+          } catch (ignored) {
+            // Private mode: no saved role, popup starts unselected.
+          }
+          paintRoleChip();
+          openRoleModal();
+        }
       });
   });
 })();
