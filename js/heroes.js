@@ -177,8 +177,19 @@
     const box = document.querySelector(".hero-modal-guide");
     box.innerHTML = "";
     const guide = hero.guide;
-    if (!guide) {
-      box.textContent = "No guide yet";
+    const hasText =
+      guide &&
+      (guide.howToWin || (guide.playTips || []).length > 0 || (guide.powerSpikes || []).length > 0);
+    if (!hasText) {
+      // No guide text yet (B3 fills it in): small badge plus a placeholder
+      // line, so the tab never looks empty or broken.
+      const badge = document.createElement("p");
+      badge.className = "guide-draft-note";
+      badge.textContent = "Draft guide, not yet reviewed";
+      const soon = document.createElement("p");
+      soon.className = "guide-coming-soon";
+      soon.textContent = "Guide coming soon";
+      box.append(badge, soon);
       return;
     }
     if (guide.reviewed !== true) {
@@ -303,17 +314,38 @@
     document.querySelector(".hero-modal-portrait").src = hero.image;
     document.querySelector(".hero-modal-portrait").alt = hero.name;
     document.querySelector(".hero-modal-name").textContent = hero.name;
-    document.querySelector(".hero-modal-attr").textContent =
-      ATTRIBUTE_LABELS[hero.attribute] || hero.attribute;
-    document.querySelector(".hero-modal-roles").textContent =
-      "Lane role: " + hero.role;
+    const attr = document.querySelector(".hero-modal-attr");
+    attr.textContent = ATTRIBUTE_LABELS[hero.attribute] || hero.attribute;
+    attr.className = "hero-modal-attr attr-" + (hero.attribute || "strength");
+    const roles = document.querySelector(".hero-modal-roles");
+    roles.innerHTML = "";
+    const chip = document.createElement("span");
+    chip.className = "hero-modal-role-chip";
+    chip.textContent = hero.role;
+    roles.appendChild(chip);
     const tier = tierOf(id);
     const win = window.DotaCounter.heroWinRate(id, state.matchups);
     const pick = pickRate(id);
-    document.querySelector(".hero-modal-meta").textContent =
-      "Tier " + (tier || "—") +
-      " · Win " + (win === null ? "—" : win + "%") +
-      " · Pick " + (pick === null ? "—" : pick + "% of matches");
+    const meta = document.querySelector(".hero-modal-meta");
+    meta.innerHTML = "";
+    // Three stat blocks: small caption above, larger value below.
+    const stats = [
+      ["Tier", tier || "—", tier ? "meta-tier-" + tier.toLowerCase() : ""],
+      ["Win rate", win === null ? "—" : win + "%", ""],
+      ["Pick", pick === null ? "—" : pick + "% of matches", ""],
+    ];
+    for (const [caption, value, valueClass] of stats) {
+      const block = document.createElement("div");
+      block.className = "meta-stat";
+      const cap = document.createElement("div");
+      cap.className = "meta-stat-caption";
+      cap.textContent = caption;
+      const val = document.createElement("div");
+      val.className = "meta-stat-value" + (valueClass ? " " + valueClass : "");
+      val.textContent = value;
+      block.append(cap, val);
+      meta.appendChild(block);
+    }
     renderGuide(hero);
     renderMatchupsTab(hero);
     renderTimeline(hero);
