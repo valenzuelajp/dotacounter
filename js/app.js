@@ -20,7 +20,7 @@
     dire: [], // the enemy lineup, max 5.
     expanded: false, // show-more toggle for the best-picks list.
     lastDire: "", // draft key; a new draft collapses the list again.
-    profile: null, // carry | mid | offlane | support, asked once in the modal.
+    profile: null, // carry | mid | offlane | support, asked in the modal.
     enemySupports: [], // enemy heroes the player marked as supports.
   };
 
@@ -306,7 +306,7 @@
     }
   }
 
-  // Role modal: ask once, remember, allow change from the top bar.
+  // Role modal: ask on every open, remember, allow change from the top bar.
   function wireRoleModal() {
     const modal = document.querySelector(".role-modal");
     const change = document.querySelector(".role-change");
@@ -323,7 +323,7 @@
   }
 
   // Record the profile, close the modal, refresh the numbers.
-  // Remembered in localStorage so repeat visits skip the question.
+  // Remembered in localStorage for the change button label.
   function chooseProfile(profile) {
     state.profile = profile;
     try {
@@ -341,14 +341,13 @@
     renderBoard();
   }
 
-  // Boot: restore a remembered profile, then load data and paint.
+  // Boot: restore a remembered profile for the change button,
+  // then always ask — the popup shows on every open.
   wireRoleModal();
   try {
     const saved = localStorage.getItem("dotacounter-profile");
     if (saved === "carry" || saved === "mid" || saved === "offlane" || saved === "support") {
       state.profile = saved;
-      const modal = document.querySelector(".role-modal");
-      if (modal) modal.hidden = true;
       const change = document.querySelector(".role-change");
       if (change) {
         change.hidden = false;
