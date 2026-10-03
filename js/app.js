@@ -87,7 +87,6 @@
       card.className = "hero-card hero-dimmed";
     }
     card.dataset.heroId = hero.id;
-    card.title = hero.name;
     card.draggable = true;
     const img = document.createElement("img");
     img.className = "hero-portrait";
@@ -398,5 +397,13 @@
     });
     renderPool();
     renderBoard();
+    // Instant hero-name tooltips (no 1s delay); win rate joins the name
+    // only while the toggle is on.
+    window.DotaCounter.attachInstantTips(document.querySelector(".hero-pool"), (card) => {
+      const hero = heroById(card.dataset.heroId);
+      if (!hero) return "";
+      const rate = window.DotaCounter.heroWinRate(hero.id, state.matchups);
+      return state.showRates && rate !== null ? hero.name + " · " + rate + "%" : hero.name;
+    });
   });
 })();

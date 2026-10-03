@@ -56,7 +56,6 @@
     const card = document.createElement("button");
     card.className = "hero-card";
     card.dataset.heroId = hero.id;
-    card.title = hero.name;
     card.draggable = false;
     const img = document.createElement("img");
     img.className = "hero-portrait";
@@ -494,6 +493,11 @@
         state.builds = (builds && builds.builds) || {};
         wire();
         renderPool();
+        // Instant hero-name tooltips (no 1s delay) over the pool.
+        window.DotaCounter.attachInstantTips(document.querySelector(".hero-pool"), (card) => {
+          const hero = (state.heroes || []).find((h) => h.id === card.dataset.heroId);
+          return hero ? hero.name : "";
+        });
         const id = window.location.hash.replace("#", "");
         if (id !== "") openModal(id);
       });

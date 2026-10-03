@@ -181,6 +181,19 @@ body {
   object-fit: cover;
   object-position: center top;
 }
+/* Instant pool tooltip: no-delay replacement for title attributes. */
+.instant-tip {
+  position: fixed;
+  z-index: 200;
+  background: rgba(18, 22, 27, 0.97);
+  border: 1px solid #4a5866;
+  border-radius: 3px;
+  color: var(--ink);
+  font-size: 12px;
+  padding: 3px 8px;
+  pointer-events: none;
+  white-space: nowrap;
+}
 .hero-name {
   font-size: 12px;
   text-align: center;
