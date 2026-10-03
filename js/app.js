@@ -10,8 +10,14 @@
     universal: "Universal",
   };
 
+  const PHASE_LABELS = { start: "Start", early: "Early", mid: "Mid", late: "Late" };
+  const CDN = "https://cdn.cloudflare.steamstatic.com";
+
   const state = {
     heroes: [],
+    items: {}, // item key -> { dname, img }, for timeline icons.
+    builds: {}, // hero id -> { start[], early[], mid[], late[] }.
+    meta: { tiers: {} }, // patch tiers for the guide's tier badge.
     matchups: { heroes: {} }, // baked pub win rates for the badges.
     query: "", // live pool search text; "" means no filter.
     tab: "all", // pool role tab; one of all|carry|mid|offlane|support.
@@ -21,6 +27,8 @@
     roleScope: "mine", // best-counters pool: "mine" (own role) or "all".
     profile: null, // carry | mid | offlane | support, asked in the modal.
     enemySupports: [], // enemy heroes the player marked as supports.
+    current: null, // hero id shown in the open guide, or null.
+    lastFocus: null, // element that opened a popup, for focus restore.
   };
 
   const PROFILE_LABELS = {
@@ -368,19 +376,31 @@
     }
   }
 
-  // Best supports this patch: both top-five lists from the tested
-  // topSupports ranking, same structure as the Heroes page support
-  // modal. Rows are informational only.
+  // One support row: portrait, name, win rate + sample. Clicking it
+  // closes the list and opens that hero's guide, like the Heroes page.
   function supportRow(box, entry) {
-    const row = document.createElement("div");
+    const hero = heroById(entry.id) || {};
+    const row = document.createElement("button");
     row.className = "support-row";
+    const img = document.createElement("img");
+    img.className = "support-row-portrait";
+    img.src = hero.image || "./assets/heroes/placeholder.png";
+    img.alt = entry.name;
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = "./assets/heroes/placeholder.png";
+    };
     const name = document.createElement("span");
     name.className = "support-row-name";
     name.textContent = entry.name;
     const stats = document.createElement("span");
     stats.className = "support-row-stats";
     stats.textContent = entry.rate.toFixed(1) + "% · " + entry.games.toLocaleString() + " games";
-    row.append(name, stats);
+    row.append(img, name, stats);
+    row.addEventListener("click", () => {
+      hideBestModal();
+      openGuide(entry.id);
+    });
     box.appendChild(row);
   }
 
@@ -398,8 +418,10 @@
   function openBestModal() {
     const modal = document.querySelector(".support-modal-backdrop");
     if (!modal) return;
+    state.lastFocus = document.activeElement;
     fillBestModal();
     modal.hidden = false;
+    document.body.classList.add("modal-open");
     const close = document.querySelector(".support-modal-close");
     if (close) close.focus();
   }
@@ -408,6 +430,284 @@
     const modal = document.querySelector(".support-modal-backdrop");
     if (!modal) return;
     modal.hidden = true;
+    liftModalOpen();
+    if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
+  }
+
+  // Tier letter (S/A/B/C) for a hero id, or null when unlisted.
+  function tierOf(id) {
+    const tiers = (state.meta && state.meta.tiers) || {};
+    for (const tier of ["S", "A", "B", "C"]) {
+      if ((tiers[tier] || []).includes(id)) return tier;
+    }
+    return null;
+  }
+
+  // Percent of matches the hero appears in (one decimal).
+  function pickRate(id) {
+    const all = state.matchups.heroes || {};
+    let total = 0;
+    for (const key of Object.keys(all)) total += all[key].games || 0;
+    const entry = all[id];
+    if (!entry || !(total > 0)) return null;
+    return Math.round((entry.games / total) * 10000) / 10;
+  }
+
+  // One item icon with a text fallback when the art is missing.
+  function itemIcon(key) {
+    const entry = state.items[key] || {};
+    const wrap = document.createElement("span");
+    wrap.className = "timeline-item";
+    wrap.title = entry.dname || key;
+    const img = document.createElement("img");
+    img.className = "timeline-icon";
+    img.alt = entry.dname || key;
+    img.onerror = () => {
+      img.remove();
+      wrap.textContent = entry.dname || key;
+    };
+    img.src = CDN + (entry.img || "");
+    if (!entry.img) {
+      wrap.textContent = entry.dname || key;
+      return wrap;
+    }
+    wrap.appendChild(img);
+    return wrap;
+  }
+
+  // Start > Early > Mid > Late item timeline for one hero.
+  function renderTimeline(hero) {
+    const box = document.querySelector(".timeline-phases");
+    box.innerHTML = "";
+    const build = state.builds[hero.id];
+    if (!build) {
+      box.textContent = "No build data yet";
+      return;
+    }
+    for (const phase of ["start", "early", "mid", "late"]) {
+      const column = document.createElement("div");
+      column.className = "timeline-phase";
+      const label = document.createElement("h4");
+      label.className = "timeline-phase-name";
+      label.textContent = PHASE_LABELS[phase];
+      column.appendChild(label);
+      const list = build[phase] || [];
+      if (list.length === 0) {
+        column.appendChild(document.createTextNode("—"));
+      }
+      for (const row of list.slice(0, 5)) {
+        const line = document.createElement("div");
+        line.className = "timeline-row";
+        line.appendChild(itemIcon(row.item));
+        const share = document.createElement("span");
+        share.className = "timeline-share";
+        share.textContent = row.share + "%";
+        line.appendChild(share);
+        column.appendChild(line);
+      }
+      box.appendChild(column);
+    }
+  }
+
+  // Guide tab: how-to-win, tips, power spikes, or a coming-soon note.
+  function renderGuide(hero) {
+    const box = document.querySelector(".hero-modal-guide");
+    box.innerHTML = "";
+    const guide = hero.guide;
+    const hasText =
+      guide &&
+      (guide.howToWin || (guide.playTips || []).length > 0 || (guide.powerSpikes || []).length > 0);
+    if (!hasText) {
+      const badge = document.createElement("p");
+      badge.className = "guide-draft-note";
+      badge.textContent = "Draft guide, not yet reviewed";
+      const soon = document.createElement("p");
+      soon.className = "guide-coming-soon";
+      soon.textContent = "Guide coming soon";
+      box.append(badge, soon);
+      return;
+    }
+    if (guide.reviewed !== true) {
+      const badge = document.createElement("p");
+      badge.className = "guide-draft-note";
+      badge.textContent = "Draft guide, not yet reviewed";
+      box.appendChild(badge);
+    }
+    if (guide.howToWin) {
+      const win = document.createElement("p");
+      win.className = "guide-how";
+      win.textContent = guide.howToWin;
+      box.appendChild(win);
+    }
+    for (const tip of guide.playTips || []) {
+      const line = document.createElement("p");
+      line.className = "guide-tip";
+      line.textContent = tip;
+      box.appendChild(line);
+    }
+    if ((guide.powerSpikes || []).length > 0) {
+      const spikes = document.createElement("p");
+      spikes.className = "guide-spikes";
+      spikes.textContent = "Power spikes: " + guide.powerSpikes.join("; ");
+      box.appendChild(spikes);
+    }
+  }
+
+  // Matchups tab: 5 most/least favorable pairings plus item counters.
+  function renderMatchupsTab(hero) {
+    const box = document.querySelector(".hero-modal-matchups");
+    box.innerHTML = "";
+    const scored = [];
+    for (const other of state.heroes) {
+      if (other.id === hero.id) continue;
+      const cell = window.DotaCounter.matchupEdge(hero.id, other.id, state.matchups);
+      if (cell !== null) {
+        scored.push({
+          id: other.id,
+          name: other.name,
+          edge: cell.edge,
+          games: cell.games,
+          rate: cell.rate,
+          lowSample: cell.lowSample,
+        });
+      }
+    }
+    scored.sort((a, b) => b.edge - a.edge);
+    const groups = [
+      ["Favorable", scored.slice(0, 5)],
+      ["Unfavorable", scored.slice(-5).reverse()],
+    ];
+    for (const [label, rows] of groups) {
+      const title = document.createElement("h4");
+      title.className = "matchups-group-name";
+      title.textContent = label;
+      box.appendChild(title);
+      if (rows.length === 0) {
+        box.appendChild(document.createTextNode("No matchup data yet"));
+        continue;
+      }
+      for (const row of rows) {
+        const line = document.createElement("p");
+        line.className = "matchups-row";
+        line.textContent =
+          row.name + " — " + row.rate + "% over " + row.games + " games";
+        if (row.lowSample) {
+          line.classList.add("matchups-row-thin");
+          line.title = "Low sample";
+        }
+        box.appendChild(line);
+      }
+    }
+    const itemsTitle = document.createElement("h4");
+    itemsTitle.className = "matchups-group-name";
+    itemsTitle.textContent = "Items that weaken this hero";
+    box.appendChild(itemsTitle);
+    const counters = hero.counterItems || [];
+    if (counters.length === 0) {
+      box.appendChild(document.createTextNode("No item counters listed yet"));
+    }
+    for (const entry of counters) {
+      const line = document.createElement("div");
+      line.className = "matchups-item-row";
+      line.appendChild(itemIcon(entry.item));
+      const why = document.createElement("span");
+      why.className = "matchups-item-why";
+      const dname = (state.items[entry.item] || {}).dname || entry.item;
+      why.textContent = dname + " — " + entry.when;
+      line.appendChild(why);
+      box.appendChild(line);
+    }
+  }
+
+  // Fill and show the hero guide, same content as the Heroes page.
+  function openGuide(id) {
+    const hero = heroById(id);
+    const dialog = document.querySelector(".hero-modal");
+    if (!dialog) return;
+    if (!hero) {
+      state.current = null;
+      state.lastFocus = document.activeElement;
+      document.querySelector(".hero-modal-top").hidden = true;
+      document.querySelector(".hero-modal-timeline").hidden = true;
+      document.querySelector(".hero-modal-missing").hidden = false;
+      document.querySelector(".hero-modal-backdrop").hidden = false;
+      document.body.classList.add("modal-open");
+      document.querySelector(".hero-modal-close").focus();
+      return;
+    }
+    state.current = id;
+    state.lastFocus = document.activeElement;
+    document.querySelector(".hero-modal-top").hidden = false;
+    document.querySelector(".hero-modal-timeline").hidden = false;
+    document.querySelector(".hero-modal-missing").hidden = true;
+    const portrait = document.querySelector(".hero-modal-portrait");
+    portrait.src = hero.image;
+    portrait.alt = hero.name;
+    portrait.onerror = () => {
+      portrait.onerror = null;
+      portrait.src = "./assets/heroes/placeholder.png";
+    };
+    document.querySelector(".hero-modal-name").textContent = hero.name;
+    const attr = document.querySelector(".hero-modal-attr");
+    attr.textContent = ATTRIBUTE_LABELS[hero.attribute] || hero.attribute;
+    attr.className = "hero-modal-attr attr-" + (hero.attribute || "strength");
+    const roles = document.querySelector(".hero-modal-roles");
+    roles.innerHTML = "";
+    const chip = document.createElement("span");
+    chip.className = "hero-modal-role-chip";
+    chip.textContent = hero.role;
+    roles.appendChild(chip);
+    const tier = tierOf(id);
+    const win = window.DotaCounter.heroWinRate(id, state.matchups);
+    const pick = pickRate(id);
+    const meta = document.querySelector(".hero-modal-meta");
+    meta.innerHTML = "";
+    const stats = [
+      ["Tier", tier || "—", tier ? "meta-tier-" + tier.toLowerCase() : ""],
+      ["Win rate", win === null ? "—" : win + "%", ""],
+      ["Pick", pick === null ? "—" : pick + "% of matches", ""],
+    ];
+    for (const [caption, value, valueClass] of stats) {
+      const block = document.createElement("div");
+      block.className = "meta-stat";
+      const cap = document.createElement("div");
+      cap.className = "meta-stat-caption";
+      cap.textContent = caption;
+      const val = document.createElement("div");
+      val.className = "meta-stat-value" + (valueClass ? " " + valueClass : "");
+      val.textContent = value;
+      block.append(cap, val);
+      meta.appendChild(block);
+    }
+    renderGuide(hero);
+    renderMatchupsTab(hero);
+    renderTimeline(hero);
+    document.querySelectorAll(".hero-modal-tab").forEach((t) => {
+      t.classList.toggle("hero-modal-tab-active", t.dataset.mtab === "guide");
+    });
+    document.querySelector(".hero-modal-guide").hidden = false;
+    document.querySelector(".hero-modal-matchups").hidden = true;
+    document.querySelector(".hero-modal-backdrop").hidden = false;
+    document.body.classList.add("modal-open");
+    document.querySelector(".hero-modal-close").focus();
+  }
+
+  function closeGuide() {
+    const backdrop = document.querySelector(".hero-modal-backdrop");
+    if (!backdrop || backdrop.hidden) return;
+    backdrop.hidden = true;
+    state.current = null;
+    liftModalOpen();
+    if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
+  }
+
+  // Drop the scroll lock only when every popup is closed.
+  function liftModalOpen() {
+    for (const selector of [".hero-modal-backdrop", ".support-modal-backdrop"]) {
+      const backdrop = document.querySelector(selector);
+      if (backdrop && !backdrop.hidden) return;
+    }
+    document.body.classList.remove("modal-open");
   }
 
   // Record the profile, close the modal, refresh the numbers.
@@ -450,7 +750,20 @@
   }
   window.DotaCounter.loadData().then((data) => {
     state.heroes = data.heroes;
+    state.meta = data.meta || { tiers: {} };
     state.matchups = data.matchups || { heroes: {} };
+    // Item art + builds for the guide timeline (same files as Heroes).
+    fetch("./data/items.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((items) => {
+        state.items = (items && items.items) || {};
+        return fetch("./data/builds.json");
+      })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((builds) => {
+        state.builds = (builds && builds.builds) || {};
+      })
+      .catch(() => {});
     // Draft caption: where the numbers come from and how fresh they are.
     const stamp = document.querySelector(".pool-data-date");
     if (stamp) {
@@ -502,7 +815,33 @@
     if (firstPick) {
       firstPick.addEventListener("click", openBestModal);
     }
-    // Close button on the best-supports modal.
+    // Guide popup wiring: close button, backdrop-click close, tabs.
+    const guideClose = document.querySelector(".hero-modal-close");
+    if (guideClose) {
+      guideClose.addEventListener("click", closeGuide);
+    }
+    const guideBackdrop = document.querySelector(".hero-modal-backdrop");
+    if (guideBackdrop) {
+      guideBackdrop.addEventListener("click", (event) => {
+        if (event.target.classList.contains("hero-modal-backdrop")) closeGuide();
+      });
+    }
+    const bestBackdrop = document.querySelector(".support-modal-backdrop");
+    if (bestBackdrop) {
+      bestBackdrop.addEventListener("click", (event) => {
+        if (event.target.classList.contains("support-modal-backdrop")) hideBestModal();
+      });
+    }
+    document.querySelectorAll(".hero-modal-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".hero-modal-tab").forEach((t) => {
+          t.classList.toggle("hero-modal-tab-active", t === tab);
+        });
+        const guides = tab.dataset.mtab === "guide";
+        document.querySelector(".hero-modal-guide").hidden = !guides;
+        document.querySelector(".hero-modal-matchups").hidden = guides;
+      });
+    });
     const bestClose = document.querySelector(".support-modal-close");
     if (bestClose) {
       bestClose.addEventListener("click", hideBestModal);
@@ -530,10 +869,16 @@
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
       const best = document.querySelector(".support-modal-backdrop");
-      const popupOpen = best && !best.hidden;
+      const guideBackdrop = document.querySelector(".hero-modal-backdrop");
+      const popupOpen = (best && !best.hidden) || (guideBackdrop && !guideBackdrop.hidden);
       if (event.key === "Escape") {
-        // Popup first, then the draft. The role question has no
-        // dismiss: it must be answered, so Esc never closes it.
+        // Guide first, then the support list, then the draft. The role
+        // question has no dismiss: it must be answered, so Esc never
+        // closes it.
+        if (guideBackdrop && !guideBackdrop.hidden) {
+          closeGuide();
+          return;
+        }
         if (popupOpen) {
           hideBestModal();
           return;

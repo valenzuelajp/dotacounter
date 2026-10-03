@@ -97,6 +97,35 @@
     </div>
   </div>
 
+  <div class="hero-modal-backdrop" hidden>
+    <div class="hero-modal" role="dialog" aria-modal="true" aria-labelledby="hero-modal-name">
+      <button class="hero-modal-close" aria-label="Close">X</button>
+      <div class="hero-modal-top">
+        <div class="hero-modal-left">
+          <img class="hero-modal-portrait" alt="">
+          <h2 class="hero-modal-name" id="hero-modal-name"></h2>
+          <p class="hero-modal-attr"></p>
+          <p class="hero-modal-roles"></p>
+        </div>
+        <div class="hero-modal-right">
+          <p class="hero-modal-meta"></p>
+          <div class="hero-modal-tabs">
+            <button class="hero-modal-tab hero-modal-tab-active" data-mtab="guide">Guide</button>
+            <button class="hero-modal-tab" data-mtab="matchups">Matchups</button>
+          </div>
+          <div class="hero-modal-guide"></div>
+          <div class="hero-modal-matchups" hidden></div>
+        </div>
+      </div>
+      <div class="hero-modal-timeline">
+        <h3 class="timeline-title">Item timeline</h3>
+        <p class="timeline-caption">Share of item purchases (OpenDota public matches)</p>
+        <div class="timeline-phases"></div>
+      </div>
+      <p class="hero-modal-missing" hidden>Hero not found</p>
+    </div>
+  </div>
+
   <script src="./js/data-loader.js"></script>
   <script src="./js/scoring.js"></script>
   <script src="./js/app.js"></script>
