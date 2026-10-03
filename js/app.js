@@ -18,8 +18,7 @@
     showRates: false, // win numbers hidden until the toggle is switched on.
     showNames: false, // small names under portraits, off like the client.
     dire: [], // the enemy lineup, max 5.
-    expanded: false, // show-more toggle for the best-picks list.
-    lastDire: "", // draft key; a new draft collapses the list again.
+    roleScope: "mine", // best-counters pool: "mine" (own role) or "all".
     profile: null, // carry | mid | offlane | support, asked in the modal.
     enemySupports: [], // enemy heroes the player marked as supports.
   };
@@ -178,7 +177,6 @@
         name.className = "draft-slot-name";
         name.textContent = hero.name;
         cell.append(name);
-        cell.title = "Remove " + hero.name;
         cell.addEventListener("click", () => removeHero(id));
       }
       // Drops from the pool land in the first free enemy slot.
@@ -193,8 +191,38 @@
 
   // Role profile: supports score supports only; cores score the full
   // pool. There is no own team anymore, so the own-picks list is empty.
+  // "All roles" scope ignores the profile and scores every hero.
   function roleView() {
+    if (state.roleScope === "all") {
+      return { scorePool: state.heroes, supportMode: false };
+    }
     return window.DotaCounter.applyRoleProfile(state.profile, [], state.heroes);
+  }
+
+  // Rank one view: supports get the support pool, cores get role answers.
+  function rankCounters(view) {
+    return view.supportMode
+      ? window.DotaCounter.scoreCounters(state.dire, view.scorePool, state.matchups)
+      : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool, state.matchups);
+  }
+
+  // "My role / All roles" toggle above the list. Default is the
+  // player's own role; "All roles" scores every hero.
+  function renderScopeToggle() {
+    const toggle = document.querySelector(".role-scope-toggle");
+    if (!toggle) return;
+    toggle.hidden = state.dire.length === 0;
+    const mine = toggle.querySelector('[data-scope="mine"]');
+    const all = toggle.querySelector('[data-scope="all"]');
+    if (mine) {
+      mine.textContent = "My role (" + (PROFILE_LABELS[state.profile] || "pick a role") + ")";
+      mine.classList.toggle("role-scope-btn-on", state.roleScope === "mine");
+      mine.setAttribute("aria-pressed", state.roleScope === "mine" ? "true" : "false");
+    }
+    if (all) {
+      all.classList.toggle("role-scope-btn-on", state.roleScope === "all");
+      all.setAttribute("aria-pressed", state.roleScope === "all" ? "true" : "false");
+    }
   }
 
   // Ranked counters against the enemy lineup, with detail links.
@@ -207,18 +235,29 @@
     const heading = document.querySelector(".counter-results .section-title");
     if (!list) return;
     list.innerHTML = "";
-    const view = roleView();
-    if (heading) {
-      heading.textContent = view.supportMode ? "Best support picks" : "Best counters";
-    }
     if (state.dire.length === 0) {
       if (prompt) prompt.hidden = false;
+      renderScopeToggle();
       return;
     }
     if (prompt) prompt.hidden = true;
-    const ranked = view.supportMode
-      ? window.DotaCounter.scoreCounters(state.dire, view.scorePool, state.matchups)
-      : window.DotaCounter.roleAnswers(state.profile, state.enemySupports, state.dire, view.scorePool, state.matchups);
+    let view = roleView();
+    let ranked = rankCounters(view);
+    // Fewer than 5 own-role answers: fall back to the full pool so the
+    // list stays useful. The toggle flips to All roles to show it.
+    if (state.roleScope === "mine" && ranked.length < 5) {
+      const allView = { scorePool: state.heroes, supportMode: false };
+      const allRanked = rankCounters(allView);
+      if (allRanked.length >= 5) {
+        state.roleScope = "all";
+        view = allView;
+        ranked = allRanked;
+      }
+    }
+    if (heading) {
+      heading.textContent = view.supportMode ? "Best support picks" : "Best counters";
+    }
+    renderScopeToggle();
     renderSupportChips(view);
     if (ranked.length === 0) {
       const empty = document.createElement("p");
@@ -227,13 +266,8 @@
       list.appendChild(empty);
       return;
     }
-    // A new draft collapses the list back to the top 5.
-    const draftKey = state.dire.join(",");
-    if (draftKey !== state.lastDire) {
-      state.lastDire = draftKey;
-      state.expanded = false;
-    }
-    for (const entry of state.expanded ? ranked.slice(0, 10) : ranked.slice(0, 5)) {
+    // Top 5 only. The no-scroll rule forbids a "Show more" expander.
+    for (const entry of ranked.slice(0, 5)) {
       const item = document.createElement("div");
       item.className = "counter-entry";
       const hero = view.scorePool.find((h) => h.id === entry.id);
@@ -247,30 +281,28 @@
       }
       const body = document.createElement("div");
       body.className = "counter-body";
+      const rounded = Math.round(entry.score * 10) / 10;
       const title = document.createElement("strong");
       title.className = "counter-name";
-      title.textContent = entry.name + " (+" + (Math.round(entry.score * 10) / 10) + ")";
-      const reason = document.createElement("p");
-      reason.className = "counter-reason";
-      // Top 2 reasons only; the hero page has the full story.
-      reason.textContent = entry.reasons.slice(0, 2).join("; ");
+      title.textContent = entry.name + " (+" + rounded + ")";
+      title.title = "Counter score +" + rounded + " from " + (entry.games || 0) + " ranked games";
+      body.appendChild(title);
+      // One-line reason; the hero page has the full story.
+      const top = entry.reasons[0];
+      if (top) {
+        const line = document.createElement("p");
+        line.className = "counter-reason" + (top.lowSample ? " counter-reason-thin" : "");
+        line.textContent = top.text;
+        if (top.lowSample) line.title = "Low sample — few ranked games";
+        body.appendChild(line);
+      }
       const detail = document.createElement("a");
       detail.className = "counter-detail-link";
       detail.href = "./heroes.html#" + entry.id;
-      detail.textContent = "Items + skill tips";
-      body.append(title, reason, detail);
+      detail.textContent = "Tips";
+      body.appendChild(detail);
       item.appendChild(body);
       list.appendChild(item);
-    }
-    if (ranked.length > 5) {
-      const more = document.createElement("button");
-      more.className = "counter-more";
-      more.textContent = state.expanded ? "Show less" : "Show more";
-      more.addEventListener("click", () => {
-        state.expanded = !state.expanded;
-        renderCounters();
-      });
-      list.appendChild(more);
     }
   }
 
@@ -296,6 +328,7 @@
       const chip = document.createElement("button");
       chip.className = "enemy-support-chip" + (state.enemySupports.includes(id) ? " enemy-support-chip-on" : "");
       chip.textContent = hero.name;
+      chip.setAttribute("aria-pressed", state.enemySupports.includes(id) ? "true" : "false");
       chip.addEventListener("click", () => {
         const at = state.enemySupports.indexOf(id);
         if (at >= 0) state.enemySupports.splice(at, 1);
@@ -436,6 +469,13 @@
           t.classList.toggle("role-tab-active", t === tab);
         });
         renderPool();
+      });
+    });
+    // Best-counters pool scope: own role or every hero.
+    document.querySelectorAll(".role-scope-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.roleScope = btn.dataset.scope;
+        renderCounters();
       });
     });
     // Visible search box and type-anywhere share one query string.

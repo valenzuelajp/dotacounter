@@ -357,32 +357,22 @@ body {
   margin: 2px 0 4px;
   font-size: 13px;
 }
+.counter-reason-thin {
+  opacity: 0.6;
+}
 .counter-detail-link {
-  background: none;
-  border: 1px solid var(--teal);
-  color: var(--teal);
-  border-radius: 0;
-  padding: 4px 10px;
-  cursor: pointer;
-  font-family: Rajdhani, "Arial Narrow", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 13px;
-}
-.counter-detail-link:hover {
-  background: var(--row-hover);
-}
-.counter-more {
   background: none;
   border: none;
   color: var(--teal);
+  border-radius: 0;
+  padding: 0;
   cursor: pointer;
-  font-family: Rajdhani, "Arial Narrow", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 13px;
-  padding: 8px 4px;
-  text-align: left;
+  font-size: 12px;
+  text-decoration: underline;
+}
+.counter-detail-link:hover {
+  background: none;
+  filter: brightness(1.2);
 }
 
 /* Meta today page. */
@@ -626,6 +616,31 @@ body {
 .enemy-support-chip-on {
   border-color: var(--teal);
   color: var(--teal);
+  background: rgba(111, 211, 208, 0.12);
+}
+
+/* Best-counters pool scope: own role or every hero. */
+.role-scope-toggle {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+.role-scope-toggle[hidden] {
+  display: none;
+}
+.role-scope-btn {
+  background: none;
+  color: var(--muted);
+  border: 1px solid var(--divider);
+  border-radius: 0;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.role-scope-btn-on {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: rgba(111, 211, 208, 0.12);
 }
 
 /* Pool columns side by side like the Dota client (700px and up). */

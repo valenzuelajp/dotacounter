@@ -64,7 +64,7 @@ window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matc
     for (const counter of hero.counters || []) {
       if (enemies.has(counter.hero)) {
         score += 2;
-        reasons.push(counter.reason);
+        reasons.push({ text: counter.reason, lowSample: false });
       }
     }
     for (const enemy of enemies) {
@@ -72,9 +72,10 @@ window.DotaCounter.scoreCounters = function scoreCounters(enemyIds, heroes, matc
       if (m && m.edge !== 0) {
         score += m.edge;
         games += m.games;
-        reasons.push(
-          m.rate + "% over " + m.games + " games vs " + (names[enemy] || enemy) + (m.lowSample ? " (low sample)" : "")
-        );
+        reasons.push({
+          text: m.rate + "% vs " + (names[enemy] || enemy) + " - " + m.games + " games",
+          lowSample: m.lowSample,
+        });
       }
     }
     if (score > 0) {
@@ -125,7 +126,7 @@ window.DotaCounter.roleAnswers = function roleAnswers(profile, enemySupportIds, 
     merged.set(entry.id, { id: entry.id, name: entry.name, score: entry.score, games: entry.games || 0, reasons: entry.reasons.slice() });
   }
   for (const entry of focused) {
-    const tagged = entry.reasons.map((r) => r + " (vs enemy support)");
+    const tagged = entry.reasons.map((r) => ({ text: r.text + " (vs enemy support)", lowSample: r.lowSample }));
     if (merged.has(entry.id)) {
       const keep = merged.get(entry.id);
       keep.score += entry.score;

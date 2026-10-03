@@ -112,7 +112,8 @@ const ordered = withData.every(
 assertEqual(ordered, true, "data ranking is score-desc, games then name on ties");
 const lionEntry = withData.find((r) => r.id === "lion");
 assertEqual(lionEntry !== undefined, true, "lion ranks vs juggernaut with data");
-assertEqual(lionEntry.reasons.some((x) => x.includes("games vs Juggernaut")), true, "reasons cite win rate and sample");
+assertEqual(lionEntry.reasons.some((x) => /^\d+(\.\d+)?% vs Juggernaut - \d+ games/.test(x.text)), true, "reasons are one line: rate vs hero - games");
+assertEqual(lionEntry.reasons.every((x) => typeof x.lowSample === "boolean"), true, "every reason carries its low-sample flag");
 assertEqual(
   JSON.stringify(withData.map((r) => r.id)) === JSON.stringify(ranked.map((r) => r.id)),
   false,
@@ -145,7 +146,7 @@ assertEqual(raFallback, scoreCounters(["juggernaut"], heroes), "no entered suppo
 
 // roleAnswers: offlane profile vs entered support lion tags same-role answers.
 const raFocused = roleAnswers("offlane", ["lion"], ["lion", "juggernaut"], heroes);
-const tagged = raFocused.filter((r) => r.reasons.some((x) => x.endsWith("(vs enemy support)")));
+const tagged = raFocused.filter((r) => r.reasons.some((x) => x.text.endsWith("(vs enemy support)")));
 assertEqual(tagged.length > 0, true, "same-role answers are tagged");
 assertEqual(tagged.every((r) => ["offlane", "initiator"].includes(heroes.find((h) => h.id === r.id).role)), true, "tagged answers share the player's lane");
 
