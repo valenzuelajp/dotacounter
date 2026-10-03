@@ -551,12 +551,13 @@ body {
   margin: 0 0 12px;
 }
 
-/* Non-matching heroes turn black-and-white while filtering. */
-.hero-dimmed .hero-portrait {
-  filter: grayscale(1) brightness(0.6);
+/* Search dims non-matches to 40% (never hides); the role tab hides cards
+   in place with space kept, so grid positions never move. */
+.hero-dimmed {
+  opacity: 0.4;
 }
-.hero-dimmed .hero-name {
-  opacity: 0.45;
+.hero-tab-hidden {
+  visibility: hidden;
 }
 
 /* Glowing matched letters inside a hero name while searching. */

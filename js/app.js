@@ -37,19 +37,15 @@
 
   // Render the pool as one vertical column per attribute, client order:
   // Strength, Agility, Intelligence, Universal; alphabetical in column.
-  // A typed query never hides heroes: matches stay lit, the rest turn
-  // black-and-white until the query is cleared.
+  // Positions never move: the role tab hides non-matches in place
+  // (space kept), and a typed query dims them instead of hiding.
   function renderPool() {
     const pool = document.querySelector(".hero-pool");
     pool.innerHTML = "";
     const match = window.DotaCounter.matchHeroName;
     for (const attribute of ATTRIBUTE_ORDER) {
       const group = state.heroes
-        .filter(
-          (h) =>
-            (h.attribute || "strength") === attribute &&
-            window.DotaCounter.roleMatches(h.role, state.tab)
-        )
+        .filter((h) => (h.attribute || "strength") === attribute)
         .sort((a, b) => (a.name < b.name ? -1 : 1));
       if (group.length === 0) continue;
       const column = document.createElement("div");
@@ -83,7 +79,11 @@
   function heroCard(hero) {
     const card = document.createElement("button");
     card.className = "hero-card";
-    if (state.query !== "" && !window.DotaCounter.matchHeroName(hero.name, state.query)) {
+    // Stable grid: the role tab hides in place (space kept, nothing moves);
+    // a typed query dims to 40% instead of hiding.
+    if (!window.DotaCounter.roleMatches(hero.role, state.tab)) {
+      card.className = "hero-card hero-tab-hidden";
+    } else if (state.query !== "" && !window.DotaCounter.matchHeroName(hero.name, state.query)) {
       card.className = "hero-card hero-dimmed";
     }
     card.dataset.heroId = hero.id;

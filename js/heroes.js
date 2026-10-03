@@ -52,9 +52,16 @@
   }
 
   // One portrait-only pool card. Name lives in the hover tooltip.
+  // Positions never move: the role tab hides in place, a typed query
+  // dims non-matches to 40%.
   function heroCard(hero) {
     const card = document.createElement("button");
     card.className = "hero-card";
+    if (!window.DotaCounter.roleMatches(hero.role, state.tab)) {
+      card.className = "hero-card hero-tab-hidden";
+    } else if (!window.DotaCounter.matchHeroName(hero.name, state.query)) {
+      card.className = "hero-card hero-dimmed";
+    }
     card.dataset.heroId = hero.id;
     card.draggable = false;
     const img = document.createElement("img");
@@ -67,26 +74,19 @@
       img.src = "./assets/heroes/placeholder.png";
     };
     card.appendChild(img);
-    if (!window.DotaCounter.matchHeroName(hero.name, state.query)) {
-      card.classList.add("hero-dimmed");
-    }
     card.addEventListener("click", () => openModal(hero.id));
     return card;
   }
 
-  // Render the pool as one alpha-sorted column per attribute, filtered
-  // by the role tab. A typed query dims non-matches, never hides.
+  // Render the pool as one alpha-sorted column per attribute. Cards are
+  // never removed: the role tab hides in place, a typed query dims.
   function renderPool() {
     const pool = document.querySelector(".hero-pool");
     if (!pool) return;
     pool.innerHTML = "";
     for (const attribute of ATTRIBUTE_ORDER) {
       const group = state.heroes
-        .filter(
-          (h) =>
-            (h.attribute || "strength") === attribute &&
-            window.DotaCounter.roleMatches(h.role, state.tab)
-        )
+        .filter((h) => (h.attribute || "strength") === attribute)
         .sort((a, b) => (a.name < b.name ? -1 : 1));
       if (group.length === 0) continue;
       const column = document.createElement("div");
