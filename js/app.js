@@ -320,26 +320,6 @@
         modal.hidden = false;
       });
     }
-    // New popups: close buttons plus backdrop-click close.
-    document.querySelector(".support-modal-close").addEventListener("click", hideDraftSupportModal);
-    document.querySelector(".support-modal-backdrop").addEventListener("click", (event) => {
-      if (event.target.classList.contains("support-modal-backdrop")) hideDraftSupportModal();
-    });
-    document.querySelector(".guide-modal-close").addEventListener("click", hideDraftGuide);
-    document.querySelector(".guide-modal-backdrop").addEventListener("click", (event) => {
-      if (event.target.classList.contains("guide-modal-backdrop")) hideDraftGuide();
-    });
-    // Esc closes the topmost new popup first (guide over support).
-    document.addEventListener("keydown", (event) => {
-      if (event.key !== "Escape") return;
-      const guide = document.querySelector(".guide-modal-backdrop");
-      if (guide && !guide.hidden) {
-        hideDraftGuide();
-        return;
-      }
-      const support = document.querySelector(".support-modal-backdrop");
-      if (support && !support.hidden) hideDraftSupportModal();
-    });
   }
 
   // Record the profile, close the modal, refresh the numbers.
@@ -359,102 +339,6 @@
       change.textContent = "Role: " + PROFILE_LABELS[profile] + " (change)";
     }
     renderBoard();
-    // Support players pick first in ranked: follow the role popup
-    // with the highest-win-rate support list.
-    if (profile === "support") openDraftSupportModal();
-  }
-
-  // --- First-pick support popup (Draft page) ---
-  // Highest-win-rate supports from the baked pub tables. Picking one
-  // opens its guide, the same guide content as the Heroes page.
-
-  // One clickable support row: name left, win rate + sample right.
-  function draftSupportRow(box, entry) {
-    const row = document.createElement("button");
-    row.className = "support-row";
-    const name = document.createElement("span");
-    name.className = "support-row-name";
-    name.textContent = entry.name;
-    const stats = document.createElement("span");
-    stats.className = "support-row-stats";
-    stats.textContent = entry.rate.toFixed(1) + "% · " + entry.games.toLocaleString() + " games";
-    row.append(name, stats);
-    row.addEventListener("click", () => {
-      hideDraftSupportModal();
-      openDraftGuide(entry.id);
-    });
-    box.appendChild(row);
-  }
-
-  // Fill and show the support popup.
-  function openDraftSupportModal() {
-    const lists = window.DotaCounter.topSupports(state.heroes, state.matchups);
-    const best = document.querySelector(".support-best");
-    if (!best) return;
-    best.innerHTML = "";
-    for (const entry of lists.best) draftSupportRow(best, entry);
-    document.querySelector(".support-modal-backdrop").hidden = false;
-    document.querySelector(".support-modal-close").focus();
-  }
-
-  function hideDraftSupportModal() {
-    const backdrop = document.querySelector(".support-modal-backdrop");
-    if (backdrop) backdrop.hidden = true;
-  }
-
-  // Guide popup: the same guide content as the Heroes page (draft
-  // badge for unreviewed guides, how to win, tips, power spikes).
-  function openDraftGuide(id) {
-    const hero = heroById(id);
-    if (!hero) return;
-    document.querySelector(".guide-modal-title").textContent = hero.name;
-    const body = document.querySelector(".guide-modal-body");
-    body.innerHTML = "";
-    const guide = hero.guide;
-    const hasText =
-      guide &&
-      (guide.howToWin || (guide.playTips || []).length > 0 || (guide.powerSpikes || []).length > 0);
-    if (!hasText) {
-      const badge = document.createElement("p");
-      badge.className = "guide-draft-note";
-      badge.textContent = "Draft guide, not yet reviewed";
-      const soon = document.createElement("p");
-      soon.className = "guide-coming-soon";
-      soon.textContent = "Guide coming soon";
-      body.append(badge, soon);
-    } else {
-      if (guide.reviewed !== true) {
-        const badge = document.createElement("p");
-        badge.className = "guide-draft-note";
-        badge.textContent = "Draft guide, not yet reviewed";
-        body.appendChild(badge);
-      }
-      if (guide.howToWin) {
-        const win = document.createElement("p");
-        win.className = "guide-how";
-        win.textContent = guide.howToWin;
-        body.appendChild(win);
-      }
-      for (const tip of guide.playTips || []) {
-        const line = document.createElement("p");
-        line.className = "guide-tip";
-        line.textContent = tip;
-        body.appendChild(line);
-      }
-      if ((guide.powerSpikes || []).length > 0) {
-        const spikes = document.createElement("p");
-        spikes.className = "guide-spikes";
-        spikes.textContent = "Power spikes: " + guide.powerSpikes.join("; ");
-        body.appendChild(spikes);
-      }
-    }
-    document.querySelector(".guide-modal-backdrop").hidden = false;
-    document.querySelector(".guide-modal-close").focus();
-  }
-
-  function hideDraftGuide() {
-    const backdrop = document.querySelector(".guide-modal-backdrop");
-    if (backdrop) backdrop.hidden = true;
   }
 
   // Boot: restore a remembered profile for the change button,
@@ -533,13 +417,6 @@
     // the box is left to the box.
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
-      // Popups eat their own keys: typing never leaks into the
-      // hidden query while one is open (Esc is handled above).
-      // Note: .role-modal is itself the overlay, no backdrop wrapper.
-      for (const selector of [".role-modal", ".support-modal-backdrop", ".guide-modal-backdrop"]) {
-        const popup = document.querySelector(selector);
-        if (popup && !popup.hidden) return;
-      };
       if (event.target && event.target.classList &&
           event.target.classList.contains("pool-search")) return;
       if (event.key === "Backspace") {
