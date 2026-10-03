@@ -3,7 +3,8 @@
    get a full-screen sheet. Class names mirror the Draft page. */
 .hero-modal-backdrop,
 .role-modal-backdrop,
-.support-modal-backdrop {
+.support-modal-backdrop,
+.guide-modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
@@ -14,7 +15,8 @@
 }
 .hero-modal-backdrop[hidden],
 .role-modal-backdrop[hidden],
-.support-modal-backdrop[hidden] {
+.support-modal-backdrop[hidden],
+.guide-modal-backdrop[hidden] {
   display: none;
 }
 .hero-modal {
@@ -29,7 +31,8 @@
 }
 .hero-modal-close,
 .role-modal-close,
-.support-modal-close {
+.support-modal-close,
+.guide-modal-close {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -44,7 +47,8 @@
 }
 .hero-modal-close:hover,
 .role-modal-close:hover,
-.support-modal-close:hover {
+.support-modal-close:hover,
+.guide-modal-close:hover {
   color: var(--ink);
   background: rgba(255, 255, 255, 0.08);
 }
@@ -332,7 +336,8 @@
 
 /* Role popup: narrow dialog, one full-width button per lane position. */
 .role-modal,
-.support-modal {
+.support-modal,
+.guide-modal {
   width: 420px;
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 64px);
@@ -342,11 +347,13 @@
   padding: 20px;
   position: relative;
 }
-.support-modal {
+.support-modal,
+.guide-modal {
   width: 560px;
 }
 .role-modal-title,
-.support-modal-title {
+.support-modal-title,
+.guide-modal-title {
   font-size: 20px;
   margin: 0 40px 4px 0;
 }
