@@ -368,46 +368,44 @@
     }
   }
 
-  // Best supports this patch: informational list from the tested
-  // topSupports ranking. Rows are not clickable — this modal only answers
-  // "which supports are strongest right now".
+  // Best supports this patch: both top-five lists from the tested
+  // topSupports ranking, same structure as the Heroes page support
+  // modal. Rows are informational only.
+  function supportRow(box, entry) {
+    const row = document.createElement("div");
+    row.className = "support-row";
+    const name = document.createElement("span");
+    name.className = "support-row-name";
+    name.textContent = entry.name;
+    const stats = document.createElement("span");
+    stats.className = "support-row-stats";
+    stats.textContent = entry.rate.toFixed(1) + "% · " + entry.games.toLocaleString() + " games";
+    row.append(name, stats);
+    box.appendChild(row);
+  }
+
   function fillBestModal() {
-    const list = document.querySelector(".best-list");
-    if (!list) return;
-    list.innerHTML = "";
+    const popular = document.querySelector(".support-popular");
+    const best = document.querySelector(".support-best");
+    if (!popular || !best) return;
+    popular.innerHTML = "";
+    best.innerHTML = "";
     const ranked = window.DotaCounter.topSupports(state.heroes, state.matchups);
-    if (ranked.best.length === 0) {
-      const row = document.createElement("div");
-      row.className = "best-row";
-      row.textContent = "Loading…";
-      list.appendChild(row);
-      return;
-    }
-    for (const entry of ranked.best) {
-      const row = document.createElement("div");
-      row.className = "best-row";
-      const name = document.createElement("span");
-      name.className = "best-row-name";
-      name.textContent = entry.name;
-      const stats = document.createElement("span");
-      stats.className = "best-row-stats";
-      stats.textContent = entry.rate.toFixed(1) + "% · " + entry.games.toLocaleString() + " games";
-      row.append(name, stats);
-      list.appendChild(row);
-    }
+    for (const entry of ranked.popular) supportRow(popular, entry);
+    for (const entry of ranked.best) supportRow(best, entry);
   }
 
   function openBestModal() {
-    const modal = document.querySelector(".best-modal");
+    const modal = document.querySelector(".support-modal-backdrop");
     if (!modal) return;
     fillBestModal();
     modal.hidden = false;
-    const close = document.querySelector(".best-close");
+    const close = document.querySelector(".support-modal-close");
     if (close) close.focus();
   }
 
   function hideBestModal() {
-    const modal = document.querySelector(".best-modal");
+    const modal = document.querySelector(".support-modal-backdrop");
     if (!modal) return;
     modal.hidden = true;
   }
@@ -500,12 +498,12 @@
       });
     }
     // Close button on the best-supports modal.
-    const bestClose = document.querySelector(".best-close");
+    const bestClose = document.querySelector(".support-modal-close");
     if (bestClose) {
       bestClose.addEventListener("click", hideBestModal);
     }
-    // Data arrived after the modal opened: refill the open list.
-    const bestModal = document.querySelector(".best-modal");
+    // Data arrived after the modal opened: refill the open lists.
+    const bestModal = document.querySelector(".support-modal-backdrop");
     if (bestModal && !bestModal.hidden) fillBestModal();
   // First pool hero (attribute, then alphabetical) matching the query.
   function firstQueryMatch() {
@@ -526,7 +524,7 @@
     // the box is left to the box.
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
-      const best = document.querySelector(".best-modal");
+      const best = document.querySelector(".support-modal-backdrop");
       const popupOpen = best && !best.hidden;
       if (event.key === "Escape") {
         // Popup first, then the draft. The role question has no

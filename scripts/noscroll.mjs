@@ -162,7 +162,7 @@ const DRAFT_SELECTORS = [
   ".counter-results",
   ".counter-list",
   ".role-modal",
-  ".best-modal",
+  ".support-modal-backdrop",
 ];
 const HEROES_SELECTORS = [".heroes-view", ".hero-pool", ".hero-modal"];
 

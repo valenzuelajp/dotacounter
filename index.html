@@ -84,12 +84,15 @@
     </div>
   </div>
 
-  <div class="best-modal" hidden>
-    <div class="best-dialog">
-      <h2 class="best-dialog-title">Best supports this patch</h2>
-      <p class="best-dialog-sub">Highest win rate, ranked games.</p>
-      <div class="best-list"></div>
-      <button class="best-close">Close</button>
+  <div class="support-modal-backdrop" hidden>
+    <div class="support-modal" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+      <button class="support-modal-close" aria-label="Close">X</button>
+      <h2 class="support-modal-title" id="support-modal-title">Best supports this patch</h2>
+      <p class="support-modal-sub">Supports pick first in ranked. Most-picked and highest-win-rate this patch.</p>
+      <h3 class="support-group-name">Most picked</h3>
+      <div class="support-popular"></div>
+      <h3 class="support-group-name">Highest win rate</h3>
+      <div class="support-best"></div>
     </div>
   </div>
 
