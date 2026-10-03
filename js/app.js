@@ -16,6 +16,7 @@
     query: "", // live pool search text; "" means no filter.
     tab: "all", // pool role tab; one of all|carry|mid|offlane|support.
     showRates: false, // win numbers hidden until the toggle is switched on.
+    showNames: false, // small names under portraits, off like the client.
     dire: [], // the enemy lineup, max 5.
     expanded: false, // show-more toggle for the best-picks list.
     lastDire: "", // draft key; a new draft collapses the list again.
@@ -100,6 +101,12 @@
       img.src = "./assets/heroes/placeholder.png";
     };
     card.append(img);
+    if (state.showNames) {
+      const label = document.createElement("div");
+      label.className = "hero-name";
+      label.textContent = hero.name;
+      card.appendChild(label);
+    }
     // Pub win-rate number from baked stats. Off unless the toggle is on;
     // plain bottom-left text like the client, tinted by value.
     const rate = window.DotaCounter.heroWinRate(hero.id, state.matchups);
@@ -357,6 +364,14 @@
     if (ratesBox) {
       ratesBox.addEventListener("change", () => {
         state.showRates = ratesBox.checked;
+        renderPool();
+      });
+    }
+    // Names toggle: small name under each portrait, off by default.
+    const namesBox = document.querySelector(".names-checkbox");
+    if (namesBox) {
+      namesBox.addEventListener("change", () => {
+        state.showNames = namesBox.checked;
         renderPool();
       });
     }

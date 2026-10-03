@@ -21,6 +21,7 @@
     matchups: { heroes: {} },
     query: "",
     tab: "all",
+    showNames: false, // small names under portraits, off like the client.
     current: null, // hero id shown in the open modal, or null.
     lastFocus: null, // element that opened the modal, for focus restore.
   };
@@ -74,6 +75,12 @@
       img.src = "./assets/heroes/placeholder.png";
     };
     card.appendChild(img);
+    if (state.showNames) {
+      const label = document.createElement("div");
+      label.className = "hero-name";
+      label.textContent = hero.name;
+      card.appendChild(label);
+    }
     card.addEventListener("click", () => openModal(hero.id));
     return card;
   }
@@ -407,6 +414,14 @@
     if (box) {
       box.addEventListener("input", () => {
         state.query = box.value;
+        renderPool();
+      });
+    }
+    // Names toggle: small name under each portrait, off by default.
+    const namesBox = document.querySelector(".names-checkbox");
+    if (namesBox) {
+      namesBox.addEventListener("change", () => {
+        state.showNames = namesBox.checked;
         renderPool();
       });
     }

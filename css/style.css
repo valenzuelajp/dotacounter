@@ -179,7 +179,7 @@ body {
   display: block;
   aspect-ratio: 64 / 74;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 20%;
 }
 /* Instant pool tooltip: no-delay replacement for title attributes. */
 .instant-tip {
@@ -195,10 +195,13 @@ body {
   white-space: nowrap;
 }
 .hero-name {
-  font-size: 12px;
+  font-size: 10px;
   text-align: center;
-  padding: 3px 2px;
+  padding: 2px 1px;
   color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Pool controls: role tabs left, search input right, one row. */
