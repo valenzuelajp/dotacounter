@@ -497,6 +497,11 @@
         renderPool();
       });
     }
+    // Caption-row button: reopen the first-pick support list any time.
+    const firstPick = document.querySelector(".first-pick-button");
+    if (firstPick) {
+      firstPick.addEventListener("click", openBestModal);
+    }
     // Close button on the best-supports modal.
     const bestClose = document.querySelector(".support-modal-close");
     if (bestClose) {
