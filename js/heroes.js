@@ -400,16 +400,19 @@
         state.query = state.query.slice(0, -1);
         renderPool();
       } else if (event.key === "Escape") {
-        if (state.current) {
-          closeModal();
-        } else {
-          state.query = "";
-          renderPool();
-        }
+        // Clearing only: the modal has its own Escape handler below,
+        // because this one returns early while the modal is open.
+        state.query = "";
+        renderPool();
       } else if (event.key.length === 1) {
         state.query = state.query + event.key;
         renderPool();
       }
+    });
+    // Modal Escape: dedicated handler so an open popup always closes on
+    // Esc and clears its hash (closeModal restores focus to the card).
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modalOpen()) closeModal();
     });
     document.querySelector(".hero-modal-close").addEventListener("click", closeModal);
     document.querySelector(".hero-modal-backdrop").addEventListener("click", (event) => {
