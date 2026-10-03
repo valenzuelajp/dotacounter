@@ -479,12 +479,13 @@
       } else if (event.key === "Escape") {
         state.query = "";
       } else if (event.key === "Enter") {
-        // Add the first matching hero, then stop (the board re-renders).
+        // Add the first matching hero, then clear the search so the
+        // box is empty for the next hero.
         if (state.query !== "") {
           const first = firstQueryMatch();
           if (first) placeHero(first.id);
+          state.query = "";
         }
-        return;
       } else if (event.key.length === 1) {
         state.query = state.query + event.key;
       } else {
