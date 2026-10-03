@@ -133,7 +133,20 @@
     renderBoard();
   }
 
-  // Remove a hero from the enemy lineup.
+  // Remove the hero in enemy slot N (1-5). Empty slot is a no-op.
+  function removeSlot(number) {
+    const id = state.dire[number - 1];
+    if (id) removeHero(id);
+  }
+
+  // Clear the whole enemy draft.
+  function clearDraft() {
+    if (state.dire.length === 0) return;
+    state.dire = [];
+    state.enemySupports = [];
+    renderBoard();
+  }
+  // Remove one hero from the enemy lineup.
   function removeHero(id) {
     const index = state.dire.indexOf(id);
     if (index >= 0) state.dire.splice(index, 1);
@@ -508,16 +521,41 @@
   }
 
     // Type-to-filter: printable keys append, Backspace deletes one
-    // letter, Esc clears, Enter adds the first match. Typing inside
+    // letter (or the last drafted enemy when the box is empty), digits
+    // 1-5 remove the hero in that enemy slot. Typing inside
     // the box is left to the box.
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
-      if (event.target && event.target.classList &&
-          event.target.classList.contains("pool-search")) return;
-      if (event.key === "Backspace") {
-        state.query = state.query.slice(0, -1);
-      } else if (event.key === "Escape") {
+      const best = document.querySelector(".best-modal");
+      const popupOpen = best && !best.hidden;
+      if (event.key === "Escape") {
+        // Popup first, then the draft. The role question has no
+        // dismiss: it must be answered, so Esc never closes it.
+        if (popupOpen) {
+          hideBestModal();
+          return;
+        }
         state.query = "";
+        clearDraft();
+        if (searchBox) searchBox.value = "";
+        renderPool();
+        return;
+      }
+      if (popupOpen) return;
+      if (event.target && event.target.classList &&
+          (event.target.classList.contains("pool-search") ||
+           event.target.tagName === "INPUT" ||
+           event.target.tagName === "SELECT" ||
+           event.target.tagName === "TEXTAREA")) return;
+      if (event.key === "Backspace") {
+        if (state.query === "") {
+          const last = state.dire[state.dire.length - 1];
+          if (last) removeHero(last);
+        } else {
+          state.query = state.query.slice(0, -1);
+        }
+      } else if (event.key >= "1" && event.key <= "5") {
+        removeSlot(Number(event.key));
       } else if (event.key === "Enter") {
         // Add the first matching hero, then clear the search so the
         // box is empty for the next hero.
