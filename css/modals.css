@@ -1,0 +1,415 @@
+/* Shared popups: support list + hero guide, used by Draft and Heroes.
+   One file so the two pages can never drift apart. */
+/* Best supports popup: identical structure to the Heroes page
+   support modal (backdrop, dialog, close, title, two top-five lists). */
+.support-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.support-modal-backdrop[hidden] {
+  display: none;
+}
+.support-modal {
+  width: 560px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  background: rgba(18, 22, 27, 0.97);
+  border: 1px solid #4a5866;
+  padding: 20px;
+  position: relative;
+}
+.support-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid #4a5866;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.support-modal-close:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+}
+.support-modal-title {
+  font-size: 20px;
+  margin: 0 40px 4px 0;
+}
+.support-modal-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 12px 0;
+}
+.support-group-name {
+  margin: 12px 0 4px 0;
+  font-size: 14px;
+}
+.support-popular,
+.support-best {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.support-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: none;
+  border: 1px solid #4a5866;
+  color: var(--ink);
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+.support-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.support-row-stats {
+  color: var(--muted);
+  white-space: nowrap;
+}
+/* Support row portrait: small cropped thumb before the name. */
+
+/* Scroll lock while any modal is open. */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Hero guide modal: same dialog as the Heroes page (900px, steel
+   border, portrait left, info right, item timeline at the bottom). */
+.hero-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.hero-modal-backdrop[hidden] {
+  display: none;
+}
+.hero-modal {
+  width: 900px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  background: rgba(18, 22, 27, 0.97);
+  border: 1px solid #4a5866;
+  padding: 20px;
+  position: relative;
+}
+.hero-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid #4a5866;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.hero-modal-close:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+}
+.hero-modal-top {
+  display: flex;
+  gap: 20px;
+}
+.hero-modal-left {
+  flex: 0 0 25%;
+}
+.hero-modal-portrait {
+  width: 100%;
+  display: block;
+  aspect-ratio: 60 / 70;
+  object-fit: cover;
+  object-position: center top;
+}
+.hero-modal-name {
+  font-size: 22px;
+  margin: 6px 0 2px 0;
+}
+.hero-modal-attr {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.attr-strength { color: var(--str); }
+.attr-agility { color: var(--agi); }
+.attr-intelligence { color: var(--int); }
+.attr-universal { color: var(--uni); }
+.hero-modal-role-chip {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--ink);
+  border: 1px solid #4a5866;
+  border-radius: 3px;
+  padding: 1px 8px;
+  margin: 6px 0 0 0;
+}
+.hero-modal-roles {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 4px 0 0 0;
+}
+.hero-modal-right {
+  flex: 1;
+  min-width: 0;
+}
+.hero-modal-meta {
+  display: flex;
+  gap: 20px;
+  margin: 0 0 12px 0;
+}
+.meta-stat {
+  display: flex;
+  flex-direction: column;
+}
+.meta-stat-caption {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.meta-stat-value {
+  font-size: 18px;
+  color: var(--ink);
+}
+.meta-tier-s { color: var(--gold); }
+.meta-tier-a { color: var(--teal); }
+.meta-tier-b { color: var(--ink); }
+.meta-tier-c { color: var(--muted); }
+.hero-modal-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.hero-modal-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.hero-modal-tab-active {
+  color: var(--ink);
+  border-bottom-color: var(--teal);
+}
+.guide-how,
+.guide-tip,
+.guide-spikes {
+  font-size: 14px;
+  margin: 6px 0;
+}
+.guide-draft-note {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid #4a5866;
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px 0;
+}
+.guide-coming-soon {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
+.hero-modal-matchups {
+  font-size: 14px;
+  margin: 6px 0;
+}
+.matchups-group-name {
+  font-size: 14px;
+  margin: 12px 0 4px 0;
+}
+.matchups-row {
+  margin: 4px 0;
+}
+.matchups-row-thin {
+  color: var(--muted);
+}
+.matchups-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+.matchups-item-why {
+  font-size: 13px;
+  color: var(--muted);
+}
+.hero-modal-timeline {
+  margin-top: 16px;
+  border-top: 1px solid var(--divider);
+  padding-top: 12px;
+}
+.timeline-title {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 4px 0;
+}
+.timeline-caption {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 8px 0;
+}
+.timeline-phases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.timeline-phase {
+  padding: 0 12px;
+}
+.timeline-phase:first-child {
+  padding-left: 0;
+}
+.timeline-phase + .timeline-phase {
+  border-left: 1px solid var(--divider);
+}
+.timeline-phase-name {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 6px 0;
+}
+.timeline-phase:not(:last-child) .timeline-phase-name::after {
+  content: " ›";
+  color: var(--teal);
+}
+.timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 150px;
+  margin: 0 0 4px 0;
+}
+.timeline-item img {
+  width: 40px;
+  height: 30px;
+  object-fit: cover;
+  display: block;
+}
+.timeline-share {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+.hero-modal-missing {
+  color: var(--muted);
+}
+
+/* Narrow screens: the guide becomes a full-screen sheet. */
+@media (max-width: 640px) {
+  .hero-modal {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+  }
+  .hero-modal-top {
+    flex-direction: column;
+  }
+  .hero-modal-left {
+    flex: none;
+  }
+  .timeline-phases {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Caption-row button: reopens the first-pick support list any time. */
+.first-pick-button {
+  background: none;
+  border: 1px solid #4a5866;
+  color: var(--ink);
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.first-pick-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Support popup: wider dialog for the two top-five lists. */
+.support-modal {
+  width: 560px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  background: rgba(18, 22, 27, 0.97);
+  border: 1px solid #4a5866;
+  padding: 20px;
+  position: relative;
+}
+.support-modal-title {
+  font-size: 20px;
+  margin: 0 40px 4px 0;
+}
+.support-modal-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 12px 0;
+}
+
+/* Support popup rows: name left, win rate + sample right. */
+.support-group-name {
+  margin: 12px 0 4px 0;
+  font-size: 14px;
+}
+.support-popular,
+.support-best {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.support-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background: none;
+  border: 1px solid #4a5866;
+  color: var(--ink);
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+}
+.support-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.support-row-stats {
+  color: var(--muted);
+  white-space: nowrap;
+}
