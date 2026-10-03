@@ -155,10 +155,14 @@
       const id = state.dire[slot];
       const cell = document.createElement("div");
       cell.className = "draft-slot" + (id ? " draft-slot-filled" : "");
+      // Portrait box keeps the slot number overlay; the name sits beneath.
+      const art = document.createElement("div");
+      art.className = "draft-slot-art";
       const number = document.createElement("span");
       number.className = "draft-slot-number";
       number.textContent = slot + 1;
-      cell.appendChild(number);
+      art.appendChild(number);
+      cell.appendChild(art);
       if (id) {
         const hero = heroById(id);
         const img = document.createElement("img");
@@ -169,7 +173,11 @@
           img.onerror = null;
           img.src = "./assets/heroes/placeholder.png";
         };
-        cell.append(img);
+        art.append(img);
+        const name = document.createElement("div");
+        name.className = "draft-slot-name";
+        name.textContent = hero.name;
+        cell.append(name);
         cell.title = "Remove " + hero.name;
         cell.addEventListener("click", () => removeHero(id));
       }
