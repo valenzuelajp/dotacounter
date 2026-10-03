@@ -2,9 +2,7 @@
    info right, item timeline full-width at the bottom. Narrow screens
    get a full-screen sheet. Class names mirror the Draft page. */
 .hero-modal-backdrop,
-.role-modal-backdrop,
-.support-modal-backdrop,
-.guide-modal-backdrop {
+.support-modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
@@ -14,9 +12,7 @@
   z-index: 50;
 }
 .hero-modal-backdrop[hidden],
-.role-modal-backdrop[hidden],
-.support-modal-backdrop[hidden],
-.guide-modal-backdrop[hidden] {
+.support-modal-backdrop[hidden] {
   display: none;
 }
 .hero-modal {
@@ -30,9 +26,7 @@
   position: relative;
 }
 .hero-modal-close,
-.role-modal-close,
-.support-modal-close,
-.guide-modal-close {
+.support-modal-close {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -46,9 +40,7 @@
   cursor: pointer;
 }
 .hero-modal-close:hover,
-.role-modal-close:hover,
-.support-modal-close:hover,
-.guide-modal-close:hover {
+.support-modal-close:hover {
   color: var(--ink);
   background: rgba(255, 255, 255, 0.08);
 }
@@ -317,9 +309,7 @@
   pointer-events: none;
 }
 
-/* Caption-row buttons: role chip reopens role picking, first-pick
-   button reopens the support list any time. */
-.role-chip,
+/* Caption-row button: reopens the first-pick support list any time. */
 .first-pick-button {
   background: none;
   border: 1px solid #4a5866;
@@ -329,16 +319,13 @@
   border-radius: 4px;
   cursor: pointer;
 }
-.role-chip:hover,
 .first-pick-button:hover {
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Role popup: narrow dialog, one full-width button per lane position. */
-.role-modal,
-.support-modal,
-.guide-modal {
-  width: 420px;
+/* Support popup: wider dialog for the two top-five lists. */
+.support-modal {
+  width: 560px;
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 64px);
   overflow-y: auto;
@@ -347,48 +334,14 @@
   padding: 20px;
   position: relative;
 }
-.support-modal,
-.guide-modal {
-  width: 560px;
-}
-.role-modal-title,
-.support-modal-title,
-.guide-modal-title {
+.support-modal-title {
   font-size: 20px;
   margin: 0 40px 4px 0;
 }
-.role-modal-sub,
 .support-modal-sub {
   font-size: 13px;
   color: var(--muted);
   margin: 0 0 12px 0;
-}
-.role-options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.role-option {
-  text-align: left;
-  background: none;
-  border: 1px solid #4a5866;
-  color: var(--ink);
-  font-size: 15px;
-  font-weight: 700;
-  padding: 10px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.role-option span {
-  font-weight: 400;
-  color: var(--muted);
-  margin-left: 8px;
-}
-.role-option:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-.role-option-selected {
-  outline: 2px solid var(--ink);
 }
 
 /* Support popup rows: name left, win rate + sample right. */
