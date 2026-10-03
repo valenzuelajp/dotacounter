@@ -243,13 +243,13 @@
 
 /* Heroes page frame: same centered container as the Draft page. */
 .heroes-view {
-  max-width: 1400px;
+  max-width: 1480px;
   margin: 0 auto;
   padding: 16px;
 }
-/* Browse cards: same fixed --card size as the Draft pool. Four attribute
-   columns stay short enough that the full 127-hero pool fits a 1080p
-   viewport; shorter viewports scroll with a thin dark bar. */
+/* Browse cards use the same container-relative --card as the Draft pool
+   (see style.css .pool-section). Shorter viewports scroll with a
+   thin dark bar. */
 .heroes-view .hero-grid {
   grid-template-columns: repeat(5, var(--card));
   gap: 4px;
