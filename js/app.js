@@ -322,6 +322,50 @@
     }
   }
 
+  // Best supports this patch: informational list from the tested
+  // topSupports ranking. Rows are not clickable — this modal only answers
+  // "which supports are strongest right now".
+  function fillBestModal() {
+    const list = document.querySelector(".best-list");
+    if (!list) return;
+    list.innerHTML = "";
+    const ranked = window.DotaCounter.topSupports(state.heroes, state.matchups);
+    if (ranked.best.length === 0) {
+      const row = document.createElement("div");
+      row.className = "best-row";
+      row.textContent = "Loading…";
+      list.appendChild(row);
+      return;
+    }
+    for (const entry of ranked.best) {
+      const row = document.createElement("div");
+      row.className = "best-row";
+      const name = document.createElement("span");
+      name.className = "best-row-name";
+      name.textContent = entry.name;
+      const stats = document.createElement("span");
+      stats.className = "best-row-stats";
+      stats.textContent = entry.rate.toFixed(1) + "% · " + entry.games.toLocaleString() + " games";
+      row.append(name, stats);
+      list.appendChild(row);
+    }
+  }
+
+  function openBestModal() {
+    const modal = document.querySelector(".best-modal");
+    if (!modal) return;
+    fillBestModal();
+    modal.hidden = false;
+    const close = document.querySelector(".best-close");
+    if (close) close.focus();
+  }
+
+  function hideBestModal() {
+    const modal = document.querySelector(".best-modal");
+    if (!modal) return;
+    modal.hidden = true;
+  }
+
   // Record the profile, close the modal, refresh the numbers.
   // Remembered in localStorage for the change button label.
   function chooseProfile(profile) {
@@ -339,6 +383,9 @@
       change.textContent = "Role: " + PROFILE_LABELS[profile] + " (change)";
     }
     renderBoard();
+    // Support picked: follow with the best-supports-this-patch modal.
+    if (profile === "support") openBestModal();
+    else hideBestModal();
   }
 
   // Boot: restore a remembered profile for the change button,
@@ -399,6 +446,14 @@
         renderPool();
       });
     }
+    // Close button on the best-supports modal.
+    const bestClose = document.querySelector(".best-close");
+    if (bestClose) {
+      bestClose.addEventListener("click", hideBestModal);
+    }
+    // Data arrived after the modal opened: refill the open list.
+    const bestModal = document.querySelector(".best-modal");
+    if (bestModal && !bestModal.hidden) fillBestModal();
   // First pool hero (attribute, then alphabetical) matching the query.
   function firstQueryMatch() {
     for (const attribute of ATTRIBUTE_ORDER) {
