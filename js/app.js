@@ -815,6 +815,29 @@
     if (firstPick) {
       firstPick.addEventListener("click", openBestModal);
     }
+    // Keep Tab inside whichever Draft popup is open (guide or support).
+    function trapFocus(event) {
+      if (event.key !== "Tab") return;
+      const open = [".hero-modal-backdrop", ".support-modal-backdrop"]
+        .map((selector) => document.querySelector(selector))
+        .find((backdrop) => backdrop && !backdrop.hidden);
+      if (!open) return;
+      const dialog = open.querySelector(".hero-modal, .support-modal");
+      if (!dialog) return;
+      const items = dialog.querySelectorAll("button, a[href], input");
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener("keydown", trapFocus);
+
     // Guide popup wiring: close button, backdrop-click close, tabs.
     const guideClose = document.querySelector(".hero-modal-close");
     if (guideClose) {

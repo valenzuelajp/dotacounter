@@ -443,12 +443,15 @@
     if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
   }
 
-  // Keep only the modal focusable while it is open.
+  // Keep Tab inside whichever popup is open (hero guide or support list).
   function trapFocus(event) {
     if (event.key !== "Tab") return;
-    const backdrop = document.querySelector(".hero-modal-backdrop");
-    if (!backdrop || backdrop.hidden) return;
-    const dialog = document.querySelector(".hero-modal");
+    const open = [".hero-modal-backdrop", ".support-modal-backdrop"]
+      .map((selector) => document.querySelector(selector))
+      .find((backdrop) => backdrop && !backdrop.hidden);
+    if (!open) return;
+    const dialog = open.querySelector(".hero-modal, .support-modal");
+    if (!dialog) return;
     const items = dialog.querySelectorAll("button, a[href], input");
     if (items.length === 0) return;
     const first = items[0];
