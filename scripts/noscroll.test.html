@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>No-scroll manual harness</title>
+  <style>
+    body { font-family: sans-serif; max-width: 900px; margin: 0 auto; padding: 16px; }
+    iframe { width: 100%; height: 500px; border: 1px solid #999; }
+  </style>
+</head>
+<body>
+  <h1>No-scroll manual harness</h1>
+  <p>Eyeball check to go with the automatic runner (<code>node scripts/noscroll.mjs</code>).
+  Resize the browser window to 1920x1080, 1600x900, then 1366x768.
+  Draft 5 enemies on the first frame, open the Axe popup + both tabs on the third.
+  No scrollbars may appear on the page or inside any panel or popup.</p>
+  <h2>Draft (draft 5 enemies here)</h2>
+  <iframe src="../index.html" title="draft"></iframe>
+  <h2>Heroes</h2>
+  <iframe src="../heroes.html" title="heroes"></iframe>
+  <h2>Popup (open Axe, check Guide + Matchups tabs)</h2>
+  <iframe src="../heroes.html#axe" title="popup"></iframe>
+</body>
+</html>
