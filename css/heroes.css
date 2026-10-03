@@ -18,7 +18,7 @@
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 64px);
   overflow-y: auto;
-  background: var(--panel);
+  background: rgba(18, 22, 27, 0.97);
   border: 1px solid #4a5866;
   padding: 20px;
   position: relative;
@@ -27,14 +27,18 @@
   position: absolute;
   top: 8px;
   right: 12px;
+  width: 28px;
+  height: 28px;
   background: none;
-  border: none;
+  border: 1px solid #4a5866;
   color: var(--muted);
-  font-size: 20px;
+  font-size: 16px;
+  line-height: 1;
   cursor: pointer;
 }
 .hero-modal-close:hover {
   color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
 }
 .hero-modal-top {
   display: flex;
@@ -52,7 +56,27 @@
 }
 .hero-modal-name {
   font-size: 22px;
-  margin: 8px 0 4px 0;
+  margin: 6px 0 2px 0;
+}
+.hero-modal-attr {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.attr-strength { color: var(--str); }
+.attr-agility { color: var(--agi); }
+.attr-intelligence { color: var(--int); }
+.attr-universal { color: var(--uni); }
+.hero-modal-role-chip {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--ink);
+  border: 1px solid #4a5866;
+  border-radius: 3px;
+  padding: 1px 8px;
+  margin: 6px 0 0 0;
 }
 .hero-modal-sub {
   color: var(--muted);
@@ -70,15 +94,27 @@
 }
 .hero-modal-meta {
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  color: var(--muted);
-  font-size: 13px;
+  gap: 20px;
   margin: 0 0 12px 0;
 }
-.hero-modal-meta strong {
+.meta-stat {
+  display: flex;
+  flex-direction: column;
+}
+.meta-stat-caption {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.meta-stat-value {
+  font-size: 18px;
   color: var(--ink);
 }
+.meta-tier-s { color: var(--gold); }
+.meta-tier-a { color: var(--teal); }
+.meta-tier-b { color: var(--ink); }
+.meta-tier-c { color: var(--muted); }
 .hero-modal-tabs {
   display: flex;
   gap: 4px;
@@ -102,10 +138,21 @@
   font-size: 14px;
   margin: 6px 0;
 }
-.hero-modal-guide-label {
-  color: var(--gold);
-  font-size: 12px;
+.guide-draft-note {
+  display: inline-block;
+  font-size: 11px;
   letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid #4a5866;
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px 0;
+}
+.guide-coming-soon {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
 }
 .hero-modal-matchups {
   font-size: 14px;
@@ -130,7 +177,16 @@
 .timeline-phases {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 0;
+}
+.timeline-phase {
+  padding: 0 12px;
+}
+.timeline-phase:first-child {
+  padding-left: 0;
+}
+.timeline-phase + .timeline-phase {
+  border-left: 1px solid var(--divider);
 }
 .timeline-phase-name {
   font-size: 12px;
@@ -138,11 +194,15 @@
   color: var(--muted);
   margin: 0 0 6px 0;
 }
+.timeline-phase:not(:last-child) .timeline-phase-name::after {
+  content: " ›";
+  color: var(--teal);
+}
 .timeline-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  width: 150px;
   margin: 0 0 4px 0;
 }
 .timeline-item img {
@@ -152,8 +212,9 @@
   display: block;
 }
 .timeline-share {
-  color: var(--muted);
   margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
 }
 .hero-modal-empty {
   color: var(--muted);
@@ -186,12 +247,25 @@
   margin: 0 auto;
   padding: 16px;
 }
-/* Browse cards run slightly larger than Draft pool cards. */
+/* Browse cards: same fixed --card size as the Draft pool. Four attribute
+   columns stay short enough that the full 127-hero pool fits a 1080p
+   viewport; shorter viewports scroll with a thin dark bar. */
 .heroes-view .hero-grid {
-  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  grid-template-columns: repeat(5, var(--card));
+  gap: 4px;
 }
 .heroes-view .hero-portrait {
   aspect-ratio: 64 / 74;
+}
+.heroes-view .hero-pool {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5866 transparent;
+}
+.heroes-view .hero-pool::-webkit-scrollbar {
+  width: 8px;
+}
+.heroes-view .hero-pool::-webkit-scrollbar-thumb {
+  background: #4a5866;
 }
 
 /* Matchups tab rows: hero pairs and item counters. */
