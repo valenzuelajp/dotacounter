@@ -392,8 +392,22 @@
         renderPool();
       });
     }
+  // First pool hero (attribute, then alphabetical) matching the query.
+  function firstQueryMatch() {
+    for (const attribute of ATTRIBUTE_ORDER) {
+      const group = state.heroes
+        .filter((h) => (h.attribute || "strength") === attribute)
+        .sort((a, b) => (a.name < b.name ? -1 : 1));
+      for (const hero of group) {
+        if (window.DotaCounter.matchHeroName(hero.name, state.query)) return hero;
+      }
+    }
+    return null;
+  }
+
     // Type-to-filter: printable keys append, Backspace deletes one
-    // letter, Esc clears. Typing inside the box is left to the box.
+    // letter, Esc clears, Enter adds the first match. Typing inside
+    // the box is left to the box.
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
       if (event.target && event.target.classList &&
@@ -402,6 +416,13 @@
         state.query = state.query.slice(0, -1);
       } else if (event.key === "Escape") {
         state.query = "";
+      } else if (event.key === "Enter") {
+        // Add the first matching hero, then stop (the board re-renders).
+        if (state.query !== "") {
+          const first = firstQueryMatch();
+          if (first) placeHero(first.id);
+        }
+        return;
       } else if (event.key.length === 1) {
         state.query = state.query + event.key;
       } else {

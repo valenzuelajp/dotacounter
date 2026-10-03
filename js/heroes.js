@@ -450,6 +450,22 @@
         // because this one returns early while the modal is open.
         state.query = "";
         renderPool();
+      } else if (event.key === "Enter") {
+        // Open the first matching hero's popup, then stop.
+        if (state.query !== "") {
+          for (const attribute of ATTRIBUTE_ORDER) {
+            const group = (state.heroes || [])
+              .filter((h) => (h.attribute || "strength") === attribute)
+              .sort((a, b) => (a.name < b.name ? -1 : 1));
+            const first = group.find((h) =>
+              window.DotaCounter.matchHeroName(h.name, state.query)
+            );
+            if (first) {
+              openModal(first.id);
+              break;
+            }
+          }
+        }
       } else if (event.key.length === 1) {
         state.query = state.query + event.key;
         renderPool();
