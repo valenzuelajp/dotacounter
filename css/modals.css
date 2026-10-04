@@ -327,6 +327,32 @@ body.modal-open {
   color: var(--muted);
 }
 
+/* Short viewports: shrink the guide so it never scrolls. */
+@media (max-height: 700px) {
+  .hero-modal {
+    padding: 12px;
+  }
+  .hero-modal-portrait {
+    max-height: 150px;
+  }
+  .timeline-caption {
+    display: none;
+  }
+  .timeline-phase .timeline-row:nth-child(n+5) {
+    display: none;
+  }
+  .matchups-row {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+  .matchups-group-name {
+    margin-top: 8px;
+  }
+  .first-pick-button {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+}
 /* Narrow screens: the guide becomes a full-screen sheet. */
 @media (max-width: 640px) {
   .hero-modal {

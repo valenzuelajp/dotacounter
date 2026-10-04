@@ -598,6 +598,119 @@ body {
   }
 }
 
+/* Short viewports: tighten vertical rhythm so nothing scrolls. */
+@media (max-height: 850px) {
+  .site-title {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .nav-link {
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+  .section-title {
+    margin-bottom: 8px;
+  }
+  .pool-section,
+  .draft-board,
+  .counter-results {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .pool-group-title {
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+  .pool-controls-row {
+    margin-top: 6px;
+    margin-bottom: 8px;
+  }
+  .counter-entry {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+@media (max-height: 700px) {
+  .pool-section {
+    --card: 40px;
+  }
+  .draft-slots {
+    grid-template-columns: repeat(5, 56px);
+  }
+  .draft-slot-art {
+    width: 56px;
+  }
+  .draft-slot-name {
+    max-width: 56px;
+  }
+  .counter-portrait {
+    width: 44px;
+    height: 50px;
+  }
+  .counter-results {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  .counter-entry {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .counter-name {
+    font-size: 13px;
+  }
+  .counter-reason {
+    margin-top: 0;
+    margin-bottom: 2px;
+    font-size: 12px;
+  }
+  .counter-detail-link {
+    font-size: 11px;
+  }
+  .draft-board {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  .draft-hint {
+    margin-top: 6px;
+  }
+  .pool-controls-row {
+    gap: 8px;
+  }
+  .pool-query-hint {
+    display: none;
+  }
+  .draft-view {
+    padding: 8px;
+    gap: 8px;
+  }
+  .pool-section {
+    padding: 8px;
+  }
+  .pool-search {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .pool-caption-row {
+    gap: 8px;
+  }
+  .top-bar {
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+  .site-title {
+    font-size: 18px;
+    white-space: nowrap;
+  }
+  .nav-link {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .patch-label {
+    white-space: nowrap;
+  }
+}
 /* Typed-query hint line (replaces the old search box). */
 .pool-query-hint {
   color: var(--muted);
