@@ -4,7 +4,7 @@
 // fails if any page or panel scrolls at 1920x1080, 1600x900, 1366x768.
 // Run: node scripts/noscroll.mjs
 // Exit 0 = no scrollbars anywhere. Anything else = fail with a table.
-import { spawn } from "node:child_process";
+import { spawn, execSync } from "node:child_process";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { join, extname, dirname } from "node:path";
@@ -240,7 +240,13 @@ try {
       );
       client.close();
     } finally {
-      edge.kill();
+      // edge.kill() leaves child processes holding the debug port and
+      // contaminating the next run: kill the whole process tree.
+      try {
+        execSync(`taskkill /pid ${edge.pid} /T /F`);
+      } catch {
+        edge.kill();
+      }
     }
     port++;
   }
