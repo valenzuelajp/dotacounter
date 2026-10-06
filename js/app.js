@@ -771,18 +771,27 @@
         "Source: OpenDota public matches · updated " + (data.matchups.updatedAt || "unknown");
     }
     // Win-numbers toggle: off by default, remembered nowhere.
+    // The two toggles lock each other: win rates and names never show together.
     const ratesBox = document.querySelector(".rates-checkbox");
+    const namesBox = document.querySelector(".names-checkbox");
     if (ratesBox) {
       ratesBox.addEventListener("change", () => {
         state.showRates = ratesBox.checked;
+        if (ratesBox.checked && namesBox) {
+          namesBox.checked = false;
+          state.showNames = false;
+        }
         renderPool();
       });
     }
     // Names toggle: small name under each portrait, off by default.
-    const namesBox = document.querySelector(".names-checkbox");
     if (namesBox) {
       namesBox.addEventListener("change", () => {
         state.showNames = namesBox.checked;
+        if (namesBox.checked && ratesBox) {
+          ratesBox.checked = false;
+          state.showRates = false;
+        }
         renderPool();
       });
     }
